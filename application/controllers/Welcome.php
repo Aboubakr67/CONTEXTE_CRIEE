@@ -35,7 +35,7 @@ class Welcome extends CI_Controller {
 		$this->load->view('ecranAccueil',$data);
 	}
 
-public function formulaire($id){
+public function formulaire($id){//
 
 	// if($id=="")
 	// {
