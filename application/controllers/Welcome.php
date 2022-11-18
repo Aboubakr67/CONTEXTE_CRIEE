@@ -46,6 +46,10 @@ public function formulaire($id){
 	// }
 }
 
+public function ABOUBAKR(){
+
+}
+
 
 
 }
