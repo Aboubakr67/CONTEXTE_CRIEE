@@ -32,6 +32,7 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
 		$data['result']=$this->requetes->afficheDonnee();
+		$data['resultat']=$this->requetes->affToutLesLots();
 		$this->load->view('ecranAccueil',$data);
 	}
 

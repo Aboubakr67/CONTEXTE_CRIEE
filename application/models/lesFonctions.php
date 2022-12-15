@@ -18,7 +18,14 @@ public function afficheDonnee()
 
 
 
-
+public function affToutLesLots()
+{
+	$search = "call affLot";
+	$result = $this->db->conn_id->prepare($search);
+	$result->execute();
+	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	return $query_result; 
+}
 
 
 
