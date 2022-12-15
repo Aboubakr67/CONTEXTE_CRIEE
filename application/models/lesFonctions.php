@@ -6,7 +6,7 @@ class lesFonctions extends CI_Model
 	parent::__construct();
  }
 
-
+// Avec une requete SQL
 public function afficheDonnee()
 {
 	$search = "SELECT lot.* FROM lot";
@@ -17,7 +17,7 @@ public function afficheDonnee()
 }
 
 
-
+// Avec une procédure stockée
 public function affToutLesLots()
 {
 	$search = "call affLot";
@@ -27,6 +27,19 @@ public function affToutLesLots()
 	return $query_result; 
 }
 
+public function recupNumAcheteur($login, $mdp)
+ {
+    // echo $login;
+	// echo $mdp;
+	 $search = "call recupNumAcheteur('$login', '$mdp')";
+	 $result = $this->db->conn_id->prepare($search);
+	 $result->execute();
+
+	 $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	 
+	 return $query_result; 
+
+ }
 
 
 

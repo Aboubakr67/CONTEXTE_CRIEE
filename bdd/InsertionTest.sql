@@ -25,6 +25,8 @@ INSERT INTO `acheteur` (`login`, `pwd`, `raisonSocialeEntreprise`, `numRueAchete
 
 INSERT INTO `lot` (`idLot`, `idBateau`, `datePeche`, `idEspece`, `idTaille`, `idPresentation`, `idBac`, `idAcheteur`, `idQualite`, `idAdmin`, `idDirecteur`, `idFacture`, `poidsBrutLot`, `prixPlancher`, `prixDepart`, `prixEnchereMax`, `dateEnchere`, `heureDebutEnchere`, `codeEtat`) VALUES ('1', '1', '2022-11-18 19:45:22', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1400', '650', '800', '1100', '2022-11-18 19:52:17', '2022-11-18 21:52:17', 'A');
 
+INSERT INTO `lot` (`idLot`, `idBateau`, `datePeche`, `idEspece`, `idTaille`, `idPresentation`, `idBac`, `idAcheteur`, `idQualite`, `idAdmin`, `idDirecteur`, `idFacture`, `poidsBrutLot`, `prixPlancher`, `prixDepart`, `prixEnchereMax`, `dateEnchere`, `heureDebutEnchere`, `codeEtat`) VALUES ('2', '1', '2022-11-18 19:45:22', '1', '1', '1', '1', '2', '1', '1', '1', '1', '900', '850', '900', '1050', '2022-11-19 19:52:17', '2022-11-19 21:52:17', 'A');
+
 INSERT INTO `historique` (`dateEnchere`) VALUES ('2022-11-18 19:53:52');
 
 INSERT INTO `historique` (`dateEnchere`) VALUES ('2022-11-18 19:57:49');

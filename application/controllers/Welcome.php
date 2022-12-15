@@ -31,8 +31,13 @@ class Welcome extends CI_Controller {
 
 	public function index()
 	{
-		$data['result']=$this->requetes->afficheDonnee();
-		$data['resultat']=$this->requetes->affToutLesLots();
+
+	$login = "eric";
+	$mdp = "1234";
+
+
+		$data['result']=$this->requetes->affToutLesLots();
+		$data['num']=$this->requetes->recupNumAcheteur($login, $mdp);
 		$this->load->view('ecranAccueil',$data);
 	}
 
