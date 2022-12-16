@@ -52,3 +52,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+//$route['(:any)'] = "welcome/$1";
+
+$route['inscription'] = "welcome/url/inscription"; // se diriger vers la page d'inscription
+$route['connexion'] = "welcome/url/connexion"; // vers la page de connexion

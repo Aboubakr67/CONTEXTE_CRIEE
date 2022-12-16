@@ -1,0 +1,41 @@
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: brown;
+}
+
+li {
+  float: right;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 60px;
+  text-decoration: none;
+  font-size: 30px;
+
+}
+li a:hover {
+  background-color: #696969;
+}
+
+.active {
+	background-color: darkblue;
+}
+
+.Connexion {
+    background-color: brown;
+    position: absolute;
+    right: 30%;
+}
+
+
+.inscription{
+    position: absolute;
+    right: 50%;
+
+}

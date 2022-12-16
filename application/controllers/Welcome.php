@@ -31,19 +31,22 @@ class Welcome extends CI_Controller {
 
 	public function index()
 	{
+		$this->load->view('menu');
 		$data['result']=$this->requetes->afficheDonnee();
 		$this->load->view('ecranAccueil',$data);
+		$this->load->view('piedPAge');
 	}
 
-public function formulaire($id){//
+public function url($id){
 
-	// if($id=="")
-	// {
-
-	// }
-	// elseif ($id==""){
-		
-	// }
+	 if($id=="inscription")
+	 {
+		$this->load->view('menu');
+		$this->load->view('inscription');
+	 }
+	 elseif ($id=="connexion"){
+		$this->load->view('connexion');
+	 }
 }
 
 
