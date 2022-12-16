@@ -41,6 +41,46 @@ public function recupNumAcheteur($login, $mdp)
 
  }
 
+ // Verifie que l'acheteur est inscrit dans la bdd
+ public function verifConnectionAcheteur($mail, $mdp)
+ {
+	 $search = "call verifConnectionAcheteur('$mail', '$mdp')";
+	 $result = $this->db->conn_id->prepare($search);
+	 $result->execute();
+
+	 $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	 
+	 return $query_result; 
+
+ }
+
+
+ // Verifie que l'admin est dans la bdd
+ public function verifConnectionAdmin($mail, $mdp)
+ {
+	 $search = "call verifConnectionAdmin('$mail', '$mdp')";
+	 $result = $this->db->conn_id->prepare($search);
+	 $result->execute();
+
+	 $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	 
+	 return $query_result; 
+
+ }
+
+ // Verifie que le directeur de vente est dans la bdd
+ public function verifConnectionDirecteurVente($mail, $mdp)
+ {
+	 $search = "call verifConnectionDirecteurVente('$mail', '$mdp')";
+	 $result = $this->db->conn_id->prepare($search);
+	 $result->execute();
+
+	 $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	 
+	 return $query_result; 
+
+ }
+
 
 
 

@@ -8,15 +8,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 
-<center>
 
 <?php
     echo "<br>";
     echo form_open('welcome/inscriptionAcheteur',array('method'=>'post'));
 ?>
-
+    <center>
 	<h1>Formulaire d'inscription</h1>
-
+    </center>
+    
 	<?php
     echo "<br>";
 	$nomAcheteur= array('name'=>'nomAcheteur','id'=>'nom Acheteur','placeholder'=>'Votre nom de famille ','value'=>set_value('nomAcheteur'));

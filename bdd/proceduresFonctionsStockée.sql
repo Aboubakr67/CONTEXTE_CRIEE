@@ -42,6 +42,48 @@ DELIMITER ;
 
 
 
+-- Procédure verifConnectionAcheteur permet de verifier que l'acheteur est deja incrit
+DROP procedure IF EXISTS verifConnectionAcheteur;
+DELIMITER $$
+CREATE procedure verifConnectionAcheteur(mailAch VARCHAR(50), pwdAch VARCHAR(255))
+BEGIN
+    SELECT COUNT(*) FROM acheteur WHERE mailAcheteur = mailAch AND
+    pwd = pwdAch;
 
+END $$
+DELIMITER ;
+-- CALL `verifConnectionAcheteur`('eric@gmail.com', '1234');
+
+
+
+
+
+-- Procédure verifConnectionAdmin permet de verifier que l'acheteur est deja incrit
+DROP procedure IF EXISTS verifConnectionAdmin;
+DELIMITER $$
+CREATE procedure verifConnectionAdmin(mailAd VARCHAR(50), pwdAd VARCHAR(255))
+BEGIN
+    SELECT COUNT(*) FROM administrateur_vente WHERE mailAdmin = mailAd AND
+    pwd = pwdAd;
+
+END $$
+DELIMITER ;
+-- CALL `verifConnectionAdmin`('laurent@gmail.com', '1234');
+
+
+
+
+
+-- Procédure verifConnectionDirecteurVente permet de verifier que l'acheteur est deja incrit
+DROP procedure IF EXISTS verifConnectionDirecteurVente;
+DELIMITER $$
+CREATE procedure verifConnectionDirecteurVente(mailD VARCHAR(50), pwdD VARCHAR(255))
+BEGIN
+    SELECT COUNT(*) FROM directeur_vente WHERE mailDirecteur = mailD AND
+    pwd = pwdD;
+
+END $$
+DELIMITER ;
+-- CALL `verifConnectionDirecteurVente`('paul.marc@gmail.com', '1234lang');
 
 

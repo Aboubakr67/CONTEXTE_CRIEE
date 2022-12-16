@@ -24,7 +24,8 @@ class Welcome extends CI_Controller {
 		$this->load->helper('url_helper');// Charger des fonctions de bases pour gérer les URL
 		$this->load->model('lesFonctions','requetes');	// on renomme lesFonctions par requetes
 		$this->load->library('form_validation','session'); // mettre des messages grace à la session et form_validation sert à voir si on complete tout les champs d'un formulaire et voir si on respecte le champ mail
-		$this->load->helper('form');	
+		$this->load->helper('form');
+		$this->load->library('session');
 
 	}
 
@@ -32,30 +33,10 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
 
-	$login = "eric";
-	$mdp = "1234";
-
-
-		$data['result']=$this->requetes->affToutLesLots();
-		$data['num']=$this->requetes->recupNumAcheteur($login, $mdp);
-		$this->load->view('ecranAccueil',$data);
-	}
-
-public function formulaire($id){
-
-	// if($id=="")
-	// {
-
-	// }
-	// elseif ($id==""){
-		
-	// }
-}
-
-public function ABOUBAKR(){
 		$this->load->view('menu');
-		$data['result']=$this->requetes->afficheDonnee();
+		$data['result']=$this->requetes->affToutLesLots();
 		$this->load->view('ecranAccueil',$data);
+
 		$this->load->view('piedPAge');
 	}
 
@@ -67,6 +48,7 @@ public function url($id){
 		$this->load->view('inscription');
 	 }
 	 elseif ($id=="connexion"){
+		$this->load->view('menu');
 		$this->load->view('connexion');
 	 }
 }
@@ -93,7 +75,7 @@ public function inscriptionAcheteur()
 		$nomAcheteur = strip_tags($this->input->post('nomAcheteur'));
 		$prenomAcheteur = strip_tags($this->input->post('prenomAcheteur'));
 		$mailAcheteur = strip_tags($this->input->post('mailAcheteur'));
-		$mdpAcheteur = password_hash($this->input->post('mdpPremierAcheteur', PASSWORD_DEFAULT)); //pour crypter les mdps pour l'instant (car pas java script)
+		$mdpAcheteur = password_hash($this->input->post('mdpPremierAcheteur'), PASSWORD_DEFAULT); //pour crypter les mdps pour l'instant (car pas java script)
 		$loginAcheteur = strip_tags($this->input->post('loginAcheteur'));
 		$raisonSocialEntrepriseAcheteur = strip_tags($this->input->post('raisonSocialEntreprise'));
 		$villeAcheteur = strip_tags($this->input->post('villeAcheteur'));
@@ -103,7 +85,48 @@ public function inscriptionAcheteur()
 		//$data['resultat']=$this->requetes->setUtilisateur($nomU,$prenomU,$mdpU,$mailU,$numStatut);
 		//$this->session->set_flashdata('succes','Données enregistrées, merci ! Vous pouvez désormais vous connecter');
 		//redirect(base_url('inscription'));
-
+			echo $nomAcheteur;
         }	 
 	}
+
+
+
+	public function connectionAcheteur() 
+	{
+	   $this->form_validation->set_rules('mailAcheteur', '"L\'adresse email"', 'trim|required|valid_email');//|xss_clean');//is_unique[users.email]
+	   $this->form_validation->set_rules('mdpAcheteur', '"Le Mot de passe"', 'trim|required');//|xss_clean');//is_unique[users.email]  
+	/*
+	Supprime les espaces au début et à la fin de la chaîne
+	Vérifie que la chaîne résultante n'est pas vide
+	Vérifie qu'il s'agit d'une adresse e-mail valide
+	*/	
+
+		if ($this->form_validation->run() == FALSE)
+		{ 
+			$this->session->set_flashdata('fail','Données non enregistré');
+        } 
+        else
+		{ 
+			$mailAcheteur = strip_tags($this->input->post('mailAcheteur'));
+			$mdpAcheteur = password_hash($this->input->post('mdpAcheteur'), PASSWORD_DEFAULT); //pour crypter les mdps pour l'instant (car pas java script)
+			
+			echo $mailAcheteur;
+			echo $mdpAcheteur;
+
+			$data['resultat'] = $this->requetes->verifConnectionAcheteur($mailAcheteur,$mdpAcheteur);
+			$this->session->set_flashdata('succes','Connection réussi, merci !');
+			redirect(base_url('incription'));
+
+        }	 
+
+
+	}
+
+
+	
+
+
+
+
 }
+?>

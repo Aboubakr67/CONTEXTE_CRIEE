@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+
 /*
 | -------------------------------------------------------------------------
 | URI ROUTING
@@ -55,3 +56,5 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['inscription'] = "welcome/url/inscription"; // se diriger vers la page d'inscription
 $route['connexion'] = "welcome/url/connexion"; // vers la page de connexion
+
+
