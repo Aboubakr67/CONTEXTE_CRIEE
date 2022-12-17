@@ -48,7 +48,6 @@ public function inscriptionAcheteur()
 	    $this->form_validation->set_rules('mdpConfirmeAcheteur', '"Le Mot de passe"', 'trim|required'); 
 	    $this->form_validation->set_rules('raisonSocialEntreprise', '"La raison social de l\'entreprise "', 'trim|required');
 	    $this->form_validation->set_rules('villeAcheteur', '"La ville de l\'acheteur "', 'trim|required');
-	    $this->form_validation->set_rules('adresseAcheteur', '"L\'adresse de l\'acheteur "', 'trim|required');
 	    $this->form_validation->set_rules('codePostalAcheteur', '"Le code postal de l\'acheteur "', 'trim|required'); 
 	    $this->form_validation->set_rules('numHabilitation', '"Le numero d\'habilitation de l\'acheteur "', 'trim|required');
 	    $this->form_validation->set_rules('numRueAcheteur', '"Le numero de la rue de l\'acheteur "', 'trim|required');
