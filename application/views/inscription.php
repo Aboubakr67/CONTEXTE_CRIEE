@@ -1,18 +1,31 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/*if(empty($_SESSION['securitePersonnel'])){
-  header('Location: pageMotDePasseFaux');
-}*/
-
 ?>
 
-
 <center>
+ <!-- commentaire par wassim -->
+<?php // si le flashdata à le même paramètre ici c'est error que dans la ou il va être appelé il va tout de suite l'éxecuter par exemple
+// dans le welcome dans la fonction inscriptionAcheteur on peut voir que il y a un set_flashdata avec un paramètre error il va donc l'executer
+// on est pas obliger de creer plusieurs $this->session->flashdata('error')) comme dans cette page mais juste besoin dans la page welcome de creer
+// un set flash data et si par exemple c'est une erreur on a juste à lui donner comme paramètre error, et le message souhaité et il va l'affiché dans
+// cette magnifique page d'inscription.
+    if($this->session->flashdata('error')) { ?> 
+      <p class="text-danger text-center" style="margin-top: 10px;color: red;">
+      <?=$this->session->flashdata('error')?></p>
+    <?php }?>
+
+
+     <?php // pareil que pour en haut.
+    if($this->session->flashdata('reussi')) { ?>
+      <p class="text-danger text-center" style="margin-top: 10px;color: green !important;">
+      <?=$this->session->flashdata('reussi')?></p>
+    <?php }?>
 
 <?php
     echo "<br>";
-    echo form_open('welcome/inscriptionAcheteur',array('method'=>'post'));
+    echo form_open('welcome/inscriptionAcheteur',array('method'=>'post')); // ici on dit à la page d'inscription que à la fin du formulaire elle va tout envoyer 
+                                                                      // via la méthode post à l'url welcome/inscriptionAcheteur.
 ?>
 
 	<h1>Formulaire d'inscription</h1>
@@ -20,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<?php
     echo "<br>";
     $mailAcheteur= array('name'=>'mailAcheteur','id'=>'mailAcheteur','placeholder'=>'Entrer votre adresse mail','value'=>set_value('mailAcheteur'));
-    echo form_input($mailAcheteur);
+    echo form_input($mailAcheteur); // on peut aussi le faire en html .
     echo "<br>";
     echo "<br>";
     $loginAcheteur= array('name'=>'loginAcheteur','id'=>'loginAcheteur','placeholder'=>'Votre nom d\'utilisateur','value'=>set_value('loginAcheteur'));
@@ -63,29 +76,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     echo "<br>";
     echo "<br>";
-    echo form_submit('envoi', 'Valider');
+    echo form_submit('envoi', 'Valider'); // ici c'est le bouton valider.
 	?>
     
 
-
-    <?php
-    if($this->session->flashdata('error')) { ?>
-      <p class="text-danger text-center" style="margin-top: 10px;color: red;">
-      <?=$this->session->flashdata('error')?></p>
-    <?php }?>
-
-     <?php
-    if($this->session->flashdata('succes')) { ?>
-      <p class="text-danger text-center" style="margin-top: 10px;color: green;">
-      <?=$this->session->flashdata('succes')?></p>
-    <?php }?>
     
 </center>
 
 
 	<?php
-    echo form_close();
+    echo form_close(); // on oublie pas de fermer le formulaire .
 ?>
-<script src="<?php echo base_url().'script/script.js';?>"> 
+<script src="<?php echo base_url().'script/script.js';?>">  // on met un script pour les mots de passe c'est mieux quand c'est dynamique .
 </script>
 </html>

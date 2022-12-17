@@ -43,7 +43,7 @@ public function insertAcheteur($mailAch, $loginAch, $pwdAch, $raisonSocialEntrep
 
 public function afficheMailExistant($mailAch)
 {
-	$search = "call insertAcheteur(:mailAch)";
+	$search = "call afficheMail(:mailAch)";
 	 $result = $this->db->conn_id->prepare($search);
 	 $result->bindParam(':mailAch', $mailAch, PDO::PARAM_STR);
 	 $result->execute();
