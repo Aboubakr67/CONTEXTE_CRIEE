@@ -19,14 +19,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     
 	<?php
     echo "<br>";
-	$nomAcheteur= array('name'=>'nomAcheteur','id'=>'nom Acheteur','placeholder'=>'Votre nom de famille ','value'=>set_value('nomAcheteur'));
-    echo form_input($nomAcheteur);
-    echo "<br>";
-    echo "<br>";
-	$prenomAcheteur= array('name'=>'prenomAcheteur','id'=>'prenomAcheteur','placeholder'=>'Votre prenom','value'=>set_value('prenomAcheteur'));
-    echo form_input($prenomAcheteur);
-    echo "<br>";
-    echo "<br>";
     $mailAcheteur= array('name'=>'mailAcheteur','id'=>'mailAcheteur','placeholder'=>'Entrer votre adresse mail','value'=>set_value('mailAcheteur'));
     echo form_input($mailAcheteur);
     echo "<br>";
@@ -51,10 +43,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     echo form_input($villeAcheteur);
     echo "<br>";
     echo "<br>";
-    $adresseAcheteur= array('name'=>'adresseAcheteur','id'=>'adresseAcheteur','placeholder'=>'Votre adresse ','value'=>set_value('adresseAcheteur'));
-    echo form_input($adresseAcheteur);
+
+    $numRueAcheteur= array('name'=>'numRueAcheteur','id'=>'numRueAcheteur','placeholder'=>'Votre numéro de rue ','value'=>set_value('numRueAcheteur'));
+    echo form_input($numRueAcheteur);
     echo "<br>";
     echo "<br>";
+
+    $nomRueAcheteur= array('name'=>'nomRueAcheteur','id'=>'nomRueAcheteur','placeholder'=>'Votre nom de rue ','value'=>set_value('nomRueAcheteur'));
+    echo form_input($nomRueAcheteur);
+    echo "<br>";
+    echo "<br>";
+
     $codePostalAcheteur= array('name'=>'codePostalAcheteur','id'=>'codePostalAcheteur','placeholder'=>'Votre code postal ','value'=>set_value('codePostalAcheteur'));
     echo form_input($codePostalAcheteur);
     echo "<br>";
@@ -68,7 +67,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	?>
     
 
+
+    <?php
+    if($this->session->flashdata('error')) { ?>
+      <p class="text-danger text-center" style="margin-top: 10px;color: red;">
+      <?=$this->session->flashdata('error')?></p>
+    <?php }?>
+
+     <?php
+    if($this->session->flashdata('succes')) { ?>
+      <p class="text-danger text-center" style="margin-top: 10px;color: green;">
+      <?=$this->session->flashdata('succes')?></p>
+    <?php }?>
+    
 </center>
+
+
 	<?php
     echo form_close();
 ?>
