@@ -46,11 +46,19 @@ public function url($id){
 	 {
 		$this->load->view('menu');
 		$this->load->view('inscription');
+		$this->load->view('piedPAge');
 	 }
 	 elseif ($id=="connexion"){
 		$this->load->view('menu');
 		$this->load->view('connexion');
+		$this->load->view('piedPAge');
 	 }
+	 elseif ($id=="helpAcheteur"){
+		$this->load->view('menu');
+		$this->load->view('helpAcheteur');
+		$this->load->view('piedPAge');
+	 }
+	 
 }
 
 

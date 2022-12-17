@@ -58,3 +58,4 @@ $route['inscription'] = "welcome/url/inscription"; // se diriger vers la page d'
 $route['connexion'] = "welcome/url/connexion"; // vers la page de connexion
 
 
+$route['helpAcheteur'] = "welcome/url/helpAcheteur";
