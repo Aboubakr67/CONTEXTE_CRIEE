@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
   <head>
     <meta charset="utf-8" content="width=device-width, initial-scale=1.0" >
+    <link rel="stylesheet" href="<?php echo base_url().'css\style.css';?>">
     <link rel="stylesheet" href="<?php echo base_url().'style/bootsrapMin.css';?>">
     <link rel="stylesheet" href="<?php echo base_url().'style/bootsrap.css';?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.2.2/cerulean/bootstrap.min.css" integrity="sha512-9u5YwIpV3mbAd1ocXZRz1Ezzq8DGicGD+PuUkUiTtTU3Yc95IMc66/Txe/iNxGTxckPu60RQw8zphvVqYiRfTg==" crossorigin="anonymous" referrerpolicy="no-referrer" />

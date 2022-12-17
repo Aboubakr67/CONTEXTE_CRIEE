@@ -3,9 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 
-
-<div style="text-align: center; color: black !important;">
-    <h2>Page d'aide de l'acheteur</h2>
+<div style="text-align: center;">
+    <h2 style="color: black;">Page d'aide de l'acheteur</h2>
     <br>
     <h4>Comment fonctionne l'interface d'enchère ?</h4>
     <h6>L'interface d'enchère est l'inteface principale de l'acheteur. <br>
@@ -36,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <h6>Les lots sont affichés avant l'arrivée des celles-ci à la vente, ce sont les lots restants à vendre dans l'actuelle enchère.</h6>
     <br>
     <img src="<?php echo base_url().'image/help3.png';?>">
-    <br><br><br><br><br>
+    <br><br><br>
 
 
     <h6><strong>Comment fonctionne le panier ?</strong></h6>
