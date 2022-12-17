@@ -23,8 +23,8 @@ class Welcome extends CI_Controller {
 		$this->load->database();
 		$this->load->helper('url_helper');// Charger des fonctions de bases pour gérer les URL
 		$this->load->model('lesFonctions','requetes');	// on renomme lesFonctions par requetes
-		$this->load->library('form_validation','session'); // mettre des messages grace à la session et form_validation sert à voir si on complete tout les champs d'un formulaire et voir si on respecte le champ mail
-		$this->load->helper('form');
+		$this->load->library('form_validation'); // mettre des messages grace à la session et form_validation sert à voir si on complete tout les champs d'un formulaire et voir si on respecte le champ mail
+		$this->load->helper('form');	
 		$this->load->library('session');
 
 	}
@@ -56,11 +56,20 @@ public function url($id){
 
 public function inscriptionAcheteur() 
 	{
-	   $this->form_validation->set_rules('nomAcheteur', '"Le nom"', 'trim|required');//|xss_clean');
-	   $this->form_validation->set_rules('prenomAcheteur', '"Le prenom"', 'trim|required');//|xss_clean');
-	   $this->form_validation->set_rules('mailAcheteur', '"L\'adresse email"', 'trim|required|valid_email');//|xss_clean');//is_unique[users.email]
-	   $this->form_validation->set_rules('mdpPremierAcheteur', '"Le Mot de passe"', 'trim|required');//|xss_clean');//is_unique[users.email]  
-	/*
+	  //  $this->form_validation->set_rules('mailAcheteur', '"L\'adresse email"', 'trim|required|valid_email');//|xss_clean');//is_unique[users.email]
+	   $this->form_validation->set_rules('loginAcheteur', '"Le login"', 'trim|required');//|xss_clean');//is_unique[users.email]  
+	//    $this->form_validation->set_rules('mdpPremierAcheteur', '"Le Mot de passe"', 'trim|required');//|xss_clean');//is_unique[users.email]  
+	//    $this->form_validation->set_rules('mdpConfirmeAcheteur', '"Le Mot de passe"', 'trim|required');//|xss_clean');//is_unique[users.email]  
+	//    $this->form_validation->set_rules('raisonSocialEntreprise', '"La raison social de l\'entreprise "', 'trim|required');//|xss_clean');//is_unique[users.email]  
+	//    $this->form_validation->set_rules('villeAcheteur', '"La ville de l\'acheteur "', 'trim|required');//|xss_clean');//is_unique[users.email]  
+	//    $this->form_validation->set_rules('adresseAcheteur', '"L\'adresse de l\'acheteur "', 'trim|required');//|xss_clean');//is_unique[users.email]  
+	//    $this->form_validation->set_rules('codePostalAcheteur', '"Le code postal de l\'acheteur "', 'trim|required');//|xss_clean');//is_unique[users.email]  
+	//    $this->form_validation->set_rules('numHabilitation', '"Le numero d\'habilitation de l\'acheteur "', 'trim|required');//|xss_clean');//is_unique[users.email]  
+	//    $this->form_validation->set_rules('numRueAcheteur', '"Le numero de la rue de l\'acheteur "', 'trim|required');//|xss_clean');//is_unique[users.email]  
+	//    $this->form_validation->set_rules('nomRueAcheteur', '"Le nom de la rue de l\'acheteur "', 'trim|required');//|xss_clean');//is_unique[users.email]  
+
+	
+	   /*
 	Supprime les espaces au début et à la fin de la chaîne
 	Vérifie que la chaîne résultante n'est pas vide
 	Vérifie qu'il s'agit d'une adresse e-mail valide
@@ -68,21 +77,43 @@ public function inscriptionAcheteur()
 
 		if ($this->form_validation->run() == FALSE)
 		{ 
-			//$this->session->set_flashdata('fail','Données non enregistré');
+			$this->session->set_flashdata('error','Données non enregistré');
+			redirect(base_url('inscription'));
         } 
         else
 		{ 
-		$nomAcheteur = strip_tags($this->input->post('nomAcheteur'));
-		$prenomAcheteur = strip_tags($this->input->post('prenomAcheteur'));
+
 		$mailAcheteur = strip_tags($this->input->post('mailAcheteur'));
-		$mdpAcheteur = password_hash($this->input->post('mdpPremierAcheteur'), PASSWORD_DEFAULT); //pour crypter les mdps pour l'instant (car pas java script)
+
+		$mdpAChiffre = strip_tags($this->input->post('mdpPremierAcheteur'));
+		$mdpAcheteur = password_hash($mdpAChiffre, PASSWORD_DEFAULT); //pour crypter les mdps pour l'instant (car pas java script)
+
 		$loginAcheteur = strip_tags($this->input->post('loginAcheteur'));
 		$raisonSocialEntrepriseAcheteur = strip_tags($this->input->post('raisonSocialEntreprise'));
 		$villeAcheteur = strip_tags($this->input->post('villeAcheteur'));
-		$adresseAcheteur = strip_tags($this->input->post('adresseAcheteur'));
+		$numRueAcheteur = strip_tags($this->input->post('numRueAcheteur'));
+		$nomRueAcheteur = strip_tags($this->input->post('nomRueAcheteur'));
 		$codePostalAcheteur = strip_tags($this->input->post('codePostalAcheteur'));
 		$numHabilitation = strip_tags($this->input->post('numHabilitation'));
 		//$data['resultat']=$this->requetes->setUtilisateur($nomU,$prenomU,$mdpU,$mailU,$numStatut);
+		
+
+		$utilisateurExistant = $this->requetes->afficheMailExistant($mailAcheteur);
+
+		if($utilisateurExistant!=false)
+		{
+			$this->session->set_flashdata('error','Le mail est déjà existant');
+			//redirect(base_url('inscription'));
+		}
+		else
+		{
+			$insertionAcheteur=$this->requetes->insertAcheteur($mailAcheteur,$loginAcheteur,$mdpAcheteur,$raisonSocialEntrepriseAcheteur,$numRueAcheteur, $nomRueAcheteur, $codePostalAcheteur, $villeAcheteur, $numHabilitation);
+			$this->session->set_flashdata('succes','Données enregistrées, merci ! Vous pouvez désormais vous connecter');
+			//redirect(base_url('inscription'));
+		}
+
+
+
 		//$this->session->set_flashdata('succes','Données enregistrées, merci ! Vous pouvez désormais vous connecter');
 		//redirect(base_url('inscription'));
 			echo $nomAcheteur;
