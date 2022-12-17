@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo site_url('Welcome/connexion');?>">Connexion</a>
+          <a class="nav-link" href="<?php echo site_url('connexion');?>">Connexion</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="<?php echo site_url('inscription');?>">inscription</a>

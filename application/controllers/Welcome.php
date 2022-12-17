@@ -35,7 +35,12 @@ public function url($id){ // on va gerer l'url avec cette fonction
 		$this->load->view('inscription'); // on charge l'inscription
 	 }
 	 elseif ($id=="connexion"){  // sinon si l'url est egale a connexion on charge connexion ... un peu logique 
+		$this->load->view('menu');
 		$this->load->view('connexion');
+	 }
+	 elseif ($id == "helpAcheteur"){
+		$this->load->view('menu');
+		$this->load->view('helpAcheteur');
 	 }
 }
 
@@ -53,13 +58,11 @@ public function inscriptionAcheteur()
 	    $this->form_validation->set_rules('numRueAcheteur', '"Le numero de la rue de l\'acheteur "', 'trim|required');
 	    $this->form_validation->set_rules('nomRueAcheteur', '"Le nom de la rue de l\'acheteur "', 'trim|required');
 
-	
 	   /*
 	Supprime les espaces au début et à la fin de la chaîne
 	Vérifie que la chaîne résultante n'est pas vide
 	Vérifie qu'il s'agit d'une adresse e-mail valide
 	*/	
-
 		if ($this->form_validation->run() == FALSE) // on demarre la verification de tout ce qu'on a fait en haut si c'est faux elle va pas faire les insertions car il y a rien dans les champs 
 		{ 
 			$this->session->set_flashdata('error','Données non enregistré rien a été saisie...'); //set_flashdata appartient a codeigniter et sert à afficher des messges lors d'une action 
@@ -80,7 +83,6 @@ public function inscriptionAcheteur()
 		$codePostalAcheteur = strip_tags($this->input->post('codePostalAcheteur'));
 		$numHabilitation = strip_tags($this->input->post('numHabilitation'));
 		
-
 		$utilisateurExistant = $this->requetes->afficheMailExistant($mailAcheteur); // ici on va tout de suite verifier si le mail saisie existe ou pas car c'est avec ça que les acheteurs vont se connecter..!!
 
 		if($utilisateurExistant!=false) // puis la variable va retourner quelque chose si c'est différent de faux (raisonnement un peu inverse) elle va pas executer l'insertion car le mail existe déjà
@@ -97,10 +99,23 @@ public function inscriptionAcheteur()
 		}
 
 
-
         }	 
  	 
 	}	
 
+public function connexionAch()
+{
+
+/*
+creation d'une page utilitaire a continuer ..
+raccourci pour cette page a voir une solution 
+
+*/
 
 }
+
+
+
+
+
+}// pas supprimer sinon probleme
