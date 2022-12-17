@@ -31,13 +31,13 @@ DELIMITER ;
 -- Procédure insertAcheteur permet d'inserer l'acheteur dans la BDD
 DROP procedure IF EXISTS insertAcheteur;
 DELIMITER $$
-CREATE procedure insertAcheteur(loginAch VARCHAR(30), pwdAch VARCHAR(30), raisonSocialeEntrepriseAch VARCHAR(50), numRueAcheteurAch VARCHAR(50), nomRueAcheteurAch VARCHAR(50), codePostalAch VARCHAR(7), villeAch VARCHAR(50), numHabilitationAch VARCHAR(50))
+CREATE procedure insertAcheteur(mailAch VARCHAR(50),loginAch VARCHAR(30), pwdAch VARCHAR(30), raisonSocialeEntrepriseAch VARCHAR(50), numRueAcheteurAch VARCHAR(50), nomRueAcheteurAch VARCHAR(50), codePostalAch VARCHAR(7), villeAch VARCHAR(50), numHabilitationAch VARCHAR(50))
 BEGIN
-    INSERT INTO `acheteur` (`login`, `pwd`, `raisonSocialeEntreprise`, `numRueAcheteur`, `nomRueAcheteur`, `codePostal`, `ville`, `numHabilitation`) VALUES (loginAch, pwdAch, raisonSocialeEntrepriseAch, numRueAcheteurAch, nomRueAcheteurAch, codePostalAch, villeAch, numHabilitationAch);
+    INSERT INTO `acheteur` (`mailAcheteur`,`login`, `pwd`, `raisonSocialeEntreprise`, `numRueAcheteur`, `nomRueAcheteur`, `codePostal`, `ville`, `numHabilitation`) VALUES (mailAch, loginAch, pwdAch, raisonSocialeEntrepriseAch, numRueAcheteurAch, nomRueAcheteurAch, codePostalAch, villeAch, numHabilitationAch);
 
 END $$
 DELIMITER ;
--- call insertAcheteur('axel6GU', '1234', 'Poissonnier', '13', 'Rue du poisson', '54350', 'Le Kopa', 'Aucun')
+-- call insertAcheteur('test@test.com','axel6GU', '1234', 'Poissonnier', '13', 'Rue du poisson', '54350', 'Le Kopa', 'Aucun')
 
 
 
@@ -85,5 +85,17 @@ BEGIN
 END $$
 DELIMITER ;
 -- CALL `verifConnectionDirecteurVente`('paul.marc@gmail.com', '1234lang');
+
+
+-- Procédure verifExistMail permet de verifier si le mail existe deja
+DROP procedure IF EXISTS verifExistMail;
+DELIMITER $$
+CREATE procedure verifExistMail(mailD VARCHAR(255))
+BEGIN
+    SELECT COUNT(*) as verifMail FROM acheteur WHERE mailAcheteur = mailD;
+
+END $$
+DELIMITER ;
+-- CALL `verifExistMail`('eric@gmail.com');
 
 

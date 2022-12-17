@@ -42,6 +42,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     
 	?>
     
+<?php
+    if($this->session->flashdata('error')) { ?>
+      <p class="text-danger text-center" style="margin-top: 10px;color: red;">
+      <?=$this->session->flashdata('error')?></p>
+    <?php }?>
+
+     <?php
+    if($this->session->flashdata('succes')) { ?>
+      <p class="text-danger text-center" style="margin-top: 10px;color: green;">
+      <?=$this->session->flashdata('succes')?></p>
+    <?php }?>
 
 	<?php
     echo form_close();

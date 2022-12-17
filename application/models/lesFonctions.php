@@ -103,23 +103,35 @@ public function insertAcheteur($mailAch, $loginAch, $pwdAch, $raisonSocialEntrep
 
 }
 
+// ancienne, marche pas
+// public function afficheMailExistant($mailAch)
+// {
+// 	$search = "call insertAcheteur(:mailAch)";
+// 	 $result = $this->db->conn_id->prepare($search);
+// 	 $result->bindParam(':mailAch', $mailAch, PDO::PARAM_STR);
+// 	 $result->execute();
+// 	 $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+// 	 return $query_result; 
+// 	 if($query_result->num_rows()==1)
+// 	 {
+// 	 	return $query_result->row();
+// 	 }
+// 	 else
+// 	 {
+// 	 	return false;
+// 	 }
+	 
+// }
+
 
 public function afficheMailExistant($mailAch)
 {
-	$search = "call insertAcheteur(:mailAch)";
+	$search = "call verifExistMail(:mailAch)";
 	 $result = $this->db->conn_id->prepare($search);
 	 $result->bindParam(':mailAch', $mailAch, PDO::PARAM_STR);
 	 $result->execute();
 	 $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
-	 return $query_result; 
-	 if($query_result->num_rows()==1)
-	 {
-	 	return $query_result->row();
-	 }
-	 else
-	 {
-	 	return false;
-	 }
+	 return $query_result;
 	 
 }
 

@@ -56,7 +56,7 @@ public function url($id){
 
 public function inscriptionAcheteur() 
 	{
-	  //  $this->form_validation->set_rules('mailAcheteur', '"L\'adresse email"', 'trim|required|valid_email');//|xss_clean');//is_unique[users.email]
+	//    $this->form_validation->set_rules('mailAcheteur', '"L\'adresse email"', 'trim|required|valid_email');//|xss_clean');//is_unique[users.email]
 	   $this->form_validation->set_rules('loginAcheteur', '"Le login"', 'trim|required');//|xss_clean');//is_unique[users.email]  
 	//    $this->form_validation->set_rules('mdpPremierAcheteur', '"Le Mot de passe"', 'trim|required');//|xss_clean');//is_unique[users.email]  
 	//    $this->form_validation->set_rules('mdpConfirmeAcheteur', '"Le Mot de passe"', 'trim|required');//|xss_clean');//is_unique[users.email]  
@@ -98,25 +98,31 @@ public function inscriptionAcheteur()
 		//$data['resultat']=$this->requetes->setUtilisateur($nomU,$prenomU,$mdpU,$mailU,$numStatut);
 		
 
-		$utilisateurExistant = $this->requetes->afficheMailExistant($mailAcheteur);
+		$mailExistant = $this->requetes->afficheMailExistant($mailAcheteur);
 
-		if($utilisateurExistant!=false)
+			// Retourne 1 si le mail existe sinon 0
+			foreach ($mailExistant as $value) {
+				$mailExistant = $value['verifMail'];
+				
+			}
+			echo $mailExistant;
+
+		if($mailExistant!=0)
 		{
 			$this->session->set_flashdata('error','Le mail est déjà existant');
-			//redirect(base_url('inscription'));
+			redirect(base_url('inscription'));
 		}
 		else
 		{
 			$insertionAcheteur=$this->requetes->insertAcheteur($mailAcheteur,$loginAcheteur,$mdpAcheteur,$raisonSocialEntrepriseAcheteur,$numRueAcheteur, $nomRueAcheteur, $codePostalAcheteur, $villeAcheteur, $numHabilitation);
 			$this->session->set_flashdata('succes','Données enregistrées, merci ! Vous pouvez désormais vous connecter');
-			//redirect(base_url('inscription'));
+			redirect(base_url('connexion'));
 		}
 
 
-
-		//$this->session->set_flashdata('succes','Données enregistrées, merci ! Vous pouvez désormais vous connecter');
-		//redirect(base_url('inscription'));
-			echo $nomAcheteur;
+		// $this->session->set_flashdata('succes','Données enregistrées, merci ! Vous pouvez désormais vous connecter');
+		// redirect(base_url('inscription'));
+			
         }	 
 	}
 
@@ -134,19 +140,23 @@ public function inscriptionAcheteur()
 
 		if ($this->form_validation->run() == FALSE)
 		{ 
-			$this->session->set_flashdata('fail','Données non enregistré');
+			$this->session->set_flashdata('error','Mot de passe et/ou mail incorrect frero');
         } 
         else
 		{ 
 			$mailAcheteur = strip_tags($this->input->post('mailAcheteur'));
 			$mdpAcheteur = password_hash($this->input->post('mdpAcheteur'), PASSWORD_DEFAULT); //pour crypter les mdps pour l'instant (car pas java script)
 			
+			
+			echo "<br>";
 			echo $mailAcheteur;
+			echo "<br>";
+			echo "<br>";
 			echo $mdpAcheteur;
 
-			$data['resultat'] = $this->requetes->verifConnectionAcheteur($mailAcheteur,$mdpAcheteur);
-			$this->session->set_flashdata('succes','Connection réussi, merci !');
-			redirect(base_url('incription'));
+			// $data['resultat'] = $this->requetes->verifConnectionAcheteur($mailAcheteur,$mdpAcheteur);
+			// $this->session->set_flashdata('succes','Connection réussi, merci !');
+			// redirect(base_url('incription'));
 
         }	 
 

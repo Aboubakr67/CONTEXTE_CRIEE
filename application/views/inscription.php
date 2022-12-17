@@ -16,7 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <center>
 	<h1>Formulaire d'inscription</h1>
     </center>
-    
+    <center>
 	<?php
     echo "<br>";
     $mailAcheteur= array('name'=>'mailAcheteur','id'=>'mailAcheteur','placeholder'=>'Entrer votre adresse mail','value'=>set_value('mailAcheteur'));
