@@ -99,3 +99,14 @@ DELIMITER ;
 -- CALL `verifExistMail`('eric@gmail.com');
 
 
+-- Procédure affEspece tout les noms des especes
+DROP procedure IF EXISTS affEspece;
+DELIMITER $$
+CREATE procedure affEspece()
+BEGIN
+    SELECT idEspece, nomEspece from espece;
+    
+END $$
+DELIMITER ;
+
+-- call affEspece

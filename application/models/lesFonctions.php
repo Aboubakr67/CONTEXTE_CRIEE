@@ -136,9 +136,14 @@ public function afficheMailExistant($mailAch)
 }
 
 
-
-
-
+public function afficheNomCommunEspece()
+{
+	$search = "call affEspece";
+	$result = $this->db->conn_id->prepare($search);
+	$result->execute();
+	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	return $query_result; 
+}
 
 
 

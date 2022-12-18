@@ -58,6 +58,12 @@ public function url($id){
 		$this->load->view('helpAcheteur');
 		$this->load->view('piedPAge');
 	 }
+	 elseif ($id=="ajoutLot"){
+		$this->load->view('menu');
+		$data['nomEspece']=$this->requetes->afficheNomCommunEspece();
+		$this->load->view('ajoutLot', $data);
+		$this->load->view('piedPAge');
+	 }
 	 
 }
 
@@ -165,13 +171,44 @@ public function inscriptionAcheteur()
 			// $data['resultat'] = $this->requetes->verifConnectionAcheteur($mailAcheteur,$mdpAcheteur);
 			// $this->session->set_flashdata('succes','Connection réussi, merci !');
 			// redirect(base_url('incription'));
-
         }	 
-
 
 	}
 
 
+	public function ajouterLot() 
+	{
+		$this->form_validation->set_rules('NomEspece', '"Nom espece"', 'trim|required');
+	   $this->form_validation->set_rules('nomCommunEspece', '"Nom commun espece"', 'trim|required');//|xss_clean');//is_unique[users.email]
+	   
+
+
+		if ($this->form_validation->run() == FALSE)
+		{ 
+			$this->session->set_flashdata('error','Lot non ajouter');
+			redirect(base_url('ajoutLot'));
+        } 
+        else
+		{ 
+
+		$NomEspece = strip_tags($this->input->post('NomEspece'));
+		$nomCommunEspece = strip_tags($this->input->post('nomCommunEspece'));
+
+		
+		echo $NomEspece;
+		echo $nomCommunEspece;
+
+
+			
+			$this->session->set_flashdata('succes','Lot ajouter, merci ! Vous pouvez consulter l\'inventaire');
+			redirect(base_url('connexion'));
+		
+
+		// $this->session->set_flashdata('succes','Données enregistrées, merci ! Vous pouvez désormais vous connecter');
+		// redirect(base_url('inscription'));
+			
+        }	 
+	}
 	
 
 
