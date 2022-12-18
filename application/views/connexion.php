@@ -4,9 +4,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <?php
     echo "<br>";
-    echo form_open('welcome/connectionAcheteur',array('method'=>'post'));
+    echo form_open('welcome/connexionAch',array('method'=>'post'));
+
+    
 ?>
     <center>
+
+    
 	    <h1>Se connecter</h1>
     
 
@@ -18,43 +22,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <option value="Admin">Admin</option>
         <option value="Directeur">Directeur de vente</option>   
         </select>
-    
-</center>
 
+</center>
 	<?php
+
 
     echo "<center>";
     echo "<label for='text'>Mail</label>";
     echo "<br>";
-    $mailAcheteur= array('name'=>'mailAcheteur','id'=>'mailAcheteur','placeholder'=>'Entrer votre adresse mail','value'=>set_value('mailAcheteur'));
-    echo form_input($mailAcheteur);
+    $mail= array('name'=>'mail','id'=>'mail','placeholder'=>'Entrer votre adresse mail','value'=>set_value('mail'));
+    echo form_input($mail);
     echo "<br>";
     echo "<br>";
 
     echo "<label for='text'>Mot de passe</label>";
     echo "<br>";
-    $mdpAcheteur= array('name'=>'mdpAcheteur','id'=>'mdpAcheteur','placeholder'=>'Entrer votre mot de passe','value'=>set_value('mdpAcheteur'));
-    echo form_input($mdpAcheteur);
+    $mdp= array('name'=>'mdp','id'=>'mdp','placeholder'=>'Entrer votre mot de passe','value'=>set_value('mdp'));
+    echo form_input($mdp);
     
     echo "<br>";
     echo "<br>";
     echo form_submit('envoi', 'Connection');
     
-	?>
+
+    if($this->session->flashdata('error')) { ?> 
+    <p class="text-danger text-center" style="margin-top: 10px;color: red;">
+    <?=$this->session->flashdata('error')?></p>
+    <?php }
     
-<?php
-    if($this->session->flashdata('error')) { ?>
-      <p class="text-danger text-center" style="margin-top: 10px;color: red;">
-      <?=$this->session->flashdata('error')?></p>
-    <?php }?>
-
-     <?php
-    if($this->session->flashdata('succes')) { ?>
-      <p class="text-danger text-center" style="margin-top: 10px;color: green;">
-      <?=$this->session->flashdata('succes')?></p>
-    <?php }?>
-
-	<?php
     echo form_close();
     echo "</center>";
 ?>
