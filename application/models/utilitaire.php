@@ -7,7 +7,7 @@ class utilitaire extends CI_Model
  }
 
 
- public function connexionUsers(string $path1, $path2, string $path3){
+ public function connexionUsers(string $path1, string $path2, string $path3, string $path4, string $path5){
 
 
 	$this->form_validation->set_rules('mail', '"Le mail"','trim|required|valid_email');
@@ -23,48 +23,28 @@ class utilitaire extends CI_Model
 		$role = strip_tags($this->input->post('role'));
 		$mail = strip_tags($this->input->post('mail'));
 		$mdp = strip_tags($this->input->post('mdp'));
-		$hash = $this->requetes->afficheMdpHasheeAcheteur($mail);
-		$hash = $this->requetes->afficheMdpHasheeAdmin($mail);
-		$hash = $this->requetes->afficheMdpHashDirecteurVente($mail);
-		foreach ($hash as $key)
+		$hashEtInformation = $this->requetes->$path1($mail); 
+		foreach ($hashEtInformation as $key)
 		{
-			echo $mdpHashAch = $key['pwd'];
+			$mdpHashAch = $key['pwd'];
+			$login = $key[$path3];
+			$mail = $key[$path4];
 		}
-		if($role == 'Acheteur'){
+
+		if($role == $path2){
 			if (password_verify($mdp, $mdpHashAch)) 
 			{
-				redirect(base_url('helpAcheteur'));
+				$_SESSION['login'] = $login;
+				$_SESSION['mail'] = $mail;
+				redirect(base_url($path5));
 			} 
 			else 
 			{
-				$this->session->set_flashdata('error','Mot de passe incorrect');
+				$this->session->set_flashdata('error','Mot de passe ou mail incorrect');
 				redirect(base_url('connexion'));
 			}
 		}
-		elseif($role == 'Admin')
-		{
-			if (password_verify($mdp, $mdpHashAch)) 
-			{
-				redirect(base_url('profilAdmin'));
-			} 
-			else 
-			{
-				$this->session->set_flashdata('error','Mot de passe incorrect');
-				redirect(base_url('connexion'));
-			}
-		}
-		elseif($role == 'Directeur de vente')
-		{
-			if (password_verify($mdp, $mdpHashAch)) 
-			{
-				redirect(base_url('profilDirecteurVente'));
-			} 
-			else 
-			{
-				$this->session->set_flashdata('error','Mot de passe incorrect');
-				redirect(base_url('connexion'));
-			}
-		}
+		
 	
 	}
 

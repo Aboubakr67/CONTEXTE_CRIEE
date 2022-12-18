@@ -12,6 +12,7 @@ class Welcome extends CI_Controller {
 		$this->load->database(); // on charge la base de donnée du fichier config->database
 		$this->load->helper('url_helper');// Charger des fonctions de bases pour gérer les URL
 		$this->load->model('lesFonctions','requetes');	// on renomme lesFonctions par requetes
+		$this->load->model('utilitaire');
 		$this->load->library('form_validation'); // form_validation sert à voir si on complete tout les champs d'un formulaire et voir si on respecte le champ mail
 		$this->load->helper('form');	//comme form validation
 		$this->load->library('session'); //mettre des messages grace à la session
@@ -21,9 +22,9 @@ class Welcome extends CI_Controller {
 
 	public function index() //la premiere page du projet qui va être chargé "context_criee"
 	{
+		session_destroy();
 		$this->load->view('menu');
-		$data['result']=$this->requetes->afficheDonnee();
-		$this->load->view('ecranAccueil',$data);
+		$this->load->view('ecranAccueil');
 		$this->load->view('piedPAge');
 	}
 
@@ -39,8 +40,16 @@ public function url($id){ // on va gerer l'url avec cette fonction
 		$this->load->view('connexion');
 	 }
 	 elseif ($id == "helpAcheteur"){
-		$this->load->view('menu');
+		
 		$this->load->view('helpAcheteur');
+	 }
+	 elseif($id == "profilAdmin"){
+		
+		$this->load->view('profilAdmin');
+	 }
+	 elseif($id == "profilDirecteurVente"){
+		
+		$this->load->view('profilDirecteurVente');
 	 }
 }
 
@@ -103,14 +112,21 @@ public function inscriptionAcheteur()
  	 
 	}	
 
-public function connexionAch()
+public function connexion()
 {
 
-/*
-creation d'une page utilitaire a continuer ..
-raccourci pour cette page a voir une solution 
+$role = strip_tags($this->input->post('role'));
 
-*/
+if($role == 'Acheteur'){
+	$this->utilitaire->connexionUsers('afficheInformationConnexionAcheteur', 'Acheteur', 'login', 'mailAcheteur' , 'helpAcheteur');
+}
+elseif($role == 'Admin'){
+	$this->utilitaire->connexionUsers('afficheInformationConnexionAdmin', 'Admin', 'login', 'mailAdmin', 'profilAdmin');
+}
+elseif($role == 'Directeur')
+{
+	$this->utilitaire->connexionUsers('afficheInformationConnexionDirecteurVente', 'Directeur', 'login', 'mailDirecteur','profilDirecteurVente');
+}
 
 }
 

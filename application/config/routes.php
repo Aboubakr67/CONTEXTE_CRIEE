@@ -58,3 +58,5 @@ $route['translate_uri_dashes'] = FALSE;
 $route['inscription'] = "welcome/url/inscription"; // se diriger vers la page d'inscription
 $route['connexion'] = "welcome/url/connexion"; // vers la page de connexion
 $route['helpAcheteur'] = "welcome/url/helpAcheteur";
+$route['profilAdmin'] = "welcome/url/profilAdmin";
+$route['profilDirecteurVente'] = "welcome/url/profilDirecteurVente";

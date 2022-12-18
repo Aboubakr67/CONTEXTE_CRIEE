@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <?php
     echo "<br>";
-    echo form_open('welcome/connexionAch',array('method'=>'post'));
+    echo form_open('welcome/connexion',array('method'=>'post'));
 
     
 ?>
