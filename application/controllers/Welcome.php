@@ -12,6 +12,7 @@ class Welcome extends CI_Controller {
 		$this->load->database(); // on charge la base de donnée du fichier config->database
 		$this->load->helper('url_helper');// Charger des fonctions de bases pour gérer les URL
 		$this->load->model('lesFonctions','requetes');	// on renomme lesFonctions par requetes
+		$this->load->model('utilitaire');
 		$this->load->library('form_validation'); // form_validation sert à voir si on complete tout les champs d'un formulaire et voir si on respecte le champ mail
 		$this->load->helper('form');	//comme form validation
 		$this->load->library('session'); //mettre des messages grace à la session
@@ -21,12 +22,12 @@ class Welcome extends CI_Controller {
 
 	public function index() //la premiere page du projet qui va être chargé "context_criee"
 	{
-
+		session_destroy();
 		$this->load->view('menu');
 		$data['result']=$this->requetes->affToutLesLots();
 		$this->load->view('ecranAccueil',$data);
-
 		$this->load->view('piedPAge');
+				
 	}
 
 public function url($id){ // on va gerer l'url avec cette fonction
@@ -37,28 +38,34 @@ public function url($id){ // on va gerer l'url avec cette fonction
 		$this->load->view('inscription');
 		$this->load->view('piedPAge');
 	 }
-	 elseif ($id=="connexion"){
-		$this->load->view('menu'); //on charge le menu
-		$this->load->view('inscription'); // on charge l'inscription
-		$this->load->view('piedPAge');
-	 }
 	 elseif ($id=="connexion"){  // sinon si l'url est egale a connexion on charge connexion ... un peu logique 
 		$this->load->view('menu');
 		$this->load->view('connexion');
 		$this->load->view('piedPAge');
 	 }
-	 elseif ($id=="helpAcheteur"){
-		$this->load->view('menu');
+	 
+	 elseif ($id == "helpAcheteur"){
+		
 		$this->load->view('helpAcheteur');
 		$this->load->view('piedPAge');
 	 }
-	 elseif ($id=="ajoutLot"){
-		$this->load->view('menu');
+
+	 elseif ($id == "ajoutLot"){
 		$data['nomEspece']=$this->requetes->afficheNomCommunEspece();
 		$this->load->view('ajoutLot', $data);
 		$this->load->view('piedPAge');
 	 }
 	 
+	 elseif($id == "profilAdmin"){
+		
+		$this->load->view('profilAdmin');
+		$this->load->view('piedPAge');
+	 }
+	 elseif($id == "profilDirecteurVente"){
+		
+		$this->load->view('profilDirecteurVente');
+		$this->load->view('piedPAge');
+	 }
 }
 
 
@@ -121,41 +128,6 @@ public function inscriptionAcheteur()
 	}
 
 
-
-	// public function connectionAcheteur() 
-	// {
-	//    $this->form_validation->set_rules('mailAcheteur', '"L\'adresse email"', 'trim|required|valid_email');//|xss_clean');//is_unique[users.email]
-	//    $this->form_validation->set_rules('mdpAcheteur', '"Le Mot de passe"', 'trim|required');//|xss_clean');//is_unique[users.email]  
-	// /*
-	// Supprime les espaces au début et à la fin de la chaîne
-	// Vérifie que la chaîne résultante n'est pas vide
-	// Vérifie qu'il s'agit d'une adresse e-mail valide
-	// */	
-
-	// 	if ($this->form_validation->run() == FALSE)
-	// 	{ 
-	// 		$this->session->set_flashdata('error','Mot de passe et/ou mail incorrect frero');
-    //     } 
-    //     else
-	// 	{ 
-	// 		$mailAcheteur = strip_tags($this->input->post('mailAcheteur'));
-	// 		$mdpAcheteur = password_hash($this->input->post('mdpAcheteur'), PASSWORD_DEFAULT); //pour crypter les mdps pour l'instant (car pas java script)
-			
-			
-	// 		echo "<br>";
-	// 		echo $mailAcheteur;
-	// 		echo "<br>";
-	// 		echo "<br>";
-	// 		echo $mdpAcheteur;
-
-	// 		// $data['resultat'] = $this->requetes->verifConnectionAcheteur($mailAcheteur,$mdpAcheteur);
-	// 		// $this->session->set_flashdata('succes','Connection réussi, merci !');
-	// 		// redirect(base_url('incription'));
-    //     }	 
-
-	// }
-
-
 	public function ajouterLot() 
 	{
 		$this->form_validation->set_rules('NomEspece', '"Nom espece"', 'trim|required');
@@ -191,21 +163,27 @@ public function inscriptionAcheteur()
 	}
 	
 
+	public function connexion()
+	{
+	
+	$role = strip_tags($this->input->post('role'));
+	
+	if($role == 'Acheteur'){
+		$this->utilitaire->connexionUsers('afficheInformationConnexionAcheteur', 'Acheteur', 'login', 'mailAcheteur' , 'helpAcheteur');
+	}
+	elseif($role == 'Admin'){
+		$this->utilitaire->connexionUsers('afficheInformationConnexionAdmin', 'Admin', 'login', 'mailAdmin', 'profilAdmin');
+	}
+	elseif($role == 'Directeur')
+	{
+		$this->utilitaire->connexionUsers('afficheInformationConnexionDirecteurVente', 'Directeur', 'login', 'mailDirecteur','profilDirecteurVente');
+	}
+	
+	}
+	
 
+} //pas supprimer sinon probleme
 
-
-}
 ?>
-/*
-creation d'une page utilitaire a continuer ..
-raccourci pour cette page a voir une solution 
-
-*/
-
-}
 
 
-
-
-
-}// pas supprimer sinon probleme

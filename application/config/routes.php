@@ -61,3 +61,7 @@ $route['connexion'] = "welcome/url/connexion"; // vers la page de connexion
 $route['helpAcheteur'] = "welcome/url/helpAcheteur";
 
 $route['ajoutLot'] = "welcome/url/ajoutLot";
+
+$route['profilAdmin'] = "welcome/url/profilAdmin";
+
+$route['profilDirecteurVente'] = "welcome/url/profilDirecteurVente";

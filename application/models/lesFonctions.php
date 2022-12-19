@@ -145,8 +145,8 @@ public function afficheMailExistant($mailAch)
 	 
 }
 
-public function afficheMdpHasheeAcheteur($mail){
-	$search = "call afficheMdpHashAcheteur(:mail)";
+public function afficheInformationConnexionAcheteur($mail){
+	$search = "call afficheInformationConnexionAcheteur(:mail)";
 	 $result = $this->db->conn_id->prepare($search);
 	 $result->bindParam(':mail', $mail, PDO::PARAM_STR);
 	 $result->execute();
@@ -155,8 +155,8 @@ public function afficheMdpHasheeAcheteur($mail){
 	
 }
 
-public function afficheMdpHasheeAdmin($mail){
-	$search = "call afficheMdpHashAdmin(:mail)";
+public function afficheInformationConnexionAdmin($mail){
+	$search = "call afficheInformationConnexionAdmin(:mail)";
 	 $result = $this->db->conn_id->prepare($search);
 	 $result->bindParam(':mail', $mail, PDO::PARAM_STR);
 	 $result->execute();
@@ -167,8 +167,8 @@ public function afficheMdpHasheeAdmin($mail){
 
 
 
-public function afficheMdpHashDirecteurVente($mail){
-	$search = "call afficheMdpHashDirecteurVente(:mail)";
+public function afficheInformationConnexionDirecteurVente($mail){
+	$search = "call afficheInformationConnexionDirecteurVente(:mail)";
 	 $result = $this->db->conn_id->prepare($search);
 	 $result->bindParam(':mail', $mail, PDO::PARAM_STR);
 	 $result->execute();
