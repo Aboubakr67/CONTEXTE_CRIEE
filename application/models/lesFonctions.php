@@ -6,18 +6,8 @@ class lesFonctions extends CI_Model
 	parent::__construct();
  }
 
-// Avec une requete SQL
-public function afficheDonnee()
-{
-	$search = "SELECT lot.* FROM lot";
-	$result = $this->db->conn_id->prepare($search);
-	$result->execute();
-	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
-	return $query_result; 
-}
 
-
-// Avec une procédure stockée
+// Affiche tout les lots
 public function affToutLesLots()
 {
 	$search = "call affLot";
@@ -104,26 +94,6 @@ public function insertAcheteur($mailAch, $loginAch, $pwdAch, $raisonSocialeEntre
 
 }
 
-// ancienne, marche pas
-// public function afficheMailExistant($mailAch)
-// {
-// 	$search = "call insertAcheteur(:mailAch)";
-// 	 $result = $this->db->conn_id->prepare($search);
-// 	 $result->bindParam(':mailAch', $mailAch, PDO::PARAM_STR);
-// 	 $result->execute();
-// 	 $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
-// 	 return $query_result; 
-// 	 if($query_result->num_rows()==1)
-// 	 {
-// 	 	return $query_result->row();
-// 	 }
-// 	 else
-// 	 {
-// 	 	return false;
-// 	 }
-	 
-// }
-
 
 public function afficheMailExistant($mailAch)
 {
@@ -132,7 +102,7 @@ public function afficheMailExistant($mailAch)
 	 $result->bindParam(':mailAch', $mailAch, PDO::PARAM_STR);
 	 $result->execute();
 	 $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
-	//  return $query_result; 
+	return $query_result; 
 	 if($query_result->num_rows()==0)
 	 {
 	 	return $query_result->row();
@@ -141,9 +111,8 @@ public function afficheMailExistant($mailAch)
 	 {
 	 	return true;
 	 }
-
-	 
 }
+
 
 public function afficheInformationConnexionAcheteur($mail){
 	$search = "call afficheInformationConnexionAcheteur(:mail)";

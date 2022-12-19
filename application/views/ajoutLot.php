@@ -6,13 +6,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 
-
 <?php
     echo "<br>";
     echo form_open('welcome/ajouterLot',array('method'=>'post'));
 ?>
 
-<select name="NomEspece" id="NomEspece" data-target="#nomCommunEspece"> 
+<select name="NomEspece" id="NomEspece"> 
         <option value="default" <?php echo set_select('NomEspece','default',TRUE);?> >Choisissez un nom d'espece</option >
         <?php
         foreach($nomEspece as $espece) 

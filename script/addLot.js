@@ -1,8 +1,13 @@
-const nomEspece = document.getElementById('NomEspece');
+// const nomEspece = document.getElementById('NomEspece');
+// const nomCommunEspece = document.getElementById('nomCommunEspece');
+
+// console.log(nomCommunEspece);
+
+// nomEspece.addEventListener("change", () => {
+//     console.log(nomEspece.value);
+// })
 
 
+var xhr = <?=.'$ToutLesNomsEspeces'.;?>;
 
-
-nomEspece.addEventListener("change", () => {
-    console.log(nomEspece.value);
-})
+console.log(xhr);
