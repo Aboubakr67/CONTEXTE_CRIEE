@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+
 /*
 | -------------------------------------------------------------------------
 | URI ROUTING
@@ -53,10 +54,14 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-//$route['(:any)'] = "welcome/$1";
-
 $route['inscription'] = "welcome/url/inscription"; // se diriger vers la page d'inscription
 $route['connexion'] = "welcome/url/connexion"; // vers la page de connexion
+
+
 $route['helpAcheteur'] = "welcome/url/helpAcheteur";
+
+$route['ajoutLot'] = "welcome/url/ajoutLot";
+
 $route['profilAdmin'] = "welcome/url/profilAdmin";
+
 $route['profilDirecteurVente'] = "welcome/url/profilDirecteurVente";

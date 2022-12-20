@@ -27,9 +27,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     echo form_open('welcome/inscriptionAcheteur',array('method'=>'post')); // ici on dit à la page d'inscription que à la fin du formulaire elle va tout envoyer 
                                                                       // via la méthode post à l'url welcome/inscriptionAcheteur.
 ?>
-
+    <center>
 	<h1>Formulaire d'inscription</h1>
-
+    </center>
+    <center>
 	<?php
     echo "<br>";
     $mailAcheteur= array('name'=>'mailAcheteur','id'=>'mailAcheteur','placeholder'=>'Entrer votre adresse mail','value'=>set_value('mailAcheteur'));

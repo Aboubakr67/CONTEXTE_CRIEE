@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     echo "<br>";
     echo form_submit('envoi', 'Connection');
     
-
+    
     if($this->session->flashdata('error')) { ?> 
     <p class="text-danger text-center" style="margin-top: 10px;color: red;">
     <?=$this->session->flashdata('error')?></p>

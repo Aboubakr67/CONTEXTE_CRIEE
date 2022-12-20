@@ -7,6 +7,7 @@ if(empty($_SESSION['login'])){
   }
 
   
-  echo "Bonjour !"; 
+  echo "Bonjour M.Admin !"; 
+  echo "<br>";
   echo $_SESSION['login'];
 ?>

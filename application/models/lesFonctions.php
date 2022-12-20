@@ -6,6 +6,71 @@ class lesFonctions extends CI_Model
 	parent::__construct();
  }
 
+
+// Affiche tout les lots
+public function affToutLesLots()
+{
+	$search = "call affLot";
+	$result = $this->db->conn_id->prepare($search);
+	$result->execute();
+	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	return $query_result; 
+}
+
+public function recupNumAcheteur($login, $mdp)
+ {
+    // echo $login;
+	// echo $mdp;
+	 $search = "call recupNumAcheteur('$login', '$mdp')";
+	 $result = $this->db->conn_id->prepare($search);
+	 $result->execute();
+
+	 $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	 
+	 return $query_result; 
+
+ }
+
+ // Verifie que l'acheteur est inscrit dans la bdd
+ public function verifConnectionAcheteur($mail, $mdp)
+ {
+	 $search = "call verifConnectionAcheteur('$mail', '$mdp')";
+	 $result = $this->db->conn_id->prepare($search);
+	 $result->execute();
+
+	 $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	 
+	 return $query_result; 
+
+ }
+
+
+ // Verifie que l'admin est dans la bdd
+ public function verifConnectionAdmin($mail, $mdp)
+ {
+	 $search = "call verifConnectionAdmin('$mail', '$mdp')";
+	 $result = $this->db->conn_id->prepare($search);
+	 $result->execute();
+
+	 $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	 
+	 return $query_result; 
+
+ }
+
+ // Verifie que le directeur de vente est dans la bdd
+ public function verifConnectionDirecteurVente($mail, $mdp)
+ {
+	 $search = "call verifConnectionDirecteurVente('$mail', '$mdp')";
+	 $result = $this->db->conn_id->prepare($search);
+	 $result->execute();
+
+	 $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	 
+	 return $query_result; 
+
+ }
+
 public function insertAcheteur($mailAch, $loginAch, $pwdAch, $raisonSocialeEntrepriseAch, $numRueAcheteurAch, $nomRueAcheteurAch, $codePostalAch, $villeAch, $numHabilitationAch)
  {
 
@@ -37,7 +102,7 @@ public function afficheMailExistant($mailAch)
 	 $result->bindParam(':mailAch', $mailAch, PDO::PARAM_STR);
 	 $result->execute();
 	 $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
-	 return $query_result; 
+	return $query_result; 
 	 if($query_result->num_rows()==0)
 	 {
 	 	return $query_result->row();
@@ -46,9 +111,8 @@ public function afficheMailExistant($mailAch)
 	 {
 	 	return true;
 	 }
-
-	 
 }
+
 
 public function afficheInformationConnexionAcheteur($mail){
 	$search = "call afficheInformationConnexionAcheteur(:mail)";
@@ -81,6 +145,30 @@ public function afficheInformationConnexionDirecteurVente($mail){
 	 return $query_result; 
 	
 }
+
+
+public function afficheNomCommunEspece()
+{
+	$search = "call affEspece";
+	$result = $this->db->conn_id->prepare($search);
+	$result->execute();
+	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	return $query_result; 
+}
+
+
+public function afficheTaille()
+{
+	$search = "call affTaille";
+	$result = $this->db->conn_id->prepare($search);
+	$result->execute();
+	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	return $query_result; 
+}
+
+
+
+
 
 
 
