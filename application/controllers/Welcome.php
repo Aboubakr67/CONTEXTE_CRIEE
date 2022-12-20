@@ -51,8 +51,10 @@ public function url($id){ // on va gerer l'url avec cette fonction
 	 }
 
 	 elseif ($id == "ajoutLot"){
-		$data['nomEspece']=$this->requetes->afficheNomCommunEspece();
-		$this->load->view('ajoutLot', $data);
+		$dataEspece['nomEspece']=$this->requetes->afficheNomCommunEspece();
+		// Oublie pas de mettre les 2 procedures stockes affNomEspece et affTaille
+		$dataTaille['tailleBac']=$this->requetes->afficheTaille();
+		$this->load->view('ajoutLot', $dataEspece, $dataTaille);
 		$this->load->view('piedPAge');
 	 }
 	 
@@ -91,10 +93,11 @@ public function inscriptionAcheteur()
 		{ 
 			$this->session->set_flashdata('error','Données non enregistré rien a été saisie...'); //set_flashdata appartient a codeigniter et sert à afficher des messges lors d'une action 
 			redirect(base_url('inscription')); // pour se diriger vers la page inscription tout en gardant l'url de base grace a base_url
+			var_dump(password_hash("paul.marc@gmail.com", PASSWORD_DEFAULT));
         } 
         else
 		{ 
-
+			var_dump(password_hash("paul.marc@gmail.com", PASSWORD_DEFAULT));
 		$mailAcheteur = strip_tags($this->input->post('mailAcheteur')); // ici on recupere avec la methode post et le stip_tags sert a supprimer les balises HTML et PHP d'une chaîne pour eviter l'injection sql ou l'ajout d'une page en html du genre <p> .. ou autre
 
 		$mdpAChiffre = strip_tags($this->input->post('mdpPremierAcheteur'));
@@ -130,8 +133,7 @@ public function inscriptionAcheteur()
 
 	public function ajouterLot() 
 	{
-		$this->form_validation->set_rules('NomEspece', '"Nom espece"', 'trim|required');
-	   $this->form_validation->set_rules('nomCommunEspece', '"Nom commun espece"', 'trim|required');//|xss_clean');//is_unique[users.email]
+		$this->form_validation->set_rules('nomEspece', '"Nom espece"', 'trim|required');
 	   
 
 
@@ -143,22 +145,13 @@ public function inscriptionAcheteur()
         else
 		{ 
 
-		$NomEspece = strip_tags($this->input->post('NomEspece'));
-		$nomCommunEspece = strip_tags($this->input->post('nomCommunEspece'));
+		$nomEspece = strip_tags($this->input->post('nomEspece;'));
 
 		
-		echo $NomEspece;
-		echo $nomCommunEspece;
-
-
-			
-			$this->session->set_flashdata('succes','Lot ajouter, merci ! Vous pouvez consulter l\'inventaire');
-			redirect(base_url('connexion'));
 		
-
-		// $this->session->set_flashdata('succes','Données enregistrées, merci ! Vous pouvez désormais vous connecter');
-		// redirect(base_url('inscription'));
-			
+			//$this->session->set_flashdata('succes','Lot ajouter, merci ! Vous pouvez consulter l\'inventaire');
+			//redirect(base_url('connexion'));
+	
         }	 
 	}
 	

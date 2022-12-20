@@ -155,4 +155,23 @@ public function afficheNomCommunEspece()
 	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
 	return $query_result; 
 }
+
+
+public function afficheTaille()
+{
+	$search = "call affTaille";
+	$result = $this->db->conn_id->prepare($search);
+	$result->execute();
+	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	return $query_result; 
+}
+
+
+
+
+
+
+
+
+
 }

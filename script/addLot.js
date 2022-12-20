@@ -7,7 +7,3 @@
 //     console.log(nomEspece.value);
 // })
 
-
-var xhr = <?=.'$ToutLesNomsEspeces'.;?>;
-
-console.log(xhr);

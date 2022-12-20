@@ -110,3 +110,16 @@ END $$
 DELIMITER ;
 
 -- call affEspece
+
+
+-- Procédure affTaille tout les noms des especes
+DROP procedure IF EXISTS affTaille;
+DELIMITER $$
+CREATE procedure affTaille()
+BEGIN
+    SELECT idBac, tare from bac;
+    
+END $$
+DELIMITER ;
+
+-- call affTaille

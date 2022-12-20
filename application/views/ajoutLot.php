@@ -11,23 +11,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     echo form_open('welcome/ajouterLot',array('method'=>'post'));
 ?>
 
-<select name="NomEspece" id="NomEspece"> 
-        <option value="default" <?php echo set_select('NomEspece','default',TRUE);?> >Choisissez un nom d'espece</option >
+<label for='text'>Nom de l'espèce : </label>
+<select name="nomEspece" id="nomEspece"> 
+        <option value="default" <?php echo set_select('nomEspece','default',TRUE);?> >Choisissez un nom d'espece</option >
         <?php
         foreach($nomEspece as $espece) 
                       {
-                      echo '<option name="NomEspece"    value="'.$espece['nomEspece'].'">'.$espece['nomEspece'].'</option>';
+                      echo '<option name="nomEspece"    value="'.$espece['idEspece'].'">'.$espece['nomEspece'].'</option>';
                       }
         ?>
-
 </select>
+<br><br>
 
-<?php
-    $nomCommunEspece= array('name'=>'nomCommunEspece','id'=>'nomCommunEspece','placeholder'=>'','value'=>set_value('nomCommunEspece'));
-        echo form_input($nomCommunEspece);
-        echo "<br>";
-        echo "<br>";
-?>
+<label for='text'>Taille : </label>
+<select name="taille" id="taille"> 
+        <option value="default" <?php echo set_select('taille','default',TRUE);?> ></option >
+        <?php
+        foreach($tailleBac as $taille) 
+                      {
+                      echo '<option name="taille"    value="'.$taille['idBac'].'">'.$taille['tare'].'</option>';
+                      }
+        ?>
+</select>
+<br><br>
+
+
+
+
 
 <br><br>
   
@@ -52,11 +62,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php }?>
     
 </center>
-
+        
 
 	<?php
     echo form_close();
 ?>
 
-<script src="<?php echo base_url().'script/addLot.js';?>"> 
+<script src="<?php echo base_url().'script/addLot.js';?>">
 </script>
