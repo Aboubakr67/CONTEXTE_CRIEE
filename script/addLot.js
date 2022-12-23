@@ -1,9 +1,3 @@
-// const nomEspece = document.getElementById('NomEspece');
-// const nomCommunEspece = document.getElementById('nomCommunEspece');
+console.log("JE SUIS DANS ADD LOT");
 
-// console.log(nomCommunEspece);
-
-// nomEspece.addEventListener("change", () => {
-//     console.log(nomEspece.value);
-// })
 

@@ -68,5 +68,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     echo form_close();
 ?>
 
-<script src="<?php echo base_url().'script/addLot.js';?>">
-</script>
+<script src="<?php echo base_url().'script/addLot.js';?>"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->

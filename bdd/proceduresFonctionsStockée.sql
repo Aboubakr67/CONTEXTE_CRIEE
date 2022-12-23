@@ -123,3 +123,13 @@ END $$
 DELIMITER ;
 
 -- call affTaille
+
+
+DROP procedure IF EXISTS afficheInfoNomCommun;
+DELIMITER $$
+CREATE procedure afficheInfoNomCommun(espece int)
+BEGIN
+    SELECT nomCommunEspece, nomScientifiqueEspece FROM espece WHERE idEspece = espece;
+
+END $$
+DELIMITER ;
