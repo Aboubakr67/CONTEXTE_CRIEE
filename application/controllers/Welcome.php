@@ -4,8 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Welcome extends CI_Controller {
 
 	/**
-	 * CodeIgniter est un framework qui va répondre à nos besoins
-	 * commentaire fait par wassim. de rien .
+	 * CodeIgniter est un framework qui va répondre à nos besoins 
+	 * commentaire fait par wassim. de rien les frères si vous arrivez pas à comprendre dmd moi.
 	 */
 	public function __construct() {
 		parent::__construct();
@@ -22,11 +22,11 @@ class Welcome extends CI_Controller {
 
 	public function index() //la premiere page du projet qui va être chargé "context_criee"
 	{
-		session_destroy();
+		session_destroy(); // nécessaire si la personne se déconnecte pas 
 		$this->load->view('menu');
 		$data['result']=$this->requetes->affToutLesLots();
 		$this->load->view('ecranAccueil',$data);
-		$this->load->view('piedPAge');
+		$this->load->view('piedPage');
 				
 	}
 
@@ -36,37 +36,36 @@ public function url($id){ // on va gerer l'url avec cette fonction
 	 {
 		$this->load->view('menu');
 		$this->load->view('inscription');
-		$this->load->view('piedPAge');
+		$this->load->view('piedPage');
 	 }
 	 elseif ($id=="connexion"){  // sinon si l'url est egale a connexion on charge connexion ... un peu logique 
 		$this->load->view('menu');
 		$this->load->view('connexion');
-		$this->load->view('piedPAge');
+		$this->load->view('piedPage');
 	 }
 	 
 	 elseif ($id == "helpAcheteur"){
 		
 		$this->load->view('helpAcheteur');
-		$this->load->view('piedPAge');
+		$this->load->view('piedPage');
 	 }
 
 	 elseif ($id == "ajoutLot"){
-		$dataEspece['nomEspece']=$this->requetes->afficheNomCommunEspece();
-		// Oublie pas de mettre les 2 procedures stockes affNomEspece et affTaille
-		$dataTaille['tailleBac']=$this->requetes->afficheTaille();
-		$this->load->view('ajoutLot', $dataEspece, $dataTaille);
-		$this->load->view('piedPAge');
+		$lesDonnees['nomEspece']=$this->requetes->afficheNomCommunEspece(); //pour envoyer plusieurs variables à une page on doit les mettres dans les [] et dans la prochaine page
+		$lesDonnees['taille']=$this->requetes->afficheTaille(); // elles seront sous la forme d'une variable par exemple 
+		$this->load->view('ajoutLot', $lesDonnees); // $lesDonnes aura deux variables //$nomEspece et $taille
+		$this->load->view('piedPage'); // il faut biensur faire un foreach pour les parcouris héhé :) !!!!!!!! de rien les amis !!!
 	 }
 	 
 	 elseif($id == "profilAdmin"){
 		
 		$this->load->view('profilAdmin');
-		$this->load->view('piedPAge');
+		$this->load->view('piedPage');
 	 }
 	 elseif($id == "profilDirecteurVente"){
 		
 		$this->load->view('profilDirecteurVente');
-		$this->load->view('piedPAge');
+		$this->load->view('piedPage');
 	 }
 }
 

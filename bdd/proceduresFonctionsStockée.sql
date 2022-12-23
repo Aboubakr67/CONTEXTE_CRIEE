@@ -127,9 +127,10 @@ DELIMITER ;
 
 DROP procedure IF EXISTS afficheInfoNomCommun;
 DELIMITER $$
-CREATE procedure afficheInfoNomCommun(espece int)
+CREATE procedure afficheInfoNomCommun(esp int)
 BEGIN
-    SELECT nomCommunEspece, nomScientifiqueEspece FROM espece WHERE idEspece = espece;
+    SELECT nomCommunEspece, nomScientifiqueEspece FROM espece WHERE idEspece = esp;
 
 END $$
 DELIMITER ;
+-- call afficheInfoNomCommun

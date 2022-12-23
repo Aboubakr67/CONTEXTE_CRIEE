@@ -25,13 +25,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <label for='text'>Taille : </label>
 <select name="taille" id="taille"> 
-        <option value="default" <?php echo set_select('taille','default',TRUE);?> ></option >
-        <?php
-        foreach($tailleBac as $taille) 
-                      {
-                      echo '<option name="taille"    value="'.$taille['idBac'].'">'.$taille['tare'].'</option>';
-                      }
-        ?>
+  <option value="default" <?php echo set_select('taille','default',TRUE);?> >Choisir la taille</option >
+          <?php
+            foreach($taille as $key) 
+                          {
+                            echo '<option name="taille"    value="'.$key['specification'].'">'.$key['specification'].'</option>';
+                          }
+          ?>
 </select>
 <br><br>
 
