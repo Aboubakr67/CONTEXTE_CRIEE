@@ -1,50 +1,67 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-
+<head>
+<link rel="stylesheet" href="<?php echo base_url().'css\stylePageConnexion.css';?>">
+</head>
 <?php
     echo "<br>";
     echo form_open('welcome/connexion',array('method'=>'post'));
-
-    
 ?>
-    <center>
 
-    
-	    <h1>Se connecter</h1>
-    
 
-    <label for='text'>Role</label>
-    <br>
+<div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-2"></div>
+            <div class="col-lg-6 col-md-8 login-box">
+                <div class="col-lg-12 login-key">
+                    <i class="fa fa-key" aria-hidden="true"></i>
+                </div>
+                <div class="col-lg-12 login-title">
+                    LOGIN
+                </div>
 
-        <select name="role">
-        <option value="Acheteur" selected>Acheteur</option>
-        <option value="Admin">Admin</option>
-        <option value="Directeur">Directeur de vente</option>   
-        </select>
+                <div class="col-lg-12 login-form">
+                    <div class="col-lg-12 login-form">
+                        <form>
 
-</center>
+                          <div class="form-group">
+                                <label class="form-control-label">ROLE</label>
+                                <select name="role" class="form-select">
+                                  <option value="Acheteur" selected>Acheteur</option>
+                                  <option value="Admin">Admin</option>
+                                  <option value="Directeur">Directeur de vente</option>   
+                                </select>
+                            </div>
+
+
+                        
+                            <div class="form-group">
+                                <label class="form-control-label">EMAIL</label>
+                                <input type="text" name="mail" id="mail" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label">PASSWORD</label>
+                                <input type="password" name="mdp" id="mdp" class="form-control" required>
+                            </div>
+
+                            <div class="col-lg-12 loginbttm">
+                                <div class="col-lg-6 login-btm login-text">
+                                    <!-- Error Message -->
+                                </div>
+                                <div class="col-lg-12 login-btm login-button">
+                                    <button type="submit" class="btn btn-outline-primary">LOGIN</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-2"></div>
+            </div>
+        </div>
+
+
 	<?php
-
-
-    echo "<center>";
-    echo "<label for='text'>Mail</label>";
-    echo "<br>";
-    $mail= array('name'=>'mail','id'=>'mail','placeholder'=>'Entrer votre adresse mail','value'=>set_value('mail'));
-    echo form_input($mail);
-    echo "<br>";
-    echo "<br>";
-
-    echo "<label for='text'>Mot de passe</label>";
-    echo "<br>";
-    $mdp= array('name'=>'mdp','id'=>'mdp','placeholder'=>'Entrer votre mot de passe','value'=>set_value('mdp'));
-    echo form_input($mdp);
-    
-    echo "<br>";
-    echo "<br>";
-    echo form_submit('envoi', 'Connection');
-    
-    
     if($this->session->flashdata('error')) { ?> 
     <p class="text-danger text-center" style="margin-top: 10px;color: red;">
     <?=$this->session->flashdata('error')?></p>
