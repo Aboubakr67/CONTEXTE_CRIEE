@@ -51,8 +51,14 @@ public function url($id){ // on va gerer l'url avec cette fonction
 	 }
 
 	 elseif ($id == "ajoutLot"){
-		$lesDonnees['nomEspece']=$this->requetes->afficheNomCommunEspece(); //pour envoyer plusieurs variables à une page on doit les mettres dans les [] et dans la prochaine page
+		$lesDonnees['nomEspece']=$this->requetes->afficheToutEspece(); //pour envoyer plusieurs variables à une page on doit les mettres dans les [] et dans la prochaine page
 		$lesDonnees['taille']=$this->requetes->afficheTaille(); // elles seront sous la forme d'une variable par exemple 
+		$lesDonnees['qualite']=$this->requetes->afficheQualite();
+		$lesDonnees['presentation']=$this->requetes->affichePresentation();
+		$lesDonnees['bateau']=$this->requetes->afficheBateau();
+		
+
+		
 		$this->load->view('ajoutLot', $lesDonnees); // $lesDonnes aura deux variables //$nomEspece et $taille
 		$this->load->view('piedPage'); // il faut biensur faire un foreach pour les parcouris héhé :) !!!!!!!! de rien les amis !!!
 	 }
@@ -129,11 +135,46 @@ public function inscriptionAcheteur()
         }	 
 	}
 
+	public function especeDetails(){
+		// POST data
+		$postData = $this->input->post();
+
+		// get data
+		$data= $this->requetes->afficheInfoEspece($postData);
+
+        
+		echo json_encode($data);
+	}
+
+
+	public function affTare(){
+		// POST data
+		$postData = $this->input->post();
+
+		// get data
+		$data= $this->requetes->afficheTare($postData);
+
+        
+		echo json_encode($data);
+		
+	}
+
+
 
 	public function ajouterLot() 
 	{
 		$this->form_validation->set_rules('nomEspece', '"Nom espece"', 'trim|required');
-	   
+		// $this->form_validation->set_rules('taille', '"Taille"', 'trim|required');
+		// $this->form_validation->set_rules('idBac', '"Bac"', 'trim|required');
+		// $this->form_validation->set_rules('poidsBrut', '"Poids brut"', 'trim|required');
+		// $this->form_validation->set_rules('prixPlancher', '"Prix plancher"', 'trim|required');
+		// $this->form_validation->set_rules('prixDepart', '"Prix depart"', 'trim|required');
+		// $this->form_validation->set_rules('prixEnchereMax', '"Prix enchere max"', 'trim|required');
+		// $this->form_validation->set_rules('dateEnchere', '"Date enchere"', 'trim|required');
+		// $this->form_validation->set_rules('qualite', '"Qualite"', 'trim|required');
+		// $this->form_validation->set_rules('presentation', '"Presentation"', 'trim|required');
+		// $this->form_validation->set_rules('bateau', '"Bateau"', 'trim|required');
+		// $this->form_validation->set_rules('datePeche', '"Date peche"', 'trim|required');
 
 
 		if ($this->form_validation->run() == FALSE)
@@ -144,9 +185,53 @@ public function inscriptionAcheteur()
         else
 		{ 
 
-		$nomEspece = strip_tags($this->input->post('nomEspece;'));
+		$nomEspece = strip_tags($this->input->post('nomEspece'));
+		$taille = strip_tags($this->input->post('taille'));
+
+
+		$idBac = strip_tags($this->input->post('idBac'));
+		$poidsBrut = strip_tags($this->input->post('poidsBrut'));
+
+
+		$prixPlancher = strip_tags($this->input->post('prixPlancher'));
+		$prixDepart = strip_tags($this->input->post('prixDepart'));
+
 
 		
+		$prixEnchereMax = strip_tags($this->input->post('prixEnchereMax'));
+		$dateEnchere = strip_tags($this->input->post('dateEnchere'));
+		$qualite = strip_tags($this->input->post('qualite'));
+		$presentation = strip_tags($this->input->post('presentation'));
+
+
+
+		$bateau = strip_tags($this->input->post('bateau'));
+		$datePeche = strip_tags($this->input->post('datePeche'));
+
+		echo "Nom espece : ". $nomEspece;
+		echo "<br>";
+		echo "Nom taille : ". $taille;
+		echo "<br>";
+		echo "Nom bac : ". $idBac;
+		echo "<br>";
+		echo "Nom poids brut : ". $poidsBrut;
+		echo "<br>";
+		echo "Nom prix plancher : ". $prixPlancher;
+		echo "<br>";
+		echo "Nom prix depart : ". $prixDepart;
+		echo "<br>";
+		echo "Nom prix enchere max : ". $prixEnchereMax;
+		echo "<br>";
+		echo "Nom date enchere : ". $dateEnchere;
+		echo "<br>";
+		echo "Nom qualite : ". $qualite;
+		echo "<br>";
+		echo "Nom presentation : ". $presentation;
+		echo "<br>";
+		echo "Nom bateau : ". $bateau;
+		echo "<br>";
+		echo "Nom datePeche : ". $datePeche;
+		echo "<br>";
 		
 			//$this->session->set_flashdata('succes','Lot ajouter, merci ! Vous pouvez consulter l\'inventaire');
 			//redirect(base_url('connexion'));

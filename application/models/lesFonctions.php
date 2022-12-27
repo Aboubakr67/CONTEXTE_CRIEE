@@ -31,45 +31,6 @@ public function recupNumAcheteur($login, $mdp)
 
  }
 
- // Verifie que l'acheteur est inscrit dans la bdd
- public function verifConnectionAcheteur($mail, $mdp)
- {
-	 $search = "call verifConnectionAcheteur('$mail', '$mdp')";
-	 $result = $this->db->conn_id->prepare($search);
-	 $result->execute();
-
-	 $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
-	 
-	 return $query_result; 
-
- }
-
-
- // Verifie que l'admin est dans la bdd
- public function verifConnectionAdmin($mail, $mdp)
- {
-	 $search = "call verifConnectionAdmin('$mail', '$mdp')";
-	 $result = $this->db->conn_id->prepare($search);
-	 $result->execute();
-
-	 $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
-	 
-	 return $query_result; 
-
- }
-
- // Verifie que le directeur de vente est dans la bdd
- public function verifConnectionDirecteurVente($mail, $mdp)
- {
-	 $search = "call verifConnectionDirecteurVente('$mail', '$mdp')";
-	 $result = $this->db->conn_id->prepare($search);
-	 $result->execute();
-
-	 $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
-	 
-	 return $query_result; 
-
- }
 
 public function insertAcheteur($mailAch, $loginAch, $pwdAch, $raisonSocialeEntrepriseAch, $numRueAcheteurAch, $nomRueAcheteurAch, $codePostalAch, $villeAch, $numHabilitationAch)
  {
@@ -147,13 +108,33 @@ public function afficheInformationConnexionDirecteurVente($mail){
 }
 
 
-public function afficheNomCommunEspece()
+public function afficheToutEspece()
 {
 	$search = "call affEspece";
 	$result = $this->db->conn_id->prepare($search);
 	$result->execute();
 	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
 	return $query_result; 
+}
+
+
+
+public function afficheInfoEspece($esp = array())
+{
+	$response = array();
+
+	if(isset($esp['idEspece']))
+	{
+		$espece = $esp['idEspece'];
+
+		$search = "call affInfoEspece(:espece)";
+		$result = $this->db->conn_id->prepare($search);
+		$result->bindParam(':espece', $espece, PDO::PARAM_INT);
+		$result->execute();
+		$response = $result->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	return $response; 
 }
 
 
@@ -166,6 +147,62 @@ public function afficheTaille()
 	return $query_result; 
 }
 
+public function afficheTare($taille = array())
+{
+	$response = array();
+	
+
+	if(isset($taille['idTaille']) == 1)
+	{
+		$idTaille = $taille['idTaille'];
+		$search = "call affTare(:idTaille)";
+		$result = $this->db->conn_id->prepare($search);
+		$result->bindParam(':idTaille', $idTaille, PDO::PARAM_INT);
+		$result->execute();
+		$response = $result->fetchAll(PDO::FETCH_ASSOC);
+	}
+	elseif(isset($taille['idTaille']) == 2)
+		{
+			$idTaille = $taille['idTaille'];
+			$search = "call affTare(:idTaille)";
+			$result = $this->db->conn_id->prepare($search);
+			$result->bindParam(':idTaille', $idTaille, PDO::PARAM_INT);
+			$result->execute();
+			$response = $result->fetchAll(PDO::FETCH_ASSOC);
+
+		}
+	return $response; 
+
+}
+
+public function afficheQualite()
+{
+	$search = "call affQualite";
+	$result = $this->db->conn_id->prepare($search);
+	$result->execute();
+	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	return $query_result; 
+}
+
+
+public function affichePresentation()
+{
+	$search = "call affPresentation";
+	$result = $this->db->conn_id->prepare($search);
+	$result->execute();
+	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	return $query_result; 
+}
+
+
+public function afficheBateau()
+{
+	$search = "call affBateau";
+	$result = $this->db->conn_id->prepare($search);
+	$result->execute();
+	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	return $query_result; 
+}
 
 
 

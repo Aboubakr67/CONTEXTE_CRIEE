@@ -111,26 +111,106 @@ DELIMITER ;
 
 -- call affEspece
 
+DROP procedure IF EXISTS affInfoEspece;
+DELIMITER $$
+CREATE procedure affInfoEspece(esp int)
+BEGIN
+    SELECT nomCommunEspece, nomScientifiqueEspece FROM espece WHERE idEspece = esp;
+
+END $$
+DELIMITER ;
+-- call affInfoEspece(1);
+
 
 -- Procédure affTaille tout les noms des especes
 DROP procedure IF EXISTS affTaille;
 DELIMITER $$
 CREATE procedure affTaille()
 BEGIN
-    SELECT idBac, tare from bac;
-    
+    SELECT specification from taille;
 END $$
 DELIMITER ;
 
 -- call affTaille
 
 
-DROP procedure IF EXISTS afficheInfoNomCommun;
+
+
+
+-- Procédure affTare
+DROP procedure IF EXISTS affTare;
 DELIMITER $$
-CREATE procedure afficheInfoNomCommun(esp int)
+CREATE procedure affTare()
 BEGIN
-    SELECT nomCommunEspece, nomScientifiqueEspece FROM espece WHERE idEspece = esp;
+    SELECT idBac, tare FROM bac;
+END $$
+DELIMITER ;
+
+-- call affTare
+
+
+-- Procédure affQualite
+DROP procedure IF EXISTS affQualite;
+DELIMITER $$
+CREATE procedure affQualite()
+BEGIN
+    select idQualite, codeQualite from qualite;
+END $$
+DELIMITER ;
+
+-- call affQualite
+
+
+-- Procédure affPresentation
+DROP procedure IF EXISTS affPresentation;
+DELIMITER $$
+CREATE procedure affPresentation()
+BEGIN
+    select * from presentation;
+END $$
+DELIMITER ;
+
+-- call affPresentation
+
+
+-- Procédure affBateau
+DROP procedure IF EXISTS affBateau;
+DELIMITER $$
+CREATE procedure affBateau()
+BEGIN
+    select * from bateau;
+END $$
+DELIMITER ;
+
+-- call affBateau
+
+
+
+-- Procédure insertLot permet d'inserer le lot dans la BDD
+DROP procedure IF EXISTS insertLot;
+DELIMITER $$
+CREATE procedure insertLot(mailAch VARCHAR(50),loginAch VARCHAR(30), pwdAch VARCHAR(30), raisonSocialeEntrepriseAch VARCHAR(50), numRueAcheteurAch VARCHAR(50), nomRueAcheteurAch VARCHAR(50), codePostalAch VARCHAR(7), villeAch VARCHAR(50), numHabilitationAch VARCHAR(50))
+BEGIN
+    INSERT INTO `lot` (`idLot`, `idBateau`, `datePeche`, `idEspece`, `idTaille`, `idPresentation`, `idBac`, `idAcheteur`, `idQualite`, `idAdmin`, `idDirecteur`, `idFacture`, `poidsBrutLot`, `prixPlancher`, `prixDepart`, `prixEnchereMax`, `dateEnchere`, `heureDebutEnchere`, `codeEtat`) VALUES
+(1, 1, '2022-11-18 19:45:22', 1, 1, '1', 1, 1, 1, 1, 1, 1, '1400', '650', '800', '1100', '2022-11-18 19:52:17', '2022-11-18 21:52:17', 'A');
 
 END $$
 DELIMITER ;
--- call afficheInfoNomCommun
+
+
+-- call insertAcheteur('test@test.com','axel6GU', '1234', 'Poissonnier', '13', 'Rue du poisson', '54350', 'Le Kopa', 'Aucun')
+
+
+-- Procédure affMaxLot
+DROP procedure IF EXISTS affMaxLot;
+DELIMITER $$
+CREATE procedure affMaxLot()
+BEGIN
+    SELECT MAX(idLot) FROM lot;
+END $$
+DELIMITER ;
+
+-- call affMaxLot
+
+
+
