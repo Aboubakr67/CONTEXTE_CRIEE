@@ -48,6 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $mdpConfirmeAcheteur= array('name'=>'mdpConfirmeAcheteur','id'=>'mdpConfirmeAcheteur','placeholder'=>'retaper votre mot de passe','value'=>set_value('mdpConfirmeAcheteur'));
     echo form_input($mdpConfirmeAcheteur);
     echo "<br>";
+    echo '<div style="margin-top: 7px;" id="CheckPasswordMatch"></div>';
     echo "<br>";
     $raisonSocialEntrepriseAcheteur= array('name'=>'raisonSocialEntreprise','id'=>'raisonSocialEntreprise','placeholder'=>'Raison social de l\'entreprise ','value'=>set_value('raisonSocialEntreprise'));
     echo form_input($raisonSocialEntrepriseAcheteur);
@@ -77,7 +78,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     echo "<br>";
     echo "<br>";
-    echo form_submit('envoi', 'Valider'); // ici c'est le bouton valider.
+    // echo form_submit('envoi', 'Valider'); // ici c'est le bouton valider.
+    echo '<input type="submit" id="submit" value="Valider" />'
 	?>
     
 
@@ -88,6 +90,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<?php
     echo form_close(); // on oublie pas de fermer le formulaire .
 ?>
+<!-- Bibliothèque Jquery -->
+<script src="<?php echo base_url().'script/jquery-3.5.1.js';?>"></script>
+
 <script src="<?php echo base_url().'script/script.js';?>">  // on met un script pour les mots de passe c'est mieux quand c'est dynamique .
 </script>
 </html>

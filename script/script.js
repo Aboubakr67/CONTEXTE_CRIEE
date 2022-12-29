@@ -1,23 +1,55 @@
-const mdp1 = document.getElementById('mdpPremier');
-const mdp2 = document.getElementById('mdpConfirme');
 
-let monmdp
-let verif
 
-mdp1.addEventListener('input', () => {
-    //console.log(mdp1.value)
-    monmdp = mdp1.value
-    
-});
+// Permet de vérifier que l'acheteur a taper 2 fois le meme mot de passe
 
-mdp2.addEventListener('input', () => {
-    //console.log(mdp2.value)
-    verif = mdp2.value
-})
+$(document).ready(function () {
 
-console.log(monmdp);
-console.log(verif)
-if(monmdp != verif)
-{
-    alert("oooooooooooooo")
-}
+    $("#submit").attr('disabled', "");
+    $("#submit").css('background-color', 'red');
+    $("#submit").css('color', 'white');
+
+
+    $("#mdpConfirmeAcheteur").on('keyup', function(){
+     var password = $("#mdpPremierAcheteur").val();
+     var confirmPassword = $("#mdpConfirmeAcheteur").val();
+     if (password != confirmPassword){
+         $("#CheckPasswordMatch").html("Password does not match !").css("color","red");
+
+         $("#submit").attr('disabled', "");
+        $("#submit").css('background-color', 'red');
+        $("#submit").css('color', 'white');
+     }
+     else{
+         $("#CheckPasswordMatch").html("Password match !").css("color","green");
+
+        $("#submit").removeAttr('disabled');
+        $("#submit").css('background-color', 'green');
+        $("#submit").css('color', 'white');
+     }
+    });
+
+     $("#mdpPremierAcheteur").on('keyup', function(){
+        var password = $("#mdpConfirmeAcheteur").val();
+        var confirmPassword = $("#mdpPremierAcheteur").val();
+        if (password != confirmPassword){
+            $("#CheckPasswordMatch").html("Password does not match !").css("color","red");
+   
+            $("#submit").attr('disabled', "");
+           $("#submit").css('background-color', 'red');
+           $("#submit").css('color', 'white');
+        }
+        else{
+            $("#CheckPasswordMatch").html("Password match !").css("color","green");
+   
+           $("#submit").removeAttr('disabled');
+           $("#submit").css('background-color', 'green');
+           $("#submit").css('color', 'white');
+        }
+
+       
+    });
+ });
+
+
+
+

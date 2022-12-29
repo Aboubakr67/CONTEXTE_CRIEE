@@ -101,7 +101,7 @@ public function inscriptionAcheteur()
 			var_dump(password_hash("paul.marc@gmail.com", PASSWORD_DEFAULT));
         } 
         else
-		{ 
+		{
 			var_dump(password_hash("paul.marc@gmail.com", PASSWORD_DEFAULT));
 		$mailAcheteur = strip_tags($this->input->post('mailAcheteur')); // ici on recupere avec la methode post et le stip_tags sert a supprimer les balises HTML et PHP d'une chaîne pour eviter l'injection sql ou l'ajout d'une page en html du genre <p> .. ou autre
 
@@ -164,24 +164,32 @@ public function inscriptionAcheteur()
 	public function ajouterLot() 
 	{
 		$this->form_validation->set_rules('nomEspece', '"Nom espece"', 'trim|required');
-		// $this->form_validation->set_rules('taille', '"Taille"', 'trim|required');
-		// $this->form_validation->set_rules('idBac', '"Bac"', 'trim|required');
-		// $this->form_validation->set_rules('poidsBrut', '"Poids brut"', 'trim|required');
-		// $this->form_validation->set_rules('prixPlancher', '"Prix plancher"', 'trim|required');
-		// $this->form_validation->set_rules('prixDepart', '"Prix depart"', 'trim|required');
-		// $this->form_validation->set_rules('prixEnchereMax', '"Prix enchere max"', 'trim|required');
-		// $this->form_validation->set_rules('dateEnchere', '"Date enchere"', 'trim|required');
-		// $this->form_validation->set_rules('qualite', '"Qualite"', 'trim|required');
-		// $this->form_validation->set_rules('presentation', '"Presentation"', 'trim|required');
-		// $this->form_validation->set_rules('bateau', '"Bateau"', 'trim|required');
-		// $this->form_validation->set_rules('datePeche', '"Date peche"', 'trim|required');
+		$this->form_validation->set_rules('taille', '"Taille"', 'trim|required');
+		$this->form_validation->set_rules('idBac', '"Bac"', 'trim|required');
+		$this->form_validation->set_rules('poidsBrut', '"Poids brut"', 'trim|required');
+		$this->form_validation->set_rules('prixPlancher', '"Prix plancher"', 'trim|required');
+		$this->form_validation->set_rules('prixDepart', '"Prix depart"', 'trim|required');
+		$this->form_validation->set_rules('prixEnchereMax', '"Prix enchere max"', 'trim|required');
+		$this->form_validation->set_rules('dateEnchere', '"Date enchere"', 'trim|required');
+		$this->form_validation->set_rules('qualite', '"Qualite"', 'trim|required');
+		$this->form_validation->set_rules('presentation', '"Presentation"', 'trim|required');
+		$this->form_validation->set_rules('bateau', '"Bateau"', 'trim|required');
+		$this->form_validation->set_rules('datePeche', '"Date peche"', 'trim|required');
 
 
 		if ($this->form_validation->run() == FALSE)
 		{ 
 			$this->session->set_flashdata('error','Lot non ajouter');
 			redirect(base_url('ajoutLot'));
-        } 
+        }
+		elseif($this->input->post('nomEspece') == "default" or $this->input->post('taille') == "default" 
+				or $this->input->post('qualite') == "default" or $this->input->post('presentation') == "default" 
+				or $this->input->post('bateau') == "default" )
+		{
+
+			$this->session->set_flashdata('error','Lot non ajouter, selectionner une valeur');
+			redirect(base_url('ajoutLot'));
+		}
         else
 		{ 
 

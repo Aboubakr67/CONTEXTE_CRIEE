@@ -29,7 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <?php
         foreach($nomEspece as $espece) 
                       {
-                      echo '<option name="nomEspece"    value="'.$espece['idEspece'].'">'.$espece['nomEspece'].'</option>';
+                      echo '<option name="nomEspece"   value="'.$espece['idEspece'].'">'.$espece['nomEspece'].'</option>';
                       }
         ?>
 </select>
@@ -176,7 +176,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <!-- Bibliothèque Jquery -->
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> -->
 <script src="<?php echo base_url().'script/jquery-3.5.1.js';?>"></script>
 
 <!-- Script javascript -->
@@ -273,13 +272,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         }
                     });
                 });
-
-
-
-
-
-
-
 
 
             });
