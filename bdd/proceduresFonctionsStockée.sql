@@ -213,4 +213,10 @@ DELIMITER ;
 -- call affMaxLot
 
 
-
+DROP procedure IF EXISTS insertPeche;
+DELIMITER $$
+CREATE procedure insertPeche(idBat INT, dateP DATETIME)
+BEGIN
+    INSERT INTO `peche` (`idBateau`, `datePeche`) VALUES (idBat, dateP);
+END $$
+DELIMITER ;

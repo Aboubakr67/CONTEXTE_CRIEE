@@ -204,6 +204,14 @@ public function afficheBateau()
 	return $query_result; 
 }
 
+public function RecupDernierLot()
+{
+	$search = "call RecupDernierLot";
+	$result = $this->db->conn_id->prepare($search);
+	$result->execute();
+	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	return $query_result; 
+}
 
 
 

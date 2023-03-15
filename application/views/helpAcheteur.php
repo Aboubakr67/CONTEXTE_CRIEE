@@ -8,6 +8,7 @@ if(empty($_SESSION['login'])){
 
 
 <div style="text-align: center;">
+<form action="enchere" method="post">
     <h2 style="color: black;">Page d'aide de l'acheteur</h2>
     <br>
     <h4>Comment fonctionne l'interface d'enchère ?</h4>
@@ -50,5 +51,7 @@ if(empty($_SESSION['login'])){
     </h6>
     <br>
 
-    <input type="button" value="J'ai compris">
+
+    <button type="submit">J'ai compris</button>
+    </form>
 </div>

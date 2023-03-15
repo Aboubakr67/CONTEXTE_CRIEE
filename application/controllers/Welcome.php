@@ -50,6 +50,12 @@ public function url($id){ // on va gerer l'url avec cette fonction
 		$this->load->view('piedPage');
 	 }
 
+	 elseif ($id == "enchere"){
+		
+		$this->load->view('enchere');
+		$this->load->view('piedPage');
+	 }
+
 	 elseif ($id == "ajoutLot"){
 		$lesDonnees['nomEspece']=$this->requetes->afficheToutEspece(); //pour envoyer plusieurs variables à une page on doit les mettres dans les [] et dans la prochaine page
 		$lesDonnees['taille']=$this->requetes->afficheTaille(); // elles seront sous la forme d'une variable par exemple 
@@ -89,20 +95,16 @@ public function inscriptionAcheteur()
 	    $this->form_validation->set_rules('numRueAcheteur', '"Le numero de la rue de l\'acheteur "', 'trim|required');
 	    $this->form_validation->set_rules('nomRueAcheteur', '"Le nom de la rue de l\'acheteur "', 'trim|required');
 
-	   /*
-	Supprime les espaces au début et à la fin de la chaîne
-	Vérifie que la chaîne résultante n'est pas vide
-	Vérifie qu'il s'agit d'une adresse e-mail valide
-	*/	
+
 		if ($this->form_validation->run() == FALSE) // on demarre la verification de tout ce qu'on a fait en haut si c'est faux elle va pas faire les insertions car il y a rien dans les champs 
 		{ 
 			$this->session->set_flashdata('error','Données non enregistré rien a été saisie...'); //set_flashdata appartient a codeigniter et sert à afficher des messges lors d'une action 
 			redirect(base_url('inscription')); // pour se diriger vers la page inscription tout en gardant l'url de base grace a base_url
-			var_dump(password_hash("paul.marc@gmail.com", PASSWORD_DEFAULT));
+			// var_dump(password_hash("paul.marc@gmail.com", PASSWORD_DEFAULT));
         } 
         else
 		{
-			var_dump(password_hash("paul.marc@gmail.com", PASSWORD_DEFAULT));
+			// var_dump(password_hash("paul.marc@gmail.com", PASSWORD_DEFAULT));
 		$mailAcheteur = strip_tags($this->input->post('mailAcheteur')); // ici on recupere avec la methode post et le stip_tags sert a supprimer les balises HTML et PHP d'une chaîne pour eviter l'injection sql ou l'ajout d'une page en html du genre <p> .. ou autre
 
 		$mdpAChiffre = strip_tags($this->input->post('mdpPremierAcheteur'));
@@ -130,8 +132,6 @@ public function inscriptionAcheteur()
 			$this->session->set_flashdata('reussi','Données enregistrées, merci ! Vous pouvez désormais vous connecter'); 
 			redirect(base_url('inscription'));
 		}
-
-
         }	 
 	}
 
@@ -141,8 +141,7 @@ public function inscriptionAcheteur()
 
 		// get data
 		$data= $this->requetes->afficheInfoEspece($postData);
-
-        
+		
 		echo json_encode($data);
 	}
 
@@ -215,12 +214,40 @@ public function inscriptionAcheteur()
 
 		$bateau = strip_tags($this->input->post('bateau'));
 		$datePeche = strip_tags($this->input->post('datePeche'));
+		
 
-		echo "Nom espece : ". $nomEspece;
+		$data['recupDernierLot']=$this->requetes->RecupDernierLot();
+		$dernierLot = $data['recupDernierLot'];
+		foreach ($dernierLot as $r) {
+			$dernierLot = $r['valeurMax'];
+		}
+		
+		
+
+
+
+		echo "IdLot : (Dernier lot : $dernierLot) ";
 		echo "<br>";
-		echo "Nom taille : ". $taille;
+		echo "id bateau : ". $bateau;
 		echo "<br>";
-		echo "Nom bac : ". $idBac;
+		echo "DatePeche : ". $datePeche;
+		echo " -- Requete insert dans peche";
+		echo "<br>";
+		echo "id espece : ". $nomEspece;
+		echo "<br>";
+		echo "idtaille : ". $taille;
+		echo "<br>";
+		echo "id presentation : ". $presentation;
+		echo "<br>";
+		echo "id bac : ". $idBac;
+		echo "<br>";
+		echo 'id acheteur : '. $_SESSION['login'];
+		echo "<br>";
+		echo "id qualite : ". $qualite;
+		echo "<br>";
+		echo "id admin : (a recuperer dans la bdd)";
+		echo "<br>";
+		echo "id directeur : (a recuperer dans la bdd)";
 		echo "<br>";
 		echo "Nom poids brut : ". $poidsBrut;
 		echo "<br>";
@@ -231,14 +258,6 @@ public function inscriptionAcheteur()
 		echo "Nom prix enchere max : ". $prixEnchereMax;
 		echo "<br>";
 		echo "Nom date enchere : ". $dateEnchere;
-		echo "<br>";
-		echo "Nom qualite : ". $qualite;
-		echo "<br>";
-		echo "Nom presentation : ". $presentation;
-		echo "<br>";
-		echo "Nom bateau : ". $bateau;
-		echo "<br>";
-		echo "Nom datePeche : ". $datePeche;
 		echo "<br>";
 		
 			//$this->session->set_flashdata('succes','Lot ajouter, merci ! Vous pouvez consulter l\'inventaire');
