@@ -22,3 +22,14 @@ INSERT INTO `lot` (`idLot`, `idBateau`, `datePeche`, `idEspece`, `idTaille`, `id
 
 
 INSERT INTO `poster` (`idAcheteur`, `idBateau`, `datePeche`, `idLot`, `prixEnchere`, `heureEnchere`) VALUES ('1', '1', '2022-10-14 10:38:17', '1', '42421', '2022-10-17 10:50:55');
+
+
+INSERT INTO `espece` (`idEspece`, `nomScientifiqueEspece`, `nomCommunEspece`, `nomEspece`) VALUES ('2', 'Kingklip', 'Abadeche', 'Abadeche'), ('3', 'Engraulis encrasicolus', 'Anchois', 'Anchois');
+
+INSERT INTO `espece` (`idEspece`, `nomScientifiqueEspece`, `nomCommunEspece`, `nomEspece`) VALUES ('4', 'Anguilla anguilla', 'Anguille', 'Anguille'), ('5', 'Dicentrarchus labrax', 'Bar', 'Bar');
+
+INSERT INTO `espece` (`idEspece`, `nomScientifiqueEspece`, `nomCommunEspece`, `nomEspece`) VALUES ('6', 'Sprattus sprattus', 'Brisling', 'Brisling'), ('7', 'Essox lucius', 'Brochet', 'Brochet');
+
+INSERT INTO `espece` (`idEspece`, `nomScientifiqueEspece`, `nomCommunEspece`, `nomEspece`) VALUES ('8', 'Loligo forbesi', 'Calmar', 'Calmar'), ('9', 'Mallotus villosus', 'Capelan', 'Capelan');
+
+INSERT INTO `espece` (`idEspece`, `nomScientifiqueEspece`, `nomCommunEspece`, `nomEspece`) VALUES ('10', 'Cyprinidae', 'Carpe', 'Carpe'), ('11', 'Trachurus trachurus', 'Chinchard', 'Chinchard');
