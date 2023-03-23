@@ -6,7 +6,59 @@ if(empty($_SESSION['login'])){
   }
 ?>
 
-<h4>Votre panier</h4>
+<style>
+#table-panier {
+  border-collapse: collapse; /* fusionne les bordures des cellules adjacentes */
+}
+
+#table-panier td, th {
+  border: 1px solid black; /* ajoute une bordure noire d'une épaisseur de 1 pixel */
+  padding: 8px; /* ajoute un peu d'espace entre le contenu de la cellule et la bordure */
+}
+</style>
+
+<h1>Votre panier</h1>
+
+<a href="<?php echo site_url('enchere');?>"><- Revenir à l'enchère</a>
+
+
+
+<table id="table-panier">
+	<th>N° Lot</th>
+	<th>Espèce</th>
+	<th>Taille</th>
+	<th>Poids</th>
+	<th>Présentation</th>
+	<th>Qualité</th>
+	<th>Bateau</th>
+	<th>Prix enrichi</th>
+	<th>Supprimer le lot ?</th>
+		<?php
+			foreach($result as $r) {
+				echo "<tr><td>".$r['idLot']."</td><td>".$r["idBateau"]."</td><td>".$r["datePeche"]."</td><td>".$r["idEspece"]."</td><td>".$r["idTaille"]."</td><td>".$r["idPresentation"]."</td><td>".$r["idBac"]."</td><td>".$r["idAcheteur"]."</td><td>".$r["idQualite"]."</td><td>".$r["idAdmin"]."</td><td>".$r["idDirecteur"]."</td><td>".$r["idFacture"]."</td><td>".$r["poidsBrutLot"]."</td><td>".$r["prixPlancher"]."</td><td>".$r["prixDepart"]."</td><td>".$r["prixEnchereMax"]."</td><td>".$r["dateEnchere"]."</td><td>".$r["heureDebutEnchere"]."</td><td>".$r["codeEtat"]."</td></tr>";
+				//(`idLot` `idBateau`, `datePeche`, `idEspece`, `idTaille`, `idPresentation`, `idBac`, `idAcheteur`, `idQualite`, `idAdmin`, `idDirecteur`, `idFacture`, `poidsBrutLot`, `prixPlancher`, `prixDepart`, `prixEnchereMax`, `dateEnchere`, `heureDebutEnchere`, `codeEtat`)
+
+			}
+		?>
+		</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

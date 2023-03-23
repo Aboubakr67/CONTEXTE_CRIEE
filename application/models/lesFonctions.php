@@ -17,6 +17,26 @@ public function affToutLesLots()
 	return $query_result; 
 }
 
+// affPanier à créer/modif !!!!!!!! 22/03/2023
+public function affPanier()
+{
+	$search = "call affPanier";
+	$result = $this->db->conn_id->prepare($search);
+	$result->execute();
+	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	return $query_result; 
+}
+
+// affDeuxLotsPrecedents à créer/modif !!!!!!!! 22/03/2023
+public function affDeuxLotsPrecedents()
+{
+	$search = "call affDeuxLotsPrecedents";
+	$result = $this->db->conn_id->prepare($search);
+	$result->execute();
+	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	return $query_result; 
+}
+
 public function recupNumAcheteur($login, $mdp)
  {
     // echo $login;

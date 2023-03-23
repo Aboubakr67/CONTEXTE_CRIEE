@@ -51,8 +51,14 @@ public function url($id){ // on va gerer l'url avec cette fonction
 	 }
 
 	 elseif ($id == "enchere"){
-		
-		$this->load->view('enchere');
+		$data['affDeuxLotsPrecedents']=$this->requetes->affDeuxLotsPrecedents();
+		$this->load->view('enchere', $data);
+		$this->load->view('piedPage');
+	 }
+
+	 elseif ($id == "panier"){
+		$data['result']=$this->requetes->affToutLesLots();
+		$this->load->view('panier', $data);
 		$this->load->view('piedPage');
 	 }
 
