@@ -17,11 +17,10 @@ public function affToutLesLots()
 	return $query_result; 
 }
 
-public function recupNumAcheteur($login, $mdp)
+public function recupNumAcheteur($login)
  {
-    // echo $login;
-	// echo $mdp;
-	 $search = "call recupNumAcheteur('$login', '$mdp')";
+
+	 $search = "call recupNumAcheteur('$login')";
 	 $result = $this->db->conn_id->prepare($search);
 	 $result->execute();
 
@@ -30,6 +29,33 @@ public function recupNumAcheteur($login, $mdp)
 	 return $query_result; 
 
  }
+
+ public function recupNumDirecteurVente($login)
+ {
+
+	 $search = "call recupNumDirecteurVente('$login')";
+	 $result = $this->db->conn_id->prepare($search);
+	 $result->execute();
+
+	 $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	 
+	 return $query_result; 
+
+ }
+
+ public function recupNumAdmin($login)
+ {
+
+	 $search = "call recupNumAdmin('$login')";
+	 $result = $this->db->conn_id->prepare($search);
+	 $result->execute();
+
+	 $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	 
+	 return $query_result; 
+
+ }
+
 
 
 public function insertAcheteur($mailAch, $loginAch, $pwdAch, $raisonSocialeEntrepriseAch, $numRueAcheteurAch, $nomRueAcheteurAch, $codePostalAch, $villeAch, $numHabilitationAch)
@@ -54,6 +80,59 @@ public function insertAcheteur($mailAch, $loginAch, $pwdAch, $raisonSocialeEntre
 	 return $query_result; 
 
 }
+
+public function insertLot($idLot, $idBateau, $datePeche, $idEspece, $idTaille, $idPresentation, $idBac, $idQualite, $idAdmin, $idDirecteur, $poidsBrutLot, $prixPlancher, $prixDepart, $prixEnchereMax, $dateEnchere, $codeEtat)
+ {
+
+	 $search = "call insertLot(:idLot, :idBateau, :datePeche, :idEspece, :idTaille, :idPresentation, :idBac, :idQualite, :idAdmin, :idDirecteur, :poidsBrutLot, :prixPlancher, :prixDepart, :prixEnchereMax, :dateEnchere, :codeEtat)";
+	 $result = $this->db->conn_id->prepare($search);
+
+
+	 $result->bindParam(':idLot', $idLot, PDO::PARAM_INT);
+	 $result->bindParam(':idBateau', $idBateau, PDO::PARAM_INT);
+	 $result->bindParam(':datePeche', $datePeche, PDO::PARAM_STR);
+	 $result->bindParam(':idEspece', $idEspece, PDO::PARAM_INT);
+	 $result->bindParam(':idTaille', $idTaille, PDO::PARAM_INT);
+	 $result->bindParam(':idPresentation', $idPresentation, PDO::PARAM_STR);
+	 $result->bindParam(':idBac', $idBac, PDO::PARAM_INT);
+	 $result->bindParam(':idQualite', $idQualite, PDO::PARAM_INT);
+	 $result->bindParam(':idAdmin', $idAdmin, PDO::PARAM_INT);
+	 $result->bindParam(':idDirecteur', $idDirecteur, PDO::PARAM_INT);
+	 $result->bindParam(':poidsBrutLot', $poidsBrutLot, PDO::PARAM_STR);
+	 $result->bindParam(':prixPlancher', $prixPlancher, PDO::PARAM_STR);
+	 $result->bindParam(':prixDepart', $prixDepart, PDO::PARAM_STR);
+	 $result->bindParam(':prixEnchereMax', $prixEnchereMax, PDO::PARAM_STR);
+	 $result->bindParam(':dateEnchere', $dateEnchere, PDO::PARAM_STR);
+	 $result->bindParam(':codeEtat', $codeEtat, PDO::PARAM_STR);
+
+
+	 $result->execute();
+
+	 $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	 
+	 return $query_result; 
+
+}
+
+public function insertDatePeche($idBateau, $datePeche)
+ {
+
+	 $search = "call insertDatePeche(:idBateau, :datePeche)";
+	 $result = $this->db->conn_id->prepare($search);
+
+	 $result->bindParam(':idBateau', $idBateau, PDO::PARAM_STR);
+	 $result->bindParam(':datePeche', $datePeche, PDO::PARAM_STR);
+
+
+	 $result->execute();
+
+	 $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	 
+	 return $query_result; 
+
+}
+
+
 
 
 public function afficheMailExistant($mailAch)

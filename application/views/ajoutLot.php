@@ -3,6 +3,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 
 <?php
+if (empty($_SESSION['login'])) {
+  if ($_SESSION['login'] != 'laurent')
+    header('Location: connexion');
+}
 
 $DateAndTime = date('Y-m-d', time());
 // echo "The current date and time are $DateAndTime.";
@@ -13,6 +17,11 @@ $maDateMin = strtotime($DateAndTime . "- 3 days");
 $minDate = date('Y-m-d', $maDateMin);
 ?>
 
+
+<html>
+
+<body>
+  
 
 <h3>Ajouter un lot à la vente</h3>
 
@@ -90,10 +99,15 @@ echo form_open('welcome/ajouterLot', array('method' => 'post'));
 <br><br><br>
 
 <label for="datePeche">Date enchère : </label>
-<input type="date" id="dateEnchere" name="dateEnchere" value="<?php echo $DateAndTime; ?>" min="<?php echo $DateAndTime; ?>" max="">
 
-<br><br><br>
 
+
+
+<input type="date" id="dateEnchere" name="dateEnchere" 
+  value="<?php echo date('Y-m-d'); ?>" 
+  max="<?php echo date('Y-m-d', strtotime('+1 week')); ?>">
+
+  <br><br><br>
 
 <label for='text'>Qualité : </label>
 <select name="qualite" id="qualite">
@@ -136,7 +150,15 @@ echo form_open('welcome/ajouterLot', array('method' => 'post'));
 <label for="datePeche">Date de pêche : </label>
 
 
-<input type="date" id="datePeche" name="datePeche" value="<?php echo $DateAndTime; ?>" min="<?php echo $minDate; ?>" max="<?php echo $maxDate; ?>">
+<!-- <input type="datetime-local" id="datePeche" name="datePeche" value="<?php echo date('Y-m-d\TH:i:s'); ?>" 
+  min="<?php echo date('Y-m-d\TH:i:s', strtotime('-1 week')); ?>" 
+  max="<?php echo date('Y-m-d\TH:i:s', strtotime('+1 week')); ?>">> -->
+<input type="datetime-local" id="datePeche" name="datePeche" value="<?php echo date('Y-m-d\TH:i:s'); ?>">
+
+
+
+
+
 
 <br><br><br>
 
@@ -160,7 +182,8 @@ echo form_open('welcome/ajouterLot', array('method' => 'post'));
   <?php } ?>
 
 </center>
-
+</body>
+</html>
 
 <?php
 echo form_close();
@@ -196,8 +219,8 @@ echo form_close();
           console.log('<?= base_url() ?>index.php/Welcome/especeDetails');
           $('#nomCE').text('');
           $('#nomSE').text('');
-          
-          
+
+
 
           if (len > 0) {
             // Read values

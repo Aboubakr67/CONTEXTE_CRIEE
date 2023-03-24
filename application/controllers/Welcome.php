@@ -56,7 +56,14 @@ public function url($id){ // on va gerer l'url avec cette fonction
 		$this->load->view('piedPage');
 	 }
 
+	 elseif ($id == "liste_lots_admin"){
+		$this->load->view('menuAdmin');
+		$this->load->view('liste_lots_admin');
+		$this->load->view('piedPage');
+	 }
+
 	 elseif ($id == "ajoutLot"){
+		$this->load->view('menuAdmin');
 		$lesDonnees['nomEspece']=$this->requetes->afficheToutEspece(); //pour envoyer plusieurs variables à une page on doit les mettres dans les [] et dans la prochaine page
 		$lesDonnees['taille']=$this->requetes->afficheTaille(); // elles seront sous la forme d'une variable par exemple 
 		$lesDonnees['qualite']=$this->requetes->afficheQualite();
@@ -70,7 +77,7 @@ public function url($id){ // on va gerer l'url avec cette fonction
 	 }
 	 
 	 elseif($id == "profilAdmin"){
-		
+		$this->load->view('menuAdmin');
 		$this->load->view('profilAdmin');
 		$this->load->view('piedPage');
 	 }
@@ -215,18 +222,22 @@ public function inscriptionAcheteur()
 		$bateau = strip_tags($this->input->post('bateau'));
 		$datePeche = strip_tags($this->input->post('datePeche'));
 		
-
+		//  Ici on récupère le derniere lot de la base de données
+		// Puis on ajout 1 au dernier lot
 		$data['recupDernierLot']=$this->requetes->RecupDernierLot();
 		$dernierLot = $data['recupDernierLot'];
 		foreach ($dernierLot as $r) {
 			$dernierLot = $r['valeurMax'];
 		}
+		$idNewLot = $dernierLot + 1;
 		
 		
-
-
-
-		echo "IdLot : (Dernier lot : $dernierLot) ";
+		// $datePeche = str_replace("T", " ", $datePeche);
+		// $dateEnchere = str_replace("T", " ", $dateEnchere);
+		
+		
+		
+		echo "IdLot : $idNewLot (Dernier lot : $dernierLot) ";
 		echo "<br>";
 		echo "id bateau : ". $bateau;
 		echo "<br>";
@@ -241,13 +252,28 @@ public function inscriptionAcheteur()
 		echo "<br>";
 		echo "id bac : ". $idBac;
 		echo "<br>";
-		echo 'id acheteur : '. $_SESSION['login'];
+		echo 'id acheteur : ';
 		echo "<br>";
 		echo "id qualite : ". $qualite;
+		
+		$idAdmin = "";
+		$recupereIdAdmin=$this->requetes->recupNumAdmin("laurent");
+		foreach ($recupereIdAdmin as $key) {
+			$idAdmin = $key['idAdmin'];
+		}
 		echo "<br>";
-		echo "id admin : (a recuperer dans la bdd)";
+		echo "id admin : $idAdmin (a recuperer dans la bdd)";
+		
+		
+		$idDirecteurVente = "";
+		$recupereIdDirecteurVente=$this->requetes->recupNumDirecteurVente("Marc");
+		foreach ($recupereIdDirecteurVente as $key) {
+			$idDirecteurVente = $key['idDirecteur'];
+		}
+		
 		echo "<br>";
-		echo "id directeur : (a recuperer dans la bdd)";
+		echo "id directeur : $idDirecteurVente (a recuperer dans la bdd)";
+		
 		echo "<br>";
 		echo "Nom poids brut : ". $poidsBrut;
 		echo "<br>";
@@ -259,9 +285,13 @@ public function inscriptionAcheteur()
 		echo "<br>";
 		echo "Nom date enchere : ". $dateEnchere;
 		echo "<br>";
+		$codeEtat = "A";
+
+		$insererDatePeche=$this->requetes->insertDatePeche($bateau, $datePeche);
+		$insererLot=$this->requetes->insertLot($idNewLot, $bateau, $datePeche, $nomEspece, $taille, $presentation, $idBac, $qualite, $idAdmin, $idDirecteurVente, $poidsBrut, $prixPlancher, $prixDepart, $prixEnchereMax, $dateEnchere, $codeEtat);
 		
-			//$this->session->set_flashdata('succes','Lot ajouter, merci ! Vous pouvez consulter l\'inventaire');
-			//redirect(base_url('connexion'));
+		$this->session->set_flashdata('succes','Lot ajouter, merci ! Vous pouvez consulter l\'inventaire');
+		redirect(base_url('profilAdmin'));
 	
         }	 
 	}

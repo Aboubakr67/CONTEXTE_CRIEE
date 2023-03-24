@@ -67,3 +67,5 @@ $route['profilAdmin'] = "welcome/url/profilAdmin";
 $route['profilDirecteurVente'] = "welcome/url/profilDirecteurVente";
 
 $route['enchere'] = "welcome/url/enchere";
+
+$route['liste_lots_admin'] = "welcome/url/liste_lots_admin";

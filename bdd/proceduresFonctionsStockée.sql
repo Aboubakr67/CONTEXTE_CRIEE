@@ -173,6 +173,12 @@ DELIMITER ;
 -- call affPresentation
 
 
+
+
+
+
+
+
 -- Procédure affBateau
 DROP procedure IF EXISTS affBateau;
 DELIMITER $$
@@ -189,13 +195,25 @@ DELIMITER ;
 -- Procédure insertLot permet d'inserer le lot dans la BDD
 DROP procedure IF EXISTS insertLot;
 DELIMITER $$
-CREATE procedure insertLot(mailAch VARCHAR(50),loginAch VARCHAR(30), pwdAch VARCHAR(30), raisonSocialeEntrepriseAch VARCHAR(50), numRueAcheteurAch VARCHAR(50), nomRueAcheteurAch VARCHAR(50), codePostalAch VARCHAR(7), villeAch VARCHAR(50), numHabilitationAch VARCHAR(50))
+CREATE procedure insertLot(idLot INT(10),idBateau INT(10), datePeche DATETIME, idEspece INT(10), idTaille INT(10), idPresentation INT(50), idBac INT(10), idQualite INT(10), idAdmin INT(10), idDirecteur INT(10), poidsBrutLot VARCHAR(50), prixPlancher VARCHAR(50), prixDepart VARCHAR(50), prixEnchereMax VARCHAR(50), dateEnchereP DATE, codeEtat VARCHAR(10))
 BEGIN
-    INSERT INTO `lot` (`idLot`, `idBateau`, `datePeche`, `idEspece`, `idTaille`, `idPresentation`, `idBac`, `idAcheteur`, `idQualite`, `idAdmin`, `idDirecteur`, `idFacture`, `poidsBrutLot`, `prixPlancher`, `prixDepart`, `prixEnchereMax`, `dateEnchere`, `heureDebutEnchere`, `codeEtat`) VALUES
-(1, 1, '2022-11-18 19:45:22', 1, 1, '1', 1, 1, 1, 1, 1, 1, '1400', '650', '800', '1100', '2022-11-18 19:52:17', '2022-11-18 21:52:17', 'A');
+    INSERT INTO `lot` (`idLot`, `idBateau`, `datePeche`, `idEspece`, `idTaille`, `idPresentation`, `idBac`, `idQualite`, `idAdmin`, `idDirecteur`, `poidsBrutLot`, `prixPlancher`, `prixDepart`, `prixEnchereMax`, `dateEnchere`, `codeEtat`) VALUES
+(idLot, idBateau, datePeche, idEspece, idTaille, idPresentation, idBac, idQualite, idAdmin, idDirecteur, poidsBrutLot, prixPlancher, prixDepart, prixEnchereMax, dateEnchereP, codeEtat);
 
 END $$
 DELIMITER ;
+
+
+-- Procédure insertPeche permet d'inserer la date de peche dans la BDD
+DROP procedure IF EXISTS insertDatePeche;
+DELIMITER $$
+CREATE procedure insertDatePeche(idBateau INT(10), datePeche DATETIME)
+BEGIN
+    INSERT INTO `peche` (`idBateau`, `datePeche`) VALUES (idBateau, datePeche);
+END $$
+DELIMITER ;
+
+
 
 
 -- call insertAcheteur('test@test.com','axel6GU', '1234', 'Poissonnier', '13', 'Rue du poisson', '54350', 'Le Kopa', 'Aucun')
