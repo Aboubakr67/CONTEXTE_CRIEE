@@ -50,7 +50,3 @@ $(document).ready(function () {
     });
  });
 
-
-
-
- 

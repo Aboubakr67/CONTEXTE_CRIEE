@@ -6,6 +6,8 @@ class utilitaire extends CI_Model
 	parent::__construct();
  }
 
+// ! Le code de base que j'ai pas toucher de (Wassim)
+//  public function connexionUsers(string $path1, string $path2, string $path3, string $path4, string $path5){
 
 public function connexionUsers(string $path1, string $path2, string $path3, string $path4, string $path5){
 

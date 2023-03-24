@@ -293,6 +293,11 @@ public function RecupDernierLot()
 
 
 
+public function modifier(){
+	
+}
+
+
 
 
 
