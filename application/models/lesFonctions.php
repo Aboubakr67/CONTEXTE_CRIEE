@@ -87,7 +87,6 @@ public function insertLot($idLot, $idBateau, $datePeche, $idEspece, $idTaille, $
 	 $search = "call insertLot(:idLot, :idBateau, :datePeche, :idEspece, :idTaille, :idPresentation, :idBac, :idQualite, :idAdmin, :idDirecteur, :poidsBrutLot, :prixPlancher, :prixDepart, :prixEnchereMax, :dateEnchere, :codeEtat)";
 	 $result = $this->db->conn_id->prepare($search);
 
-
 	 $result->bindParam(':idLot', $idLot, PDO::PARAM_INT);
 	 $result->bindParam(':idBateau', $idBateau, PDO::PARAM_INT);
 	 $result->bindParam(':datePeche', $datePeche, PDO::PARAM_STR);

@@ -58,7 +58,8 @@ public function url($id){ // on va gerer l'url avec cette fonction
 
 	 elseif ($id == "liste_lots_admin"){
 		$this->load->view('menuAdmin');
-		$this->load->view('liste_lots_admin');
+		$data['affToutLots']=$this->requetes->affToutLesLots();
+		$this->load->view('liste_lots_admin', $data);
 		$this->load->view('piedPage');
 	 }
 
