@@ -5,7 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <?php
 if (empty($_SESSION['login'])) {
   if ($_SESSION['login'] != 'laurent')
-    header('Location: connexion');
+    header('Location: connexion'); // 
 }
 
 $DateAndTime = date('Y-m-d', time());
