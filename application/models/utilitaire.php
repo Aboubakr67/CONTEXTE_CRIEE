@@ -61,7 +61,8 @@ class utilitaire extends CI_Model
 // ! Quand on se connecter avec le role Admin 
 // ? (mailAdmin : laurent@gmail.com)
 // ? (pwd : jeanaimare@gmail.com)
-
+// paul.marc@gmail.com
+// jeanaimare@gmail.com
 
 // ! Sa marche avec c'est information mais y a une faille c'est quand je change une lettre du mailAdmin (exemple : j'enlève le l ou je met un autre mail sa marche comme meme)
 // ! En faite sa vérifie que le mot de passe si il est juste
