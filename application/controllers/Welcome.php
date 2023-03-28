@@ -52,12 +52,14 @@ public function url($id){ // on va gerer l'url avec cette fonction
 
 	 elseif ($id == "enchere"){
 		$data['affDeuxLotsPrecedents']=$this->requetes->affDeuxLotsPrecedents();
+		$data['affLotEnVente']=$this->requetes->affLotEnVente();
+		$data['affLotsSuivants']=$this->requetes->affLotsSuivants();
 		$this->load->view('enchere', $data);
 		$this->load->view('piedPage');
 	 }
 
 	 elseif ($id == "panier"){
-		$data['result']=$this->requetes->affToutLesLots();
+		$data['affPanier']=$this->requetes->affPanier($_SESSION['login']);
 		$this->load->view('panier', $data);
 		$this->load->view('piedPage');
 	 }
@@ -87,6 +89,36 @@ public function url($id){ // on va gerer l'url avec cette fonction
 	 }
 }
 
+public function deleteLotPanier() {
+	$loginAch = $this->input->post('loginAch');
+	$idLot = $this->input->post('idLot');
+	
+	// Appel à la méthode de votre modèle pour exécuter la procédure stockée
+	$resultat = $this->requetes->deleteLotPanier($loginAch, $idLot);
+	
+	// Retourner le résultat sous forme de réponse JSON
+	echo json_encode($resultat);
+}
+
+public function affPanier() {
+	$loginAch = $this->input->post('loginAch');
+	
+	// Appel à la méthode de votre modèle pour exécuter la procédure stockée
+	$resultat = $this->requetes->affPanier($loginAch);
+	
+	// Retourner le résultat sous forme de réponse JSON
+	echo json_encode($resultat);
+}
+
+public function verifDeleteLot() {
+    $paramIdLot = $this->input->post('idLot');
+    
+    // Appel à la méthode de votre modèle pour exécuter la procédure stockée
+    $resultat = $this->requetes->affPanier($paramIdLot);
+    
+    // Retourner le résultat sous forme de réponse JSON
+    echo json_encode($resultat);
+}
 
 public function inscriptionAcheteur() 
 	{

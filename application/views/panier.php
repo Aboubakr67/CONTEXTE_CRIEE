@@ -2,8 +2,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 if(empty($_SESSION['login'])){
-    header('Location: connexion');
-  }
+  header('Location: connexion');
+}
+
+echo $_SESSION['login'];
 ?>
 
 <style>
@@ -21,153 +23,91 @@ if(empty($_SESSION['login'])){
 
 <a href="<?php echo site_url('enchere');?>"><- Revenir à l'enchère</a>
 
-
-
 <table id="table-panier">
-	<th>N° Lot</th>
-	<th>Espèce</th>
-	<th>Taille</th>
-	<th>Poids</th>
-	<th>Présentation</th>
-	<th>Qualité</th>
-	<th>Bateau</th>
-	<th>Prix enrichi</th>
-	<th>Supprimer le lot ?</th>
-		<?php
-			foreach($result as $r) {
-				echo "<tr><td>".$r['idLot']."</td><td>".$r["idBateau"]."</td><td>".$r["datePeche"]."</td><td>".$r["idEspece"]."</td><td>".$r["idTaille"]."</td><td>".$r["idPresentation"]."</td><td>".$r["idBac"]."</td><td>".$r["idAcheteur"]."</td><td>".$r["idQualite"]."</td><td>".$r["idAdmin"]."</td><td>".$r["idDirecteur"]."</td><td>".$r["idFacture"]."</td><td>".$r["poidsBrutLot"]."</td><td>".$r["prixPlancher"]."</td><td>".$r["prixDepart"]."</td><td>".$r["prixEnchereMax"]."</td><td>".$r["dateEnchere"]."</td><td>".$r["heureDebutEnchere"]."</td><td>".$r["codeEtat"]."</td></tr>";
-				//(`idLot` `idBateau`, `datePeche`, `idEspece`, `idTaille`, `idPresentation`, `idBac`, `idAcheteur`, `idQualite`, `idAdmin`, `idDirecteur`, `idFacture`, `poidsBrutLot`, `prixPlancher`, `prixDepart`, `prixEnchereMax`, `dateEnchere`, `heureDebutEnchere`, `codeEtat`)
+  <thead>
+    <tr>
+      <th>N° Lot</th>
+      <th>Espèce</th>
+      <th>Taille</th>
+      <th>Poids</th>
+      <th>Présentation</th>
+      <th>Qualité</th>
+      <th>Bateau</th>
+      <th>Prix enrichi</th>
+      <th>Supprimer le lot ?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php
+      foreach($affPanier as $r) {
+        echo "<tr><td>".$r['idLot']."</td><td>".$r["nomEspece"]."</td><td>".$r["specification"]."</td><td>".$r["poidsBrutLot"]."</td><td>".$r["libellePr"]."</td><td>".$r["nomQualite"]."</td><td>".$r["nomBateau"]."</td><td>".$r["prixEnchere"]."</td><td><a href='' class='delete-lot' style='color: red;' data-lot-id='".$r['idLot']."'>Supprimer</a></td></tr>";
+      }
+    ?>
+  </tbody>
+</table>
 
-			}
-		?>
-		</table>
+<p id="test">test</p>
 
+<!-- Ajouter la librairie jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- Bibliothèque Jquery -->
-<script src="<?php echo base_url() . 'script/jquery-3.5.1.js'; ?>"></script>
-
-<!-- Script javascript -->
-<script src="<?php echo base_url() . 'script/addLot.js'; ?>"></script>
-
-
-<!-- Permet d'afficher les details de l'espece en fonction du select -->
-<script type="text/javascript">
-  $(document).ready(function() {
-
-    // Pour afficher les details des informations de l'espece choisit
-    $('#nomEspece').change(function() {
-      var idEspece = $(this).val();
-      console.log("ID de l'epece " + idEspece);
+<!-- Script pour la suppression d'un lot -->
+<script>
+$(document).ready(function() {
+  $('.delete-lot').click(function(e) {
+    e.preventDefault();
+    var deleteLink = $(this);
+    var login = '<?php echo $_SESSION["login"]?>';
+    console.log(login);
+    // Afficher la boîte de dialogue
+    if (confirm("Êtes-vous sûr de vouloir supprimer ce lot ?")) {
+      // Envoyer la requête AJAX pour supprimer le lot
       $.ajax({
-        url: '<?= base_url() ?>index.php/Welcome/especeDetails',
+        url: '<?php echo site_url('/Welcome/deleteLotPanier');?>',
         type: 'post',
         data: {
-          idEspece: idEspece
+          loginAch: login,
+          idLot: deleteLink.data('lot-id')
         },
-        dataType: 'json',
         success: function(response) {
-          console.log("response" + response);
-          var len = response.length;
-          console.log(len);
-          console.log("marche");
-          console.log('<?= base_url() ?>index.php/Welcome/especeDetails');
-          $('#nomCE').text('');
-          $('#nomSE').text('');
+          // Vérifier si le lot a été supprimé de la base de données
           
-          
+            // Supprimer la ligne du tableau
 
-          if (len > 0) {
-            // Read values
-            var uname = response[0].nomCommunEspece;
-            var name = response[0].nomScientifiqueEspece;
+            location.reload();
 
 
-
-            console.log(uname);
-
-            $('#nomCE').text(uname);
-            $('#nomSE').text(name);
-
-          }
-
-          if (idEspece == "default") {
-            $('#nomCE').text("[selon l'index choisi du combobox]");
-            $('#nomSE').text("[selon l'index choisi du combobox]");
-          }
-
+            // $.ajax({
+            //   url: '<?php echo site_url('/Welcome/verifDeleteLot');?>',
+            //   type: 'post',
+            //   data: {idLot: deleteLink.data('lot-id')},
+            //   success: function(response2) {
+            //     $("#test").html(JSON.parse(response2));
+            //     if (response2 == 1) {
+            //       $.ajax({
+            //       url: '<?php echo site_url('/Welcome/affPanier');?>',
+            //       type: 'post',
+            //       data: {loginAch: login},
+            //       success: function(response3) {
+            //         alert("OUI");
+            //       },
+            //       error: function() {
+            //         alert("1 - Une erreur s'est produite lors de la suppression du lot.");
+            //       }
+            //     });
+            //     }
+                
+            //   },
+            //   error: function() {
+            //     alert("2 - Une erreur s'est produite lors de la suppression du lot.");
+            //   }
+            // });
         },
-        error: function(response) {
-          console.log("ERREUR ahaha");
+        error: function() {
+          alert("3 - Une erreur s'est produite lors de la suppression du lot.");
         }
       });
-    });
-
-
-
-    // Pour afficher le tare 
-    $('#taille').change(function() {
-      var idTaille = $(this).val();
-      console.log("ID de taille " + idTaille);
-      $.ajax({
-        url: '<?= base_url() ?>index.php/Welcome/affTare',
-        type: 'post',
-        data: {
-          idTaille: idTaille
-        },
-        dataType: 'json',
-        success: function(response) {
-          var len = response.length;
-          // console.log(len);
-          console.log("<?= base_url() ?>index.php/Welcome/affTare");
-          console.log("marche");
-          $('#tare').text('');
-          $('#idBac').text('');
-
-
-          if (len > 0) {
-            // Read values
-            var taree = response[0].tare;
-            var idBac = response[0].idBac;
-            idBac = String(idBac);
-
-            console.log(idBac);
-            $('#tare').text(taree);
-            document.getElementById('idBac').value = idBac;
-
-          }
-
-          if (idTaille == "default") {
-            $('#tare').text("[selon la taille]");
-          }
-
-        },
-        error: function(response) {
-          console.log("ERREUR ahaha");
-
-
-        }
-      });
-    });
-
-
+    }
   });
+});
 </script>
