@@ -17,10 +17,69 @@ public function affToutLesLots()
 	return $query_result; 
 }
 
-public function recupNumAcheteur($login)
- {
 
-	 $search = "call recupNumAcheteur('$login')";
+public function affPanier($loginAch)
+{
+	$search = "call affPanier(:loginAch)";
+	$result = $this->db->conn_id->prepare($search);
+	$result->bindParam(':loginAch', $loginAch, PDO::PARAM_STR);
+	$result->execute();
+	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	return $query_result; 
+}
+
+public function deleteLotPanier($loginAch, $paramIdLot)
+{
+	$search = "call deleteLotPanier(:loginAch, :paramIdLot)";
+	$result = $this->db->conn_id->prepare($search);
+	$result->bindParam(':loginAch', $loginAch, PDO::PARAM_STR);
+	$result->bindParam(':paramIdLot', $paramIdLot, PDO::PARAM_INT);
+	$result->execute();
+	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	return $query_result; 
+}
+
+public function verifDeleteLot($paramIdLot)
+{
+	$search = "SELECT verifDeleteLot(:paramIdLot)";
+	$result = $this->db->conn_id->prepare($search);
+	$result->bindParam(':paramIdLot', $paramIdLot, PDO::PARAM_INT);
+	$result->execute();
+	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	return $query_result; 
+}
+
+public function affDeuxLotsPrecedents()
+{
+	$search = "call affDeuxLotsPrecedents";
+	$result = $this->db->conn_id->prepare($search);
+	$result->execute();
+	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	return $query_result; 
+}
+
+public function affLotEnVente()
+{
+	$search = "call affLotEnVente";
+	$result = $this->db->conn_id->prepare($search);
+	$result->execute();
+	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	return $query_result; 
+}
+
+public function affLotsSuivants()
+{
+	$search = "call affLotsSuivants";
+	$result = $this->db->conn_id->prepare($search);
+	$result->execute();
+	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	return $query_result; 
+}
+
+public function recupNumAcheteur($login, $mdp)
+ {
+    
+	 $search = "call recupNumAcheteur('$login', '$mdp')";
 	 $result = $this->db->conn_id->prepare($search);
 	 $result->execute();
 
@@ -290,6 +349,8 @@ public function RecupDernierLot()
 	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
 	return $query_result; 
 }
+
+
 
 
 

@@ -62,10 +62,4 @@ public function connexionUsers(string $path1, string $path2, string $path3, stri
 }
 
 
-// ! --------------------------------------------------------------------------------------------------------
-
-
-
-
-
 }

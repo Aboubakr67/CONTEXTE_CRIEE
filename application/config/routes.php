@@ -77,3 +77,4 @@ $route['modifieLot'] = "welcome/url/modifieLot";
 $route['gestionAcheteur'] = "welcome/url/gestionAcheteur";
 $route['erreur'] = "welcome/url/erreur";
 $route['deconnexion'] = "welcome/url/deconnexion";
+$route['panier'] = "welcome/url/panier";

@@ -46,7 +46,6 @@ echo form_open('welcome/ajouterLot', array('method' => 'post'));
   ?>
 </select>
 
-
 <!-- Espece details -->
 <div>
   Nom commun de l'espèce : <span id='nomCE'>[selon l'index choisi du combobox]</span><br />
@@ -64,7 +63,6 @@ echo form_open('welcome/ajouterLot', array('method' => 'post'));
   }
   ?>
 </select>
-
 
 
 

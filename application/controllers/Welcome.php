@@ -39,163 +39,197 @@ class Welcome extends CI_Controller
 			$this->load->view('menu');
 			$this->load->view('inscription');
 			$this->load->view('piedPage');
-		} elseif ($id == "connexion") {  // sinon si l'url est egale a connexion on charge connexion ... un peu logique 
+		} 
+			elseif ($id == "connexion") {  // sinon si l'url est egale a connexion on charge connexion ... un peu logique 
 			$this->load->view('menu');
 			$this->load->view('connexion');
 			$this->load->view('piedPage');
 		} 
-		elseif ($id == "helpAcheteur") {
+			elseif ($id == "helpAcheteur") {
 			$this->load->view('menu');
 			$this->load->view('helpAcheteur');
 			$this->load->view('piedPage');
 		}
 
-	 elseif ($id == "enchere"){
-		
-		$this->load->view('enchere');
-		$this->load->view('piedPage');
-	 }
+			elseif ($id == "enchere"){
+
+			$data['affDeuxLotsPrecedents']=$this->requetes->affDeuxLotsPrecedents();
+			$data['affLotEnVente']=$this->requetes->affLotEnVente();
+			$data['affLotsSuivants']=$this->requetes->affLotsSuivants();
+	
+			$this->load->view('menu');
+			$this->load->view('enchere', $data);
+			$this->load->view('piedPage');
+		 }
+	
+		 elseif ($id == "panier"){
+	
+			$data['affPanier']=$this->requetes->affPanier($_SESSION['login']);
+	
+			$this->load->view('menu');
+			$this->load->view('panier', $data);
+			$this->load->view('piedPage');
+		 }
 
 	 elseif ($id == "liste_lots_admin"){
 		$this->load->view('menuAdmin');
 		$data['affToutLots']=$this->requetes->affToutLesLots();
 		$this->load->view('liste_lots_admin', $data);
-		$this->load->view('piedPage');
-	 }
-
-	 elseif ($id == "ajoutLot"){
-		$this->load->view('menuAdmin');
-		$lesDonnees['nomEspece']=$this->requetes->afficheToutEspece(); //pour envoyer plusieurs variables à une page on doit les mettres dans les [] et dans la prochaine page
-		$lesDonnees['taille']=$this->requetes->afficheTaille(); // elles seront sous la forme d'une variable par exemple 
-		$lesDonnees['qualite']=$this->requetes->afficheQualite();
-		$lesDonnees['presentation']=$this->requetes->affichePresentation();
-		$lesDonnees['bateau']=$this->requetes->afficheBateau();
-		
-
-		
-		$this->load->view('ajoutLot', $lesDonnees); // $lesDonnes aura deux variables //$nomEspece et $taille
-		$this->load->view('piedPage'); // il faut biensur faire un foreach pour les parcouris héhé :) !!!!!!!! de rien les amis !!!
-	 }
-	 
-	 elseif($id == "profilAdmin"){
-		$this->load->view('menuAdmin');
-		$this->load->view('profilAdmin');
-		$this->load->view('piedPage');
-	 }
-	 elseif($id == "gestionAcheteur"){
-		$this->load->view('menuAdmin');
-		$lesDonnees['ToutLesAcheteurs']=$this->requetes->afficheToutLesAcheteurs();
-		$this->load->view('gestionAcheteur', $lesDonnees);
-		$this->load->view('piedPage');
-	 }
-	 elseif($id == "modifieLot"){
-		$this->load->view('menuAdmin');
-
-		$lesDonnees['ToutEspece']=$this->requetes->afficheToutEspece(); //pour envoyer plusieurs variables à une page on doit les mettres dans les [] et dans la prochaine page
-		$lesDonnees['taille']=$this->requetes->afficheTaille(); // elles seront sous la forme d'une variable par exemple 
-		$lesDonnees['qualite']=$this->requetes->afficheQualite();
-		$lesDonnees['presentation']=$this->requetes->affichePresentation();
-		$lesDonnees['bateau']=$this->requetes->afficheBateau();
-		$lesDonnees['ToutLesAcheteurs']=$this->requetes->afficheToutLesAcheteurs();
-		$lesDonnees['affToutLesBac']=$this->requetes->affToutLesBac();
-
-
-
-		$this->load->view('modifieLot', $lesDonnees);
-		$this->load->view('piedPage');
-	 }
-	 elseif($id == "profilDirecteurVente"){
-		
-		$this->load->view('profilDirecteurVente');
-		$this->load->view('piedPage');
-	 }
-	 elseif($id == "erreur") {
-		$this->load->view('erreur');
-		
-	 }
-	 elseif($id == "deconnexion"){
-		$this->session->sess_destroy();
-    	$this->session->set_flashdata('logout_message', 'Vous êtes maintenant déconnecté.');
-    	redirect('');
-	 }
-			
-	 elseif ($id == "ajoutLot") {
-			$lesDonnees['nomEspece'] = $this->requetes->afficheToutEspece(); //pour envoyer plusieurs variables à une page on doit les mettres dans les [] et dans la prochaine page
-			$lesDonnees['taille'] = $this->requetes->afficheTaille(); // elles seront sous la forme d'une variable par exemple 
-			$lesDonnees['qualite'] = $this->requetes->afficheQualite();
-			$lesDonnees['presentation'] = $this->requetes->affichePresentation();
-			$lesDonnees['bateau'] = $this->requetes->afficheBateau();
-			$this->load->view('ajoutLot', $lesDonnees); // $lesDonnes aura deux variables //$nomEspece et $taille
-			$this->load->view('piedPage'); // il faut biensur faire un foreach pour les parcouris héhé :) !!!!!!!! de rien les amis !!!
-		} elseif ($id == "profilAdmin") {
-			$this->load->view('profilAdmin');
-			$this->load->view('piedPage');
-		} elseif ($id == "profilDirecteurVente") {
-			$this->load->view('profilDirecteurVente');
-			$this->load->view('piedPage');
-		} elseif ($id == "listeLots") {
-			$data['affLot'] = $this->requetes->affToutLesLots();
-			$this->load->view('affLots', $data);
-			$this->load->view('piedPage');
-		} elseif ($id == "envoieLot") {
-			$data['affLot'] = $this->requetes->affToutLesLots();
-			$this->load->view('envoieLot', $data);
-			$this->load->view('piedPage');
-		}
 	}
 
 
-	public function inscriptionAcheteur()
-	{
-		$this->form_validation->set_rules('mailAcheteur', '"L\'adresse email"', 'trim|required|valid_email'); //on appel la librarie de form validation pour verifier si le name de mailAcheteur est bien saisie par le client
-		$this->form_validation->set_rules('loginAcheteur', '"Le login"', 'trim|required');
-		$this->form_validation->set_rules('mdpPremierAcheteur', '"Le Mot de passe"', 'trim|required');
-		$this->form_validation->set_rules('mdpConfirmeAcheteur', '"Le Mot de passe"', 'trim|required');
-		$this->form_validation->set_rules('raisonSocialEntreprise', '"La raison social de l\'entreprise "', 'trim|required');
-		$this->form_validation->set_rules('villeAcheteur', '"La ville de l\'acheteur "', 'trim|required');
-		$this->form_validation->set_rules('codePostalAcheteur', '"Le code postal de l\'acheteur "', 'trim|required');
-		$this->form_validation->set_rules('numHabilitation', '"Le numero d\'habilitation de l\'acheteur "', 'trim|required');
-		$this->form_validation->set_rules('numRueAcheteur', '"Le numero de la rue de l\'acheteur "', 'trim|required');
-		$this->form_validation->set_rules('nomRueAcheteur', '"Le nom de la rue de l\'acheteur "', 'trim|required');
+	elseif ($id == "ajoutLot"){
+		
+				$this->load->view('menuAdmin');
+				$lesDonnees['nomEspece']=$this->requetes->afficheToutEspece(); //pour envoyer plusieurs variables à une page on doit les mettres dans les [] et dans la prochaine page
+				$lesDonnees['taille']=$this->requetes->afficheTaille(); // elles seront sous la forme d'une variable par exemple 
+				$lesDonnees['qualite']=$this->requetes->afficheQualite();
+				$lesDonnees['presentation']=$this->requetes->affichePresentation();
+				$lesDonnees['bateau']=$this->requetes->afficheBateau();
+				
+		
+				
+				$this->load->view('ajoutLot', $lesDonnees); // $lesDonnes aura deux variables //$nomEspece et $taille
+				$this->load->view('piedPage'); // il faut biensur faire un foreach pour les parcouris héhé :) !!!!!!!! de rien les amis !!!
+			 }
+			 
+			 elseif($id == "profilAdmin"){
+				$this->load->view('menuAdmin');
+				$this->load->view('profilAdmin');
+				$this->load->view('piedPage');
+			 }
+			 elseif($id == "gestionAcheteur"){
+				$this->load->view('menuAdmin');
+				$lesDonnees['ToutLesAcheteurs']=$this->requetes->afficheToutLesAcheteurs();
+				$this->load->view('gestionAcheteur', $lesDonnees);
+				$this->load->view('piedPage');
+			 }
+			 elseif($id == "modifieLot"){
+				$this->load->view('menuAdmin');
+		
+				$lesDonnees['ToutEspece']=$this->requetes->afficheToutEspece(); //pour envoyer plusieurs variables à une page on doit les mettres dans les [] et dans la prochaine page
+				$lesDonnees['taille']=$this->requetes->afficheTaille(); // elles seront sous la forme d'une variable par exemple 
+				$lesDonnees['qualite']=$this->requetes->afficheQualite();
+				$lesDonnees['presentation']=$this->requetes->affichePresentation();
+				$lesDonnees['bateau']=$this->requetes->afficheBateau();
+				$lesDonnees['ToutLesAcheteurs']=$this->requetes->afficheToutLesAcheteurs();
+				$lesDonnees['affToutLesBac']=$this->requetes->affToutLesBac();
+		
+				$this->load->view('profilAdmin');
+				$this->load->view('piedPage');
+			 }
+			 elseif($id == "profilDirecteurVente"){
+				
+				$this->load->view('profilDirecteurVente');
+				$this->load->view('piedPage');
+			 }
+			 elseif ($id == "listeLots") {
+				$data['affLot'] = $this->requetes->affToutLesLots();
+				$this->load->view('affLots', $data);
+				$this->load->view('piedPage');
+			} elseif ($id == "envoieLot") {
+				$data['affLot'] = $this->requetes->affToutLesLots();
+				$this->load->view('envoieLot', $data);
+				$this->load->view('piedPage');
+			}
 
+
+			 elseif($id == "erreur") {
+				$this->load->view('erreur');
+				
+			 }
+			 elseif($id == "deconnexion"){
+				$this->session->sess_destroy();
+				$this->session->set_flashdata('logout_message', 'Vous êtes maintenant déconnecté.');
+				redirect('');
+			 }
+		}
+		
+		
+		public function deleteLotPanier() {
+			$loginAch = $this->input->post('loginAch');
+			$idLot = $this->input->post('idLot');
+			
+			// Appel à la méthode de votre modèle pour exécuter la procédure stockée
+			$resultat = $this->requetes->deleteLotPanier($loginAch, $idLot);
+			
+			// Retourner le résultat sous forme de réponse JSON
+			echo json_encode($resultat);
+		}
+
+
+public function affPanier() {
+	$loginAch = $this->input->post('loginAch');
+	
+	// Appel à la méthode de votre modèle pour exécuter la procédure stockée
+	$resultat = $this->requetes->affPanier($loginAch);
+	
+	// Retourner le résultat sous forme de réponse JSON
+	echo json_encode($resultat);
+}
+
+public function verifDeleteLot() {
+    $paramIdLot = $this->input->post('idLot');
+    
+    // Appel à la méthode de votre modèle pour exécuter la procédure stockée
+    $resultat = $this->requetes->affPanier($paramIdLot);
+    
+    // Retourner le résultat sous forme de réponse JSON
+    echo json_encode($resultat);
+}
+
+public function inscriptionAcheteur() 
+	{
+	    $this->form_validation->set_rules('mailAcheteur', '"L\'adresse email"', 'trim|required|valid_email'); //on appel la librarie de form validation pour verifier si le name de mailAcheteur est bien saisie par le client
+	    $this->form_validation->set_rules('loginAcheteur', '"Le login"', 'trim|required');
+	    $this->form_validation->set_rules('mdpPremierAcheteur', '"Le Mot de passe"', 'trim|required');
+	    $this->form_validation->set_rules('mdpConfirmeAcheteur', '"Le Mot de passe"', 'trim|required'); 
+	    $this->form_validation->set_rules('raisonSocialEntreprise', '"La raison social de l\'entreprise "', 'trim|required');
+	    $this->form_validation->set_rules('villeAcheteur', '"La ville de l\'acheteur "', 'trim|required');
+	    $this->form_validation->set_rules('codePostalAcheteur', '"Le code postal de l\'acheteur "', 'trim|required'); 
+	    $this->form_validation->set_rules('numHabilitation', '"Le numero d\'habilitation de l\'acheteur "', 'trim|required');
+	    $this->form_validation->set_rules('numRueAcheteur', '"Le numero de la rue de l\'acheteur "', 'trim|required');
+	    $this->form_validation->set_rules('nomRueAcheteur', '"Le nom de la rue de l\'acheteur "', 'trim|required');
 
 
 		if ($this->form_validation->run() == FALSE) // on demarre la verification de tout ce qu'on a fait en haut si c'est faux elle va pas faire les insertions car il y a rien dans les champs 
-		{
-			$this->session->set_flashdata('error', 'Données non enregistré rien a été saisie...'); //set_flashdata appartient a codeigniter et sert à afficher des messges lors d'une action 
+		{ 
+			$this->session->set_flashdata('error','Données non enregistré rien a été saisie...'); //set_flashdata appartient a codeigniter et sert à afficher des messges lors d'une action 
 			redirect(base_url('inscription')); // pour se diriger vers la page inscription tout en gardant l'url de base grace a base_url
 			// var_dump(password_hash("paul.marc@gmail.com", PASSWORD_DEFAULT));
         } 
-        else {
+        else
+		{
 			// var_dump(password_hash("paul.marc@gmail.com", PASSWORD_DEFAULT));
-			$mailAcheteur = strip_tags($this->input->post('mailAcheteur')); // ici on recupere avec la methode post et le stip_tags sert a supprimer les balises HTML et PHP d'une chaîne pour eviter l'injection sql ou l'ajout d'une page en html du genre <p> .. ou autre
+		$mailAcheteur = strip_tags($this->input->post('mailAcheteur')); // ici on recupere avec la methode post et le stip_tags sert a supprimer les balises HTML et PHP d'une chaîne pour eviter l'injection sql ou l'ajout d'une page en html du genre <p> .. ou autre
 
-			$mdpAChiffre = strip_tags($this->input->post('mdpPremierAcheteur'));
-			$mdpAcheteur = password_hash($mdpAChiffre, PASSWORD_DEFAULT); //pour crypter les mdps pour l'instant je crypte le mdp de cette variable car le jscript pas encore fait
-			$loginAcheteur = strip_tags($this->input->post('loginAcheteur'));
-			$raisonSocialEntrepriseAcheteur = strip_tags($this->input->post('raisonSocialEntreprise'));
-			$villeAcheteur = strip_tags($this->input->post('villeAcheteur'));
-			$numRueAcheteur = strip_tags($this->input->post('numRueAcheteur'));
-			$nomRueAcheteur = strip_tags($this->input->post('nomRueAcheteur'));
-			$codePostalAcheteur = strip_tags($this->input->post('codePostalAcheteur'));
-			$numHabilitation = strip_tags($this->input->post('numHabilitation'));
-			//$data['resultat']=$this->requetes->setUtilisateur($nomU,$prenomU,$mdpU,$mailU,$numStatut);
+		$mdpAChiffre = strip_tags($this->input->post('mdpPremierAcheteur'));
+		$mdpAcheteur = password_hash($mdpAChiffre, PASSWORD_DEFAULT); //pour crypter les mdps pour l'instant je crypte le mdp de cette variable car le jscript pas encore fait
+		$loginAcheteur = strip_tags($this->input->post('loginAcheteur'));
+		$raisonSocialEntrepriseAcheteur = strip_tags($this->input->post('raisonSocialEntreprise'));
+		$villeAcheteur = strip_tags($this->input->post('villeAcheteur'));
+		$numRueAcheteur = strip_tags($this->input->post('numRueAcheteur'));
+		$nomRueAcheteur = strip_tags($this->input->post('nomRueAcheteur'));
+		$codePostalAcheteur = strip_tags($this->input->post('codePostalAcheteur'));
+		$numHabilitation = strip_tags($this->input->post('numHabilitation'));
+		//$data['resultat']=$this->requetes->setUtilisateur($nomU,$prenomU,$mdpU,$mailU,$numStatut);
+		
+		$utilisateurExistant = $this->requetes->afficheMailExistant($mailAcheteur); // ici on va tout de suite verifier si le mail saisie existe ou pas car c'est avec ça que les acheteurs vont se connecter..!!
 
-			$utilisateurExistant = $this->requetes->afficheMailExistant($mailAcheteur); // ici on va tout de suite verifier si le mail saisie existe ou pas car c'est avec ça que les acheteurs vont se connecter..!!
-
-			if ($utilisateurExistant != false) // puis la variable va retourner quelque chose si c'est différent de faux (raisonnement un peu inverse) elle va pas executer l'insertion car le mail existe déjà
-			{
-				$this->session->set_flashdata('error', 'Le mail est déjà existant');
-				redirect(base_url('inscription'));
-			} else {
-				$insertionAcheteur = $this->requetes->insertAcheteur($mailAcheteur, $loginAcheteur, $mdpAcheteur, $raisonSocialEntrepriseAcheteur, $numRueAcheteur, $nomRueAcheteur, $codePostalAcheteur, $villeAcheteur, $numHabilitation);
-				//ici on va tout inserer dans la base de donnée (on le fait en une seule fois) 
-				$this->session->set_flashdata('reussi', 'Données enregistrées, merci ! Vous pouvez désormais vous connecter');
-				redirect(base_url('inscription'));
-			}
+		if($utilisateurExistant!=false) // puis la variable va retourner quelque chose si c'est différent de faux (raisonnement un peu inverse) elle va pas executer l'insertion car le mail existe déjà
+		{
+			$this->session->set_flashdata('error','Le mail est déjà existant');
+			redirect(base_url('inscription'));
+		}
+		else
+		{
+			$insertionAcheteur=$this->requetes->insertAcheteur($mailAcheteur,$loginAcheteur,$mdpAcheteur,$raisonSocialEntrepriseAcheteur,$numRueAcheteur, $nomRueAcheteur, $codePostalAcheteur, $villeAcheteur, $numHabilitation);
+		    //ici on va tout inserer dans la base de donnée (on le fait en une seule fois) 
+			$this->session->set_flashdata('reussi','Données enregistrées, merci ! Vous pouvez désormais vous connecter'); 
+			redirect(base_url('inscription'));
 		}
         }	 
-	
+	}
 
 	public function especeDetails(){
 		// POST data
@@ -219,6 +253,8 @@ class Welcome extends CI_Controller
 		echo json_encode($data);
 		
 	}
+
+
 
 	public function ajouterLot()
 	{
@@ -348,28 +384,6 @@ class Welcome extends CI_Controller
         }	 
 	}
 
-
-	public function connexion()
-	{
-
-		$role = strip_tags($this->input->post('role'));
-
-		if ($role == 'Acheteur') {
-			$this->utilitaire->connexionUsers('afficheInformationConnexionAcheteur', 'Acheteur', 'login', 'mailAcheteur', 'helpAcheteur');
-		} elseif ($role == 'Admin') {
-			$this->utilitaire->connexionUsers('afficheInformationConnexionAdmin', 'Admin', 'login', 'mailAdmin', 'profilAdmin');
-		} elseif ($role == 'Directeur') {
-			$this->utilitaire->connexionUsers('afficheInformationConnexionDirecteurVente', 'Directeur', 'login', 'mailDirecteur', 'profilDirecteurVente');
-		}
-	}
-
-	public function traitementEnvoieLots(){
-		$valide = $this->input->post('valide[]');
-
-		print_r($valide);
-
-	}
-
 	public function modifiesLotAdmin(){
 	
 		
@@ -386,39 +400,39 @@ class Welcome extends CI_Controller
 		$this->form_validation->set_rules('acheteur', '"Acheteur"', 'trim|required');
 		$this->form_validation->set_rules('idLot', '"idLot"', 'trim|required');
 		$this->form_validation->set_rules('codeEtat', '"codeEtat"', 'trim|required');
-
-
+	
+	
 		if ($this->form_validation->run() == FALSE) {
 			$this->session->set_flashdata('error', 'Lot non modifier');
 			redirect(base_url('liste_lots_admin'));
-
-
-        }
-        else
+	
+	
+		}
+		else
 		{
-
+	
 		
 		$idLot = strip_tags($this->input->post('idLot'));
 		$nomEspece = strip_tags($this->input->post('nomEspece'));
 		$taille = strip_tags($this->input->post('taille'));
-
-
+	
+	
 		$idBac = strip_tags($this->input->post('bac'));
 		$poidsBrut = strip_tags($this->input->post('poidsBrut'));
-
-
+	
+	
 		$prixPlancher = strip_tags($this->input->post('prixPlancher'));
 		$prixDepart = strip_tags($this->input->post('prixDepart'));
-
-
+	
+	
 		
 		$prixEnchereMax = strip_tags($this->input->post('prixEnchereMax'));
 		$dateEnchere = strip_tags($this->input->post('dateEnchere'));
 		$qualite = strip_tags($this->input->post('qualite'));
 		$presentation = strip_tags($this->input->post('presentation'));
-
-
-
+	
+	
+	
 		$acheteur = strip_tags($this->input->post('acheteur'));
 		$codeEtat = strip_tags($this->input->post('codeEtat'));
 		
@@ -455,33 +469,42 @@ class Welcome extends CI_Controller
 		echo "codeEtat : ". $codeEtat;
 		echo "<br>";
 		
-
+	
 		
 		$modifieLot=$this->requetes->modifieLotAdmin($idLot, $nomEspece, $taille, $presentation, $idBac, $acheteur,
 		$qualite, $poidsBrut, $prixPlancher, $prixDepart, $prixEnchereMax, $dateEnchere, $codeEtat);
 		
-
+	
 	
 		$this->session->set_flashdata('succes','Lot modifier, merci !');
 		redirect(base_url('liste_lots_admin'));
 	
-        }	 
-	
-		
+		}
 	}
 
-
-
-
-
-
-
-
-
-
+	public function connexion()
+	{
+	
+	$role = strip_tags($this->input->post('role'));
+	
+	if($role == 'Acheteur'){
+		$this->utilitaire->connexionUsers('afficheInformationConnexionAcheteur', 'Acheteur', 'login', 'mailAcheteur' , 'helpAcheteur');
+	}
+	elseif($role == 'Admin'){
+		$this->utilitaire->connexionUsers('afficheInformationConnexionAdmin', 'Admin', 'login', 'mailAdmin', 'profilAdmin');
+	}
+	elseif($role == 'Directeur')
+	{
+		$this->utilitaire->connexionUsers('afficheInformationConnexionDirecteurVente', 'Directeur', 'login', 'mailDirecteur','profilDirecteurVente');
+	}
+	
+	}
+	
 
 } //pas supprimer sinon probleme
 
 ?>
+
+
 
 
