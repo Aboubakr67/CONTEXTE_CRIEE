@@ -10,7 +10,7 @@ class lesFonctions extends CI_Model
 // Affiche tout les lots
 public function affToutLesLots()
 {
-	$search = "call affLot";
+	$search = "select * from vue_lot_info";
 	$result = $this->db->conn_id->prepare($search);
 	$result->execute();
 	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
@@ -298,8 +298,49 @@ public function modifier(){
 }
 
 
+public function afficheToutLesAcheteurs()
+{
+	$search = "call affToutLesAcheteurs";
+	$result = $this->db->conn_id->prepare($search);
+	$result->execute();
+	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	return $query_result; 
+}
 
+public function affToutLesBac()
+{
+	$search = "call affToutLesBac";
+	$result = $this->db->conn_id->prepare($search);
+	$result->execute();
+	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	return $query_result; 
+}
 
+public function modifieLotAdmin($p_idLot, $p_idEspece, $p_idTaille, $p_idPresentation, $p_idBac, $p_idAcheteur, $p_idQualite, $p_poidsBrutLot, $p_prixPlancher, $p_prixDepart, $p_prixEnchereMax, $p_dateEnchere, $p_codeEtat) 
+{
+    $search = "CALL modifieLot(:p_idLot, :p_idEspece, :p_idTaille, :p_idPresentation, :p_idBac, :p_idAcheteur, :p_idQualite, :p_poidsBrutLot, :p_prixPlancher, :p_prixDepart, :p_prixEnchereMax, :p_dateEnchere, :p_codeEtat)";
+    $result = $this->db->conn_id->prepare($search);
+
+    $result->bindParam(':p_idLot', $p_idLot, PDO::PARAM_INT);
+    $result->bindParam(':p_idEspece', $p_idEspece, PDO::PARAM_INT);
+    $result->bindParam(':p_idTaille', $p_idTaille, PDO::PARAM_INT);
+    $result->bindParam(':p_idPresentation', $p_idPresentation, PDO::PARAM_STR);
+    $result->bindParam(':p_idBac', $p_idBac, PDO::PARAM_INT);
+    $result->bindParam(':p_idAcheteur', $p_idAcheteur, PDO::PARAM_INT);
+    $result->bindParam(':p_idQualite', $p_idQualite, PDO::PARAM_INT);
+    $result->bindParam(':p_poidsBrutLot', $p_poidsBrutLot, PDO::PARAM_STR);
+    $result->bindParam(':p_prixPlancher', $p_prixPlancher, PDO::PARAM_STR);
+    $result->bindParam(':p_prixDepart', $p_prixDepart, PDO::PARAM_STR);
+    $result->bindParam(':p_prixEnchereMax', $p_prixEnchereMax, PDO::PARAM_STR);
+    $result->bindParam(':p_dateEnchere', $p_dateEnchere, PDO::PARAM_STR);
+    $result->bindParam(':p_codeEtat', $p_codeEtat, PDO::PARAM_STR);
+
+    $result->execute();
+
+    $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+    
+    return $query_result;
+}
 
 
 }

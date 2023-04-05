@@ -82,12 +82,42 @@ class Welcome extends CI_Controller
 		$this->load->view('profilAdmin');
 		$this->load->view('piedPage');
 	 }
+	 elseif($id == "gestionAcheteur"){
+		$this->load->view('menuAdmin');
+		$lesDonnees['ToutLesAcheteurs']=$this->requetes->afficheToutLesAcheteurs();
+		$this->load->view('gestionAcheteur', $lesDonnees);
+		$this->load->view('piedPage');
+	 }
+	 elseif($id == "modifieLot"){
+		$this->load->view('menuAdmin');
+
+		$lesDonnees['ToutEspece']=$this->requetes->afficheToutEspece(); //pour envoyer plusieurs variables à une page on doit les mettres dans les [] et dans la prochaine page
+		$lesDonnees['taille']=$this->requetes->afficheTaille(); // elles seront sous la forme d'une variable par exemple 
+		$lesDonnees['qualite']=$this->requetes->afficheQualite();
+		$lesDonnees['presentation']=$this->requetes->affichePresentation();
+		$lesDonnees['bateau']=$this->requetes->afficheBateau();
+		$lesDonnees['ToutLesAcheteurs']=$this->requetes->afficheToutLesAcheteurs();
+		$lesDonnees['affToutLesBac']=$this->requetes->affToutLesBac();
+
+
+
+		$this->load->view('modifieLot', $lesDonnees);
+		$this->load->view('piedPage');
+	 }
 	 elseif($id == "profilDirecteurVente"){
 		
 		$this->load->view('profilDirecteurVente');
 		$this->load->view('piedPage');
 	 }
+	 elseif($id == "erreur") {
+		$this->load->view('erreur');
 		
+	 }
+	 elseif($id == "deconnexion"){
+		$this->session->sess_destroy();
+    	$this->session->set_flashdata('logout_message', 'Vous êtes maintenant déconnecté.');
+    	redirect('');
+	 }
 			
 	 elseif ($id == "ajoutLot") {
 			$lesDonnees['nomEspece'] = $this->requetes->afficheToutEspece(); //pour envoyer plusieurs variables à une page on doit les mettres dans les [] et dans la prochaine page
@@ -339,6 +369,115 @@ class Welcome extends CI_Controller
 		print_r($valide);
 
 	}
+
+	public function modifiesLotAdmin(){
+	
+		
+		$this->form_validation->set_rules('nomEspece', '"Nom espece"', 'trim|required');
+		$this->form_validation->set_rules('taille', '"Taille"', 'trim|required');
+		$this->form_validation->set_rules('bac', '"bac"', 'trim|required');
+		$this->form_validation->set_rules('poidsBrut', '"Poids brut"', 'trim|required');
+		$this->form_validation->set_rules('prixPlancher', '"Prix plancher"', 'trim|required');
+		$this->form_validation->set_rules('prixDepart', '"Prix depart"', 'trim|required');
+		$this->form_validation->set_rules('prixEnchereMax', '"Prix enchere max"', 'trim|required');
+		$this->form_validation->set_rules('dateEnchere', '"Date enchere"', 'trim|required');
+		$this->form_validation->set_rules('qualite', '"Qualite"', 'trim|required');
+		$this->form_validation->set_rules('presentation', '"Presentation"', 'trim|required');
+		$this->form_validation->set_rules('acheteur', '"Acheteur"', 'trim|required');
+		$this->form_validation->set_rules('idLot', '"idLot"', 'trim|required');
+		$this->form_validation->set_rules('codeEtat', '"codeEtat"', 'trim|required');
+
+
+		if ($this->form_validation->run() == FALSE) {
+			$this->session->set_flashdata('error', 'Lot non modifier');
+			redirect(base_url('liste_lots_admin'));
+
+
+        }
+        else
+		{
+
+		
+		$idLot = strip_tags($this->input->post('idLot'));
+		$nomEspece = strip_tags($this->input->post('nomEspece'));
+		$taille = strip_tags($this->input->post('taille'));
+
+
+		$idBac = strip_tags($this->input->post('bac'));
+		$poidsBrut = strip_tags($this->input->post('poidsBrut'));
+
+
+		$prixPlancher = strip_tags($this->input->post('prixPlancher'));
+		$prixDepart = strip_tags($this->input->post('prixDepart'));
+
+
+		
+		$prixEnchereMax = strip_tags($this->input->post('prixEnchereMax'));
+		$dateEnchere = strip_tags($this->input->post('dateEnchere'));
+		$qualite = strip_tags($this->input->post('qualite'));
+		$presentation = strip_tags($this->input->post('presentation'));
+
+
+
+		$acheteur = strip_tags($this->input->post('acheteur'));
+		$codeEtat = strip_tags($this->input->post('codeEtat'));
+		
+		
+		
+		
+		echo "IdLot :" . $idLot ;
+		echo "<br>";
+		echo "id espece : ". $nomEspece;
+		echo "<br>";
+		echo "idtaille : ". $taille;
+		echo "<br>";
+		echo "id presentation : ". $presentation;
+		echo "<br>";
+		echo "id bac : ". $idBac;
+		echo "<br>";
+		echo 'id acheteur : ' . $acheteur;
+		echo "<br>";
+		echo "id qualite : ". $qualite;
+		
+	
+		
+		echo "<br>";
+		echo "Nom poids brut : ". $poidsBrut;
+		echo "<br>";
+		echo "Nom prix plancher : ". $prixPlancher;
+		echo "<br>";
+		echo "Nom prix depart : ". $prixDepart;
+		echo "<br>";
+		echo "Nom prix enchere max : ". $prixEnchereMax;
+		echo "<br>";
+		echo "Nom date enchere : ". $dateEnchere;
+		echo "<br>";
+		echo "codeEtat : ". $codeEtat;
+		echo "<br>";
+		
+
+		
+		$modifieLot=$this->requetes->modifieLotAdmin($idLot, $nomEspece, $taille, $presentation, $idBac, $acheteur,
+		$qualite, $poidsBrut, $prixPlancher, $prixDepart, $prixEnchereMax, $dateEnchere, $codeEtat);
+		
+
+	
+		$this->session->set_flashdata('succes','Lot modifier, merci !');
+		redirect(base_url('liste_lots_admin'));
+	
+        }	 
+	
+		
+	}
+
+
+
+
+
+
+
+
+
 
 
 } //pas supprimer sinon probleme

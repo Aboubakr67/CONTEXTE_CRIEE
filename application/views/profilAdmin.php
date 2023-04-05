@@ -2,9 +2,13 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-if(empty($_SESSION['login'])){
-    header('Location: connexion');
-  }
+if (empty($_SESSION['login'])) {
+  header('Location: connexion.php');
+
+} elseif ($_SESSION['login'] != 'laurent') {
+  header('Location: erreur.php');
+
+}
 
   if ($this->session->flashdata('succes')) { ?>
     <p class="text-danger text-center" style="margin-top: 10px;color: green;">

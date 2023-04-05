@@ -238,3 +238,50 @@ BEGIN
     INSERT INTO `peche` (`idBateau`, `datePeche`) VALUES (idBat, dateP);
 END $$
 DELIMITER ;
+
+
+-- Procédure affToutLesAcheteurs
+DROP procedure IF EXISTS affToutLesAcheteurs;
+DELIMITER $$
+CREATE procedure affToutLesAcheteurs()
+BEGIN
+    SELECT idAcheteur, login, raisonSocialeEntreprise, numRueAcheteur, nomRueAcheteur, codePostal, ville, numHabilitation FROM acheteur;
+END $$
+DELIMITER ;
+
+
+
+-- Procédure modifieLot pour l'Admin
+DROP PROCEDURE IF EXISTS modifieLot;
+DELIMITER $$
+CREATE PROCEDURE modifieLot(IN p_idLot INT, IN p_idEspece INT, IN p_idTaille INT, IN p_idPresentation VARCHAR(50), IN p_idBac INT, IN p_idAcheteur INT, IN p_idQualite INT, IN p_poidsBrutLot VARCHAR(50), IN p_prixPlancher VARCHAR(50), IN p_prixDepart VARCHAR(50), IN p_prixEnchereMax VARCHAR(50), IN p_dateEnchere DATE, IN p_codeEtat VARCHAR(10))
+BEGIN
+    UPDATE `lot` SET
+        `idEspece` = p_idEspece,
+        `idTaille` = p_idTaille,
+        `idPresentation` = p_idPresentation,
+        `idBac` = p_idBac,
+        `idAcheteur` = p_idAcheteur,
+        `idQualite` = p_idQualite,
+        `poidsBrutLot` = p_poidsBrutLot,
+        `prixPlancher` = p_prixPlancher,
+        `prixDepart` = p_prixDepart,
+        `prixEnchereMax` = p_prixEnchereMax,
+        `dateEnchere` = p_dateEnchere,
+        `codeEtat` = p_codeEtat
+    WHERE `idLot` = p_idLot;
+END$$
+DELIMITER ;
+
+
+-- Procédure affToutLesBac
+DROP procedure IF EXISTS affToutLesBac;
+DELIMITER $$
+CREATE procedure affToutLesBac()
+BEGIN
+    SELECT * FROM `bac`;
+END $$
+DELIMITER ;
+
+
+

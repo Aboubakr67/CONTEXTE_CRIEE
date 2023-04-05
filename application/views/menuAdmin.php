@@ -8,11 +8,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" href="<?php echo base_url().'style/bootsrap.css';?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.2.2/cerulean/bootstrap.min.css" integrity="sha512-9u5YwIpV3mbAd1ocXZRz1Ezzq8DGicGD+PuUkUiTtTU3Yc95IMc66/Txe/iNxGTxckPu60RQw8zphvVqYiRfTg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   </head>
   <body>
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="#"><img src="<?php echo base_url().'image/baleine.png';?>" style="width:50px; height:50px;"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,9 +34,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <a class="nav-link" href="<?php echo site_url('liste_lots_admin');?>">Liste des lots</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Gestion des acheteurs</a>
+          <a class="nav-link" href="<?php echo site_url('gestionAcheteur');?>">Gestion des acheteurs</a>
         </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <?php if(isset($_SESSION['login'])) { ?>
+        <li class="nav-item">
+          <a class="nav-link" href="<?php echo site_url('deconnexion');?>"><span class="material-symbols-outlined">logout</span></a>
+        </li>
+        <?php } ?>
       </ul>
     </div>
   </div>
 </nav>
+  </body>
+
+<style>
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+}
+</style>
