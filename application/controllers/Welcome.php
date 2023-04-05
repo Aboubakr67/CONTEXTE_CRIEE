@@ -51,15 +51,21 @@ public function url($id){ // on va gerer l'url avec cette fonction
 	 }
 
 	 elseif ($id == "enchere"){
+
 		$data['affDeuxLotsPrecedents']=$this->requetes->affDeuxLotsPrecedents();
 		$data['affLotEnVente']=$this->requetes->affLotEnVente();
 		$data['affLotsSuivants']=$this->requetes->affLotsSuivants();
+
+		$this->load->view('menu');
 		$this->load->view('enchere', $data);
 		$this->load->view('piedPage');
 	 }
 
 	 elseif ($id == "panier"){
+
 		$data['affPanier']=$this->requetes->affPanier($_SESSION['login']);
+
+		$this->load->view('menu');
 		$this->load->view('panier', $data);
 		$this->load->view('piedPage');
 	 }

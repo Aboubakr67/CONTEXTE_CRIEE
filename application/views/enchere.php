@@ -14,74 +14,124 @@ if(empty($_SESSION['login'])){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enchere</title>
-    <style>
-        table {
-            border-collapse: collapse; /* fusionne les bordures des cellules adjacentes */
-        }
-
-        table td, th {
-            border: 1px solid black; /* ajoute une bordure noire d'une épaisseur de 1 pixel */
-            padding: 8px; /* ajoute un peu d'espace entre le contenu de la cellule et la bordure */
-        }
-    </style>
+    <link rel="stylesheet" href="<?php echo base_url() . 'style/enchere.css'; ?>">
 </head>
 <body>
-    <h1>Bienvenue à la page enchère</h1>
-    <a href="<?php echo site_url('panier');?>">
-        <img src="<?php echo base_url() . 'image/panier.png'; ?>" width="50px">
-    </a>
+<div class="enchere">
+    <div class="titre-enchere">
 
-    <h2>Lots précédents</h2>
+        <div id="titre">
+            <h3>Enchère N°X - Enchère du 30/03/2023</h3>
+        </div>
+
+        <div id="panier">
+            <a href="<?php echo site_url('panier');?>">
+                <img src="<?php echo base_url() . 'image/panier.png'; ?>" width="50px">
+            </a>
+        </div>
+
+    </div>
+    
+    <div class="tables-enchere" id="lots-precedents">
+    <h5>Lots précédents</h5>
+
+    <div id="table">
+        <table>
+            <th>N° Lot</th>
+            <th>Espèce</th>
+            <th>Taille</th>
+            <th>Poids</th>
+            <th>Prix enchéri</th>
+            <th>Nom de l'acheteur</th>
+            <tbody>
+                <?php
+                    foreach($affDeuxLotsPrecedents as $r) {
+                        echo "<tr><td>".$r['idLot']."</td><td>".$r["nomEspece"]."</td><td>".$r["specification"]."</td><td>".$r["poidsBrutLot"]."</td><td>".$r["prixEnchere"]."</td><td>".$r["login"]."</td></tr>";
+                    }
+                ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="tables-enchere" id="lot-en-vente">
+    <h5>Lot en vente</h5>
 
     <table>
-	<th>N° Lot</th>
-	<th>Espèce</th>
-	<th>Taille</th>
-	<th>Poids</th>
-	<th>Prix enchéri</th>
-	<th>Nom de l'acheteur</th>
-		<?php
-			foreach($affDeuxLotsPrecedents as $r) {
-				echo "<tr><td>".$r['idLot']."</td><td>".$r["nomEspece"]."</td><td>".$r["specification"]."</td><td>".$r["poidsBrutLot"]."</td><td>".$r["prixEnchere"]."</td><td>".$r["login"]."</td></tr>";
-			}
-		?>
-	</table>
-
-    <h2>Lot en vente</h2>
-
-    <table>
-    <th>N° Lot</th>
-	<th>Espèce</th>
-	<th>Taille</th>
-	<th>Poids</th>
-	<th>Présentation</th>
-	<th>Qualité</th>
-    <th>Bateau</th>
-    <?php
-		foreach($affLotEnVente as $r) {
-			echo "<tr><td>".$r['idLot']."</td><td>".$r["nomEspece"]."</td><td>".$r["specification"]."</td><td>".$r["poidsBrutLot"]."</td><td>".$r["libellePr"]."</td><td>".$r["nomQualite"]."</td><td>".$r["nomBateau"]."</td></tr>";
-		}
-	?>
+        <th>N° Lot</th>
+        <th>Espèce</th>
+        <th>Taille</th>
+        <th>Poids</th>
+        <th>Présentation</th>
+        <th>Qualité</th>
+        <th>Bateau</th>
+        <tbody>
+            <?php
+                foreach($affLotEnVente as $r) {
+                    echo "<tr><td>".$r['idLot']."</td><td>".$r["nomEspece"]."</td><td>".$r["specification"]."</td><td>".$r["poidsBrutLot"]."</td><td>".$r["libellePr"]."</td><td>".$r["nomQualite"]."</td><td>".$r["nomBateau"]."</td></tr>";
+                }
+            ?>
+        </tbody>
     </table>
 
-    <h2>Lots suivants</h2>
+    <div class="encherir">
+
+        <div id="infos-enchere">
+            
+            <label>Prix/kg : </label><label id="labelPrixKg">8,50€</label>
+            <br>
+            <label>Prix/kg (FRF) : </label><label id="labelPrixKgFrf">55,76 FRF</label>
+            <br>
+            <label>Prix retrait : </label><label id="labelPrixRetrait"></label>
+            <br>
+            <label>Acheteur en tête: </label><label id="labelAcheteurEnTete">LAMOUE</label>
+
+        </div>
+
+        <div id="proposer-prix">
+
+            Montant à enchérir :
+            <br>
+            <select name="monnaie" id="select-monnaie">
+                <option value="euro">Euro (€)</option>
+                <option value="frf">Franc français (FRF)</option>
+            </select>
+
+            <input type="number" id="montant" name="montant" min="1" max="100" step="1">
+            <br>
+            <input type="submit" value="Enchérir">
+            <br>
+            <br>
+            <label>Votre montant doit être supérieur à celui enchéri actuellement</label>
+
+        </div>
+    
+    </div>
+
+</div>
+
+<div class="tables-enchere" id="lots-suivants">
+    <h5>Lots suivants</h5>
 
     <table>
-    <th>N° Lot</th>
-	<th>Espèce</th>
-	<th>Taille</th>
-	<th>Présentation</th>
-	<th>Qualité</th>
-    <th>Poids net</th>
-    <th>Bateau</th>
-    <?php
-		foreach($affLotsSuivants as $r) {
-			echo "<tr><td>".$r['idLot']."</td><td>".$r["nomEspece"]."</td><td>".$r["specification"]."</td><td>".$r["libellePr"]."</td><td>".$r["nomQualite"]."</td><td>".$r["(L.poidsBrutLot - BAC.tare)"]."</td><td>".$r["nomBateau"]."</td></tr>";
-		}
-	?>
+        <th>N° Lot</th>
+        <th>Espèce</th>
+        <th>Taille</th>
+        <th>Présentation</th>
+        <th>Qualité</th>
+        <th>Poids net</th>
+        <th>Bateau</th>
+        <tbody>
+            <?php
+                foreach($affLotsSuivants as $r) {
+                    echo "<tr><td>".$r['idLot']."</td><td>".$r["nomEspece"]."</td><td>".$r["specification"]."</td><td>".$r["libellePr"]."</td><td>".$r["nomQualite"]."</td><td>".$r["(L.poidsBrutLot - BAC.tare)"]."</td><td>".$r["nomBateau"]."</td></tr>";
+                }
+            ?>
+        </tbody>
     </table>
+</div>
 
-
+            </div>
 
 
 </body>

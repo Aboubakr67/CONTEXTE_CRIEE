@@ -340,9 +340,9 @@ th {
   border-width: 0;
 }
 
-label {
+/* label {
   display: inline-block;
-}
+} */
 
 button {
   border-radius: 0;
