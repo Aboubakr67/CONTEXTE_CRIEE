@@ -68,6 +68,13 @@ $route['profilDirecteurVente'] = "welcome/url/profilDirecteurVente";
 
 $route['enchere'] = "welcome/url/enchere";
 
+$route['liste_lots_admin'] = "welcome/url/liste_lots_admin";
+
 $route['listeLots'] = "welcome/url/listeLots";
 
 $route['envoieLot'] = "welcome/url/envoieLot";
+$route['modifieLot'] = "welcome/url/modifieLot";
+$route['gestionAcheteur'] = "welcome/url/gestionAcheteur";
+$route['erreur'] = "welcome/url/erreur";
+$route['deconnexion'] = "welcome/url/deconnexion";
+$route['panier'] = "welcome/url/panier";

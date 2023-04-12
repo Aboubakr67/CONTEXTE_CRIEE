@@ -4,6 +4,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 <?php
 
+if (empty($_SESSION['login'])) {
+  header('Location: connexion.php');
+
+} elseif ($_SESSION['login'] != 'laurent') {
+  header('Location: erreur.php');
+
+}
+
 $DateAndTime = date('Y-m-d', time());
 // echo "The current date and time are $DateAndTime.";
 $maDateMax = strtotime($DateAndTime . "+ 2 days");
@@ -13,6 +21,11 @@ $maDateMin = strtotime($DateAndTime . "- 3 days");
 $minDate = date('Y-m-d', $maDateMin);
 ?>
 
+
+<html>
+
+<body>
+  
 
 <h3>Ajouter un lot à la vente</h3>
 
@@ -32,7 +45,6 @@ echo form_open('welcome/ajouterLot', array('method' => 'post'));
   }
   ?>
 </select>
-<br><br><br>
 
 <!-- Espece details -->
 <div>
@@ -40,9 +52,7 @@ echo form_open('welcome/ajouterLot', array('method' => 'post'));
   Nom scientifique de l'espèce : <span id='nomSE'>[selon l'index choisi du combobox]</span><br />
 </div>
 
-
-
-<br><br><br><br>
+<br>
 
 <label for='text'>Taille : </label>
 <select name="taille" id="taille">
@@ -53,7 +63,6 @@ echo form_open('welcome/ajouterLot', array('method' => 'post'));
   }
   ?>
 </select>
-<br><br><br>
 
 
 
@@ -64,36 +73,33 @@ echo form_open('welcome/ajouterLot', array('method' => 'post'));
 
 
 
-
-<br><br><br>
-
-
-
-
 <label for="poidsBrut">Poids brut (kg) : </label>
 <input type="number" id="poidsBrut" name="poidsBrut">
-<br><br><br>
+<br>
 
 
 <label for="prixPlancher">Prix plancer (€) : </label>
 <input type="number" id="prixPlancher" name="prixPlancher">
-<br><br><br>
+<br>
 
 
 <label for="prixDepart">Prix de départ (€) : </label>
 <input type="number" id="prixDepart" name="prixDepart">
-<br><br><br>
+<br>
 
 
 <label for="prixEnchereMax">Prix enchère maximum (€) : </label>
 <input type="number" id="prixEnchereMax" name="prixEnchereMax">
-<br><br><br>
+<br>
 
 <label for="datePeche">Date enchère : </label>
-<input type="date" id="dateEnchere" name="dateEnchere" value="<?php echo $DateAndTime; ?>" min="<?php echo $DateAndTime; ?>" max="">
 
-<br><br><br>
 
+<input type="date" id="dateEnchere" name="dateEnchere" 
+  value="<?php echo date('Y-m-d'); ?>" 
+  max="<?php echo date('Y-m-d', strtotime('+1 week')); ?>">
+
+  <br>
 
 <label for='text'>Qualité : </label>
 <select name="qualite" id="qualite">
@@ -105,7 +111,7 @@ echo form_open('welcome/ajouterLot', array('method' => 'post'));
   ?>
 </select>
 <label for="text">E: Extra | A: Glacé | B: Déclassé</label>
-<br><br><br>
+<br>
 
 
 
@@ -118,7 +124,7 @@ echo form_open('welcome/ajouterLot', array('method' => 'post'));
   }
   ?>
 </select>
-<br><br><br>
+<br>
 
 
 
@@ -131,14 +137,19 @@ echo form_open('welcome/ajouterLot', array('method' => 'post'));
   }
   ?>
 </select>
-<br><br><br>
+<br>
 
 <label for="datePeche">Date de pêche : </label>
 
 
-<input type="date" id="datePeche" name="datePeche" value="<?php echo $DateAndTime; ?>" min="<?php echo $minDate; ?>" max="<?php echo $maxDate; ?>">
+<!-- <input type="datetime-local" id="datePeche" name="datePeche" value="<?php echo date('Y-m-d\TH:i:s'); ?>" 
+  min="<?php echo date('Y-m-d\TH:i:s', strtotime('-1 week')); ?>" 
+  max="<?php echo date('Y-m-d\TH:i:s', strtotime('+1 week')); ?>">> -->
+<input type="datetime-local" id="datePeche" name="datePeche" value="<?php echo date('Y-m-d\TH:i:s'); ?>">
 
-<br><br><br>
+
+
+<br>
 
 <center>
   <?php
@@ -160,7 +171,8 @@ echo form_open('welcome/ajouterLot', array('method' => 'post'));
   <?php } ?>
 
 </center>
-
+</body>
+</html>
 
 <?php
 echo form_close();
@@ -196,8 +208,8 @@ echo form_close();
           console.log('<?= base_url() ?>index.php/Welcome/especeDetails');
           $('#nomCE').text('');
           $('#nomSE').text('');
-          
-          
+
+
 
           if (len > 0) {
             // Read values
@@ -275,3 +287,93 @@ echo form_close();
 
   });
 </script>
+
+<style>
+  /* Couleur de fond et de texte */
+body {
+  background-color: #f5f5f5;
+  color: #333;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}
+
+/* Conteneur du formulaire */
+form {
+  margin: 0 auto;
+  max-width: 600px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Titre du formulaire */
+h3 {
+  margin-top: 0;
+  font-size: 24px;
+  text-align: center;
+}
+
+/* Style pour les étiquettes de formulaire */
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+/* Style pour les listes déroulantes */
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Style pour les champs de texte */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="datetime-local"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Style pour le bouton de soumission */
+input[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+/* Style pour les messages d'erreur */
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* Style pour le conteneur des détails de l'espèce */
+#espece-details {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+#espece-details span {
+  font-weight: bold;
+}
+
+</style>

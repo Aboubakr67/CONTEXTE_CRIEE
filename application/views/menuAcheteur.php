@@ -22,15 +22,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="collapse navbar-collapse" id="navbarColor03">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link active" href="<?php echo site_url('');?>">Home
+          <a class="nav-link active" href="<?php echo site_url('enchere');?>">Enchere
             <span class="visually-hidden">(current)</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo site_url('connexion');?>">Connexion</a>
+          <a class="nav-link" href="<?php echo site_url('helpAcheteur');?>">Aide</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo site_url('inscription');?>">Inscription</a>
+          <a class="nav-link" href="<?php echo site_url('panier');?>">Panier</a>
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">

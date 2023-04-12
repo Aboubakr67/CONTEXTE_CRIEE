@@ -74,6 +74,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </a>
                 </li>
             </ul>
+            <ul class="navbar-nav ml-auto">
+            <?php
+      if(isset($_SESSION['login'])) {
+        // utilisateur connecté
+      ?>
+        <li class="nav-item">
+          <a class="nav-link" href="<?php echo site_url('deconnexion');?>"><span class="material-symbols-outlined">logout</span></a>
+        </li>
+      <?php } ?>
+            </ul>
         </div>
     </nav>
 

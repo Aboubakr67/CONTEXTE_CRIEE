@@ -21,6 +21,8 @@ if(empty($_SESSION['login'])){
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -42,8 +44,17 @@ if(empty($_SESSION['login'])){
             <a class="nav-link" href="<?php echo base_url() . 'listeLots'; ?>">Liste Lot(s)</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Envoie Lot(s)</a>
+            <a class="nav-link" href="<?php echo base_url() . 'envoieLot'; ?>">Envoie Lot(s)</a>
           </li>
+
+          <?php
+      if(isset($_SESSION['login'])) {
+        // utilisateur connecté
+      ?>
+        <li class="nav-item">
+          <a class="nav-link" href="<?php echo site_url('deconnexion');?>"><span class="material-symbols-outlined">logout</span></a>
+        </li>
+      <?php } ?>
         </ul>
       </div>
     </nav>

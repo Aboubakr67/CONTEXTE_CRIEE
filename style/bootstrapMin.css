@@ -340,9 +340,15 @@ th {
   border-width: 0;
 }
 
+<<<<<<< HEAD
 label {
   display: inline-block;
 }
+=======
+/* label {
+  display: inline-block;
+} */
+>>>>>>> 506ba83dfffc2ccb310df5461bcffa1d7554c2fc
 
 button {
   border-radius: 0;
