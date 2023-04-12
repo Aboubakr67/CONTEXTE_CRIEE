@@ -220,7 +220,7 @@ echo form_close();
 
         },
         error: function(response) {
-          console.log("ERREUR ahaha");
+          console.log("ERREUR");
         }
       });
     });

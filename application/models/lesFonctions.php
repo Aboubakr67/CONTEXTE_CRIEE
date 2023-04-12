@@ -10,7 +10,7 @@ class lesFonctions extends CI_Model
 // Affiche tout les lots
 public function affToutLesLots()
 {
-	$search = "call affLot";
+	$search = "call affLotCodeA";
 	$result = $this->db->conn_id->prepare($search);
 	$result->execute();
 	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
@@ -213,11 +213,27 @@ public function RecupDernierLot()
 	return $query_result; 
 }
 
-public function modifier(){
+public function modifieCodeEtatLot($codeEtatForm,$idLotForm,$idBateauForm,$datePecheForm){
+	$search = "call modifieCodeEtatLot(:codeEtatForm, :idLotForm, :idBateauForm, :datePecheForm)";
+	$result = $this->db->conn_id->prepare($search);
+	$result->bindParam(':codeEtatForm', $codeEtatForm, PDO::PARAM_STR);
+	$result->bindParam(':idLotForm', $idLotForm, PDO::PARAM_STR);
+	$result->bindParam(':idBateauForm', $idBateauForm, PDO::PARAM_STR);
+	$result->bindParam(':datePecheForm', $datePecheForm, PDO::PARAM_STR);
+	$result->execute();
+	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	return $query_result; 
 	
 }
 
-
+public function affLotCodeADirecteurVente($date){
+	$search = "call affLotCodeADirecteurVente(:date)";
+	 $result = $this->db->conn_id->prepare($search);
+	 $result->bindParam(':date', $date, PDO::PARAM_STR);
+	 $result->execute();
+	 $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	 return $query_result; 
+}
 
 
 

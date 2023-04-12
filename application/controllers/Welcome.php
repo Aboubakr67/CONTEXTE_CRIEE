@@ -26,8 +26,7 @@ class Welcome extends CI_Controller
 	{
 		session_destroy(); // nécessaire si la personne se déconnecte pas 
 		$this->load->view('menu');
-		$data['result'] = $this->requetes->affToutLesLots();
-		$this->load->view('ecranAccueil', $data);
+		$this->load->view('ecranAccueil');
 		$this->load->view('piedPage');
 	}
 
@@ -70,7 +69,8 @@ class Welcome extends CI_Controller
 			$this->load->view('affLots', $data);
 			$this->load->view('piedPage');
 		} elseif ($id == "envoieLot") {
-			$data['affLot'] = $this->requetes->affToutLesLots();
+			$DateAndTime = date('Y-m-d');
+			$data['affLot'] = $this->requetes->affLotCodeADirecteurVente($DateAndTime);
 			$this->load->view('envoieLot', $data);
 			$this->load->view('piedPage');
 		}
@@ -145,7 +145,6 @@ class Welcome extends CI_Controller
 
 		// get data
 		$data = $this->requetes->afficheTare($postData);
-
 
 		echo json_encode($data);
 	}
@@ -266,12 +265,16 @@ class Welcome extends CI_Controller
 		}
 	}
 
-	public function traitementEnvoieLots(){
-		$valide = $this->input->post('valide[]');
+	public function traitementEnvoieLots()
+	{
 
-		print_r($valide);
+		print_r($_POST);
+		$time = strip_tags($this->input->post('time'));
+		$idLotForm = strip_tags($this->input->post('idLot'));
+		$idBateauForm = strip_tags($this->input->post('idBateau'));
+		$datePecheForm = strip_tags($this->input->post('datePeche'));
+		$codeEtatForm = "B";
+		$modificationDuCodeEtat = $this->requetes->modifieCodeEtatLot($codeEtatForm,$idLotForm,$idBateauForm,$datePecheForm);
 
 	}
-
-
 } //pas supprimer sinon probleme
