@@ -34,19 +34,19 @@ class Welcome extends CI_Controller
 	public function url($id)
 	{ // on va gerer l'url avec cette fonction
 
-		if ($id == "inscription") // si l'id de la page est égale a inscription on va faire ce qui suis
+		if ($id == "inscription") 
 		{
 			$this->load->view('menu');
 			$this->load->view('inscription');
 			$this->load->view('piedPage');
 		} 
-			elseif ($id == "connexion") {  // sinon si l'url est egale a connexion on charge connexion ... un peu logique 
+			elseif ($id == "connexion") { 
 			$this->load->view('menu');
 			$this->load->view('connexion');
 			$this->load->view('piedPage');
 		} 
 			elseif ($id == "helpAcheteur") {
-			$this->load->view('menu');
+			$this->load->view('menuAcheteur');
 			$this->load->view('helpAcheteur');
 			$this->load->view('piedPage');
 		}
@@ -57,7 +57,7 @@ class Welcome extends CI_Controller
 			$data['affLotEnVente']=$this->requetes->affLotEnVente();
 			$data['affLotsSuivants']=$this->requetes->affLotsSuivants();
 	
-			$this->load->view('menu');
+			$this->load->view('menuAcheteur');
 			$this->load->view('enchere', $data);
 			$this->load->view('piedPage');
 		 }
@@ -66,7 +66,7 @@ class Welcome extends CI_Controller
 	
 			$data['affPanier']=$this->requetes->affPanier($_SESSION['login']);
 	
-			$this->load->view('menu');
+			$this->load->view('menuAcheteur');
 			$this->load->view('panier', $data);
 			$this->load->view('piedPage');
 		 }

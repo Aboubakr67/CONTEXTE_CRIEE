@@ -5,7 +5,7 @@ if(empty($_SESSION['login'])){
   header('Location: connexion');
 }
 
-echo $_SESSION['login'];
+// echo $_SESSION['login'];
 ?>
 
 <style>
@@ -46,7 +46,7 @@ echo $_SESSION['login'];
   </tbody>
 </table>
 
-<p id="test">test</p>
+<!-- <p id="test">test</p> -->
 
 <!-- Ajouter la librairie jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
