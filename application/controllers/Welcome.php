@@ -496,6 +496,7 @@ public function inscriptionAcheteur()
 	{
 		$this->utilitaire->connexionUsers('afficheInformationConnexionDirecteurVente', 'Directeur', 'login', 'mailDirecteur','profilDirecteurVente');
 	}
+}
 
 	public function traitementEnvoieLots()
 	{
@@ -509,6 +510,8 @@ public function inscriptionAcheteur()
 		$modificationDuCodeEtat = $this->requetes->modifieCodeEtatLot($codeEtatForm,$idLotForm,$idBateauForm,$datePecheForm);
 
 	}
+
+	
 } //pas supprimer sinon probleme
 
 ?>

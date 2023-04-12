@@ -376,10 +376,5 @@ public function affLotCodeADirecteurVente($date){
 	 return $query_result; 
 }
 
-    $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
-    
-    return $query_result;
-}
-
 
 }
