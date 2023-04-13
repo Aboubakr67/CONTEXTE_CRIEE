@@ -55,7 +55,7 @@ class Welcome extends CI_Controller
 			$data['affDeuxLotsPrecedents']=$this->requetes->affDeuxLotsPrecedents();
 			$data['affLotEnVente']=$this->requetes->affLotEnVente();
 			$data['affLotsSuivants']=$this->requetes->affLotsSuivants();
-	
+			
 			$this->load->view('menuAcheteur');
 			$this->load->view('enchere', $data);
 			$this->load->view('piedPage');
@@ -177,6 +177,8 @@ public function verifDeleteLot() {
     echo json_encode($resultat);
 }
 
+
+
 public function inscriptionAcheteur() 
 	{
 	    $this->form_validation->set_rules('mailAcheteur', '"L\'adresse email"', 'trim|required|valid_email'); //on appel la librarie de form validation pour verifier si le name de mailAcheteur est bien saisie par le client
@@ -251,6 +253,13 @@ public function inscriptionAcheteur()
         
 		echo json_encode($data);
 		
+	}
+
+	public function recupePrixDernierLot(){
+		$postData = $this->input->post();
+		$data = $this->requetes->recupeDernierPrixLot($postData);
+		echo json_encode($data);
+
 	}
 
 
@@ -513,9 +522,3 @@ public function inscriptionAcheteur()
 
 	
 } //pas supprimer sinon probleme
-
-?>
-
-
-
-
