@@ -214,6 +214,19 @@ END $$
 DELIMITER ;
 
 
+-- Procédure insertHistoriqueEnchere une enchere dans la table encherir et historique
+DROP procedure IF EXISTS insertHistoriqueEnchere;
+DELIMITER $$
+CREATE procedure insertHistoriqueEnchere(idLot INT(10), idBateau INT(10), datePeche DATETIME, idAcheteur INT(10), prixEnchere VARCHAR(10))
+BEGIN
+    INSERT INTO `historique`(`dateEnchere`) VALUES (NOW());
+    INSERT INTO `encherir`(`idLot`, `idBateau`, `datePeche`, `dateEnchere`, `idAcheteur`, `prixEnchere`) VALUES (idLot, idBateau, datePeche, NOW() , idAcheteur,prixEnchere);
+END $$
+DELIMITER ;
+
+-- CALL insertHistoriqueEnchere(1, 1, '2022-11-18 19:45:22',2, '100');
+
+
 
 
 -- call insertAcheteur('test@test.com','axel6GU', '1234', 'Poissonnier', '13', 'Rue du poisson', '54350', 'Le Kopa', 'Aucun')

@@ -25,6 +25,7 @@ if(empty($_SESSION['login'])){
 
         <div id="titre">
             <h3>Enchère N°X - Enchère du 30/03/2023</h3>
+            <p>Temps restant : <span id="countdown"></span></p>
         </div>
 
         <div id="panier">
@@ -139,3 +140,9 @@ if(empty($_SESSION['login'])){
 
 </body>
 </html>
+<!-- Script javascript -->
+<script src="<?php echo base_url() . 'script/timer.js'; ?>"></script>
+<script>
+    // Démarrer le compte à rebours
+    updateCountdown();
+</script>
