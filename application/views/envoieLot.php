@@ -81,58 +81,105 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Nom l'espèce</th>
-                    <th>Nom bateau</th>
+                    <th>Nom Espèce</th>
+                    <th>Nom Bateau</th>
                     <th>Qualité</th>
                     <th>Poids Brut</th>
+                    <th>Heure Début Enchère</th>
                     <th>Validation</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $limiteLigne = count($affLot);
-                // Parcours des données pour afficher chaque ligne du tableau
-                $i = 0; // pour que le if puisse commencer à 0 ... et s'arrêter une fois la limite arrivée (comme le $j)
-                $j = 0; // pour que le while puisse commencer à 0 et avoir +1 ligne à chaque fois jusqu'à atteindre la limiteLigne, limiteLigne est le nombre total de ligne qu'il y a dans la table materiel.
 
-                while ($j != $limiteLigne) {
-                    foreach ($affLot as $r) {
-                        if ($i == $limiteLigne) {
-                            break;
-                        }
-                        $nomEspece = $r['nomEspece'];
-                        $nomBateau = $r['nomBateau'];
-                        $nomQualite = $r['nomQualite'];
-                        $poidsBrutLot = $r['poidsBrutLot'];
-                        $i++;
-?> <form action="<?php echo site_url('welcome/traitementEnvoieLots');?>" method="POST" class="connex">  <?php
-                        echo "<tr><td>" . $nomEspece . "</td>";
-                        echo "<td>" . $nomBateau . "</td>";
-                        echo "<td>" . $nomQualite . "</td>";
-                        echo "<td>" . $poidsBrutLot . "</td>";
-                        echo '<td><input type="checkbox" name="valide[]" value="' . $nomEspece . '"></td>';
-                        
-                        echo '</tr>';
-                    }
-                    $j++;
+                foreach ($affLot as $r) {
+                    $nomEspece = $r['nomEspece'];
+                    $nomBateau = $r['nomBateau'];
+                    $nomQualite = $r['nomQualite'];
+                    $poidsBrutLot = $r['poidsBrutLot'];
+                    $idLot = $r['idLot'];
+                    $datePeche = $r['datePeche'];
+                    $idBateau = $r['idBateau'];
+                    $heureDebutEnchere = $r['heureDebutEnchere'];
+
+                    echo "<tr><td>" . $nomEspece . "</td>";
+                    echo "<td>" . $nomBateau . "</td>";
+                    echo "<td>" . $nomQualite . "</td>";
+                    echo "<td>" . $poidsBrutLot . "</td>";
+                ?>
+                    <td>
+                        <form action="<?php echo site_url('welcome/traitementEnvoieLots'); ?>" method="POST" class="connex">
+                            <?php
+                            // Définir l'heure minimale comme 9h00
+                            $heure_min = date('H:i', strtotime('09:00'));
+
+                            // Définir l'heure maximale comme 14h00
+                            $heure_max = date('H:i', strtotime('14:00'));
+                            ?>
+                            <input type="time" id="timePicker" name="time" min="<?php echo $heure_min; ?>" max="<?php echo $heure_max; ?>">
+                    </td>
+                    <td>
+
+                        <input name="idLot" type="hidden" value="<?php echo $idLot; ?> ">
+                        <input name="idBateau" type="hidden" value="<?php echo $idBateau; ?> ">
+                        <input name="datePeche" type="hidden" value="<?php echo $datePeche; ?> ">
+                        <center>
+                            <button class="btn btn-primary btn-valider" type="submit">Valider</button>
+                        </center>
+                        </form>
+                    </td>
+                <?php
+                    echo '</tr>';
                 }
+
+
                 echo "</table></br></br>";
                 ?>
 
             </tbody>
         </table>
-        <center>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <button class="btn btn-primary btn-valider" type="submit">Valider</button>
-                    </div>
-                </div>
-            </div>
-        </center>
-        </form> 
 
+        <?php foreach ($affLot as $key) {
+            $heureDebutEnchere = $r['heureDebutEnchere'];
+        }
+        ?>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>
+
+        <script>
+            // Définition du tableau JavaScript
+            var heuresDejaUtilisees = [];
+
+            // Données PHP
+            <?php foreach ($affLot as $heure) : ?>
+                // Ajouter chaque élément au tableau JavaScript
+                heuresDejaUtilisees.push('<?php echo $heure['heureDebutEnchere']; ?>');
+            <?php endforeach; ?>
+            // Afficher le tableau dans la console
+            console.log(heuresDejaUtilisees);
+
+            const timePicker = document.getElementById("timePicker");
+            var time = timePicker + ':00';
+            console.log(timePicker);
+            timePicker.addEventListener("input", function() {
+                const heureSelectionnee = this.value;
+
+                console.log(time);
+                // Bloquer l'heure si elle est dans le tableau des heures bloquées
+                if (heuresDejaUtilisees.includes(heureSelectionnee)) {
+                    this.value = "";
+                    this.disabled = true;
+                    alert("Cette heure est bloquée.");
+                } else {
+
+                    const minutes = heureSelectionnee.split(":")[1];
+                    // Bloquer les minutes si elles ne sont pas pleines
+                    if (minutes % 10 !== 0) {
+                        this.value = "";
+                        alert("Veuillez sélectionner une heure pleine. Exemple : 10:20 ");
+                    }
+                }
+            });
+        </script>
 </body>
 
 </html>

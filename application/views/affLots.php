@@ -99,29 +99,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
             </thead>
             <tbody>
                 <?php
-                $limiteLigne = count($affLot);
-                // Parcours des données pour afficher chaque ligne du tableau
-                $i = 0; // pour que le if puisse commencer à 0 ... et s'arrêter une fois la limite arrivée (comme le $j)
-                $j = 0; // pour que le while puisse commencer à 0 et avoir +1 ligne à chaque fois jusqu'à atteindre la limiteLigne, limiteLigne est le nombre total de ligne qu'il y a dans la table materiel.
-
-                while ($j != $limiteLigne) {
-                    foreach ($affLot as $r) {
-                        if ($i == $limiteLigne) {
-                            break;
-                        }
-                        $nomEspece = $r['nomEspece'];
-                        $nomBateau = $r['nomBateau'];
-                        $nomQualite = $r['nomQualite'];
-                        $poidsBrutLot = $r['poidsBrutLot'];
-                        $i++;
-                        echo "<tr><td>" . $nomEspece . "</td>";
-                        echo "<td>" . $nomBateau . "</td>";
-                        echo "<td>" . $nomQualite . "</td>";
-                        echo "<td>" . $poidsBrutLot . "</td></tr>";
-                    }
-                    $j++;
+                foreach ($affLot as $r) {
+                    $nomEspece = $r['nomEspece'];
+                    $nomBateau = $r['nomBateau'];
+                    $nomQualite = $r['nomQualite'];
+                    $poidsBrutLot = $r['poidsBrutLot'];
+                    echo "<tr><td>" . $nomEspece . "</td>";
+                    echo "<td>" . $nomBateau . "</td>";
+                    echo "<td>" . $nomQualite . "</td>";
+                    echo "<td>" . $poidsBrutLot . "</td></tr>";
                 }
+
                 echo "</table></br></br>";
+
                 ?>
 
             </tbody>
