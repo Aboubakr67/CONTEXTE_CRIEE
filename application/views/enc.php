@@ -109,8 +109,9 @@ if (empty($_SESSION['login'])) {
                             $prixEnchereMax = $r['prixEnchereMax'];
                             $idBateau = $r['idBateau'];
                             $datePeche = $r['datePeche'];
+                            $heureDebutEnchereLotEnVente = $r['heureDebutEnchere'];
                         }
-
+                        
                         ?>
                         <label>Prix départ : </label><label id="labelprixDepart"> <?php echo $prixDepart; ?></label>
                         <br>
@@ -198,7 +199,7 @@ if (empty($_SESSION['login'])) {
     var idAcheteur = $('#idAcheteur').val();
     var prixDepart = $('#prixDepart').val();
     var prixEnchereMax = $('#prixEnchereMax').val();
-
+                        console.log(idAcheteur);
 
     function getPrixEnchere() {
 
@@ -240,36 +241,88 @@ if (empty($_SESSION['login'])) {
     }
 
 
+    function finEnchereLot() {
+
+        $.ajax({
+            url: '<?= base_url() ?>index.php/Welcome/finEnchereLot',
+            method: 'POST',
+            data: {
+                idLot: idLot,
+                idBateau: idBateau,
+                datePeche: datePeche,
+                idAcheteur: idAcheteur
+            },
+            dataType: "json",
+            success: function(response) {
+                console.log("finEnchere + changement codeEtat B -> C:");
+                location.reload();
+                
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("Une erreur s'est produite lors de l'insertion de l'enchère finEnchere : " + textStatus, errorThrown);
+            }
+        });
+    }
+
+
     $(document).ready(function() {
         getPrixEnchere();
-        console.log("------------------------------");
-        console.log("idLot" + idLot);
-        console.log("idBateau" + idBateau);
-        console.log("datePeche" + datePeche);
-        console.log("idAcheteur" + idAcheteur);
-        console.log("montant" + montant);
-        console.log("prixDepart" + prixDepart);
-        console.log("prixDepart" + typeof prixDepart);
-        console.log("prixEnchereMax" + prixEnchereMax);
-        console.log("acheteurLot : " + acheteurLot);
-        console.log("prixEnchere : " + prixEnchere);
-        console.log("------------------------------");
-
-        //     $('#encherir').click(function(e) {
-        //         montantEnchere = $('#montant').val();
-        //     // e.preventDefault(); // Empêche le formulaire de se soumettre normalement
-        //     insererEnchere(); // Exécute la fonction insererEnchere()
-        // });
-        //         setInterval(function(){
-        //     location.reload();
-        // }, 10000);
-
     });
 </script>
 
 
 
 <script>
-    // Démarrer le compte à rebours
-    updateCountdown();
+    // // Démarrer le compte à rebours
+    // updateCountdown();
+
+
+
+// Récupération de l'heure de début de l'enchère et conversion en objet Date
+let startTime = new Date();
+let heureDebutEnchere = '<?php echo $heureDebutEnchereLotEnVente; ?>';
+let [hours, minutes, seconds] = heureDebutEnchere.split(':');
+startTime.setHours(hours);
+startTime.setMinutes(minutes);
+startTime.setSeconds(seconds);
+
+// Durée de chaque lot en millisecondes
+let lotDuration = 10 * 60 * 1000; // 10 minutes
+
+// Vérification régulière de l'heure de début de l'enchère
+let checkStartTime = setInterval(function() {
+    let now = new Date();
+    if (now >= startTime) {
+        // L'heure de début de l'enchère est atteinte, on peut lancer le chronomètre
+        clearInterval(checkStartTime); // On arrête la vérification de l'heure de début de l'enchère
+        startTimer(startTime, lotDuration); // On lance le chronomètre
+    }
+}, 1000); // On vérifie toutes les secondes
+
+
+// Fonction pour lancer le chronomètre
+function startTimer(startTime, lotDuration) {
+    // Récupération de l'élément HTML pour afficher le temps restant
+    let countdownElement = document.getElementById('countdown');
+
+    // Fonction pour mettre à jour l'affichage du temps restant
+    function updateCountdown() {
+        let now = new Date();
+        let remainingTime = startTime.getTime() + lotDuration - now.getTime();
+        if (remainingTime > 0) {
+            let minutes = Math.floor(remainingTime / 60000);
+            let seconds = Math.floor((remainingTime % 60000) / 1000);
+            countdownElement.innerHTML = minutes + ' min ' + seconds + ' s';
+        } else {
+            countdownElement.innerHTML = 'Terminé !';
+            // Appel de la fonction en ajax pour changer le codeEtat du lot, idfacture et acheteur
+            console.log("ici");
+            finEnchereLot();
+        }
+    }
+
+    // Mise à jour de l'affichage toutes les secondes
+    let timer = setInterval(updateCountdown, 1000);
+}
+
 </script>

@@ -255,15 +255,41 @@ class Welcome extends CI_Controller
 		$idLot = strip_tags($this->input->post('idLot'));
 		$idBateau = strip_tags($this->input->post('idBateau'));
 		$datePeche = strip_tags($this->input->post('datePeche'));
+		
 
 		$data = $this->requetes->recupePrixLotActuel($idLot, $idBateau, $datePeche);
 		echo json_encode($data);
 	}
 
-	public function insertHistoriqueEnchere()
+	public function finEnchereLot()
 	{
-		$postData = $this->input->post();
-		$data = $this->requetes->insertHistoriqueEnchere($postData);
+		$idLot = strip_tags($this->input->post('idLot'));
+		$idBateau = strip_tags($this->input->post('idBateau'));
+		$datePeche = strip_tags($this->input->post('datePeche'));
+		$idAcheteur = strip_tags($this->input->post('idAcheteur'));
+
+		// ! Création d'un id facture afin d'identifier chaque lot et de l'associer à un acheteur.
+		$createFacture = $this->requetes->createFacture();
+
+		// ! On récupère l' id facture qu'on vient d'insérer.
+		$recuperFactureCreate = $this->requetes->recuperFactureCreate();
+		foreach ($recuperFactureCreate as $r) {
+			$idFacture = $r['idFacture'];
+		}
+
+		$data = $this->requetes->finEnchereLot($idLot, $idBateau, $datePeche, $idAcheteur, $idFacture, 'C');
+		
+		// ! On récupère les lots suivants.
+		$lesLotsSuivants = $this->requetes->affLotsSuivants();
+		// Extraction du premier élément du tableau renvoyé
+		$premierLot = array_shift($lesLotsSuivants);
+
+		// Affichage des valeurs du premier lot
+		// echo $premierLot['idLot'] . ' ' . $premierLot['idBateau']. ' ' . $premierLot['datePeche']. ' ' . $premierLot['nomEspece'] . ' ' . $premierLot['specification'] . ' ' . $premierLot['libellePr'] . ' ' . $premierLot['nomQualite'] . ' ' . $premierLot['(L.poidsBrutLot - BAC.tare)'] . ' ' . $premierLot['nomBateau'];
+		
+		// ! Changement du codeEtat du lot suivant de A vers B.
+		$this->requetes->finEnchereLot($premierLot['idLot'], $premierLot['idBateau'], $premierLot['datePeche'], null, null, 'B');
+
 		echo json_encode($data);
 	}
 
