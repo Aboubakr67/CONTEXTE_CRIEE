@@ -224,7 +224,10 @@ BEGIN
 END $$
 DELIMITER ;
 
--- CALL insertHistoriqueEnchere(1, 1, '2022-11-18 19:45:22',2, '100');
+-- CALL insertHistoriqueEnchere(9, 8, '2023-04-11 17:55:10', 2, '1456');
+-- DELETE FROM encherir WHERE idLot = 9 AND idBateau = 8 AND datePeche = '2023-04-11 17:55:10' AND dateEnchere = '2023-04-14 09:39:53';
+-- DELETE FROM historique WHERE dateEnchere = '2023-04-14 09:39:53';
+
 
 
 
@@ -297,4 +300,69 @@ END $$
 DELIMITER ;
 
 
+-- Procédure recupLoginAdmin
+DROP procedure IF EXISTS recupLoginAdmin;
+DELIMITER $$
+CREATE procedure recupLoginAdmin(id INT(10))
+BEGIN
+    SELECT login from administrateur_vente where idAdmin = id;
+END $$
+DELIMITER ;
 
+
+-- Procédure createFacture
+DROP procedure IF EXISTS createFacture;
+DELIMITER $$
+CREATE procedure createFacture()
+BEGIN
+    INSERT INTO facture VALUES ();
+END $$
+DELIMITER ;
+
+-- Initialiser autoincrement à 1 : ALTER TABLE facture AUTO_INCREMENT = 1;
+
+-- Procédure recuperFactureCreate permet de recuperer la derniere idFacture créer
+DROP procedure IF EXISTS recuperFactureCreate;
+DELIMITER $$
+CREATE procedure recuperFactureCreate()
+BEGIN
+    SELECT MAX(idFacture) as idFacture FROM facture;
+END $$
+DELIMITER ;
+
+
+-- Procédure finEnchereLot permet de mettre fin à l'enchere
+DROP procedure IF EXISTS finEnchereLot;
+DELIMITER $$
+CREATE procedure finEnchereLot(p_idLot INT(10), p_idBateau INT(10), p_datePeche DATETIME, p_idAcheteur INT(10), p_idFacture INT(10), p_codeEtat VARCHAR(5))
+BEGIN
+    UPDATE `lot` SET `idAcheteur`= p_idAcheteur,`idFacture`= p_idFacture,`codeEtat`= p_codeEtat WHERE `idLot`= p_idLot AND `idBateau`= p_idBateau AND `datePeche`= p_datePeche;
+END $$
+DELIMITER ;
+
+-- UPDATE `lot` SET `idAcheteur`= null,`idFacture`= null,`codeEtat`= 'G' WHERE `idLot`= 1 AND `idBateau`= 1 AND `datePeche`= '2022-11-18 19:45:22';
+
+-- precedent
+SELECT DISTINCT L.idLot, ES.nomEspece, T.specification, L.poidsBrutLot, E.prixEnchere, A.login
+	FROM LOT L 
+	INNER JOIN ESPECE ES ON L.idEspece = ES.idEspece 
+	INNER JOIN TAILLE T ON L.idTaille = T.idTaille 
+	INNER JOIN ENCHERIR E ON L.idLot = E.idLot 
+	INNER JOIN ACHETEUR A ON E.idAcheteur = A.idAcheteur 
+	INNER JOIN HISTORIQUE H ON E.dateEnchere = H.dateEnchere
+	WHERE L.codeEtat = "C"
+	ORDER BY L.dateEnchere DESC, L.heureDebutEnchere DESC LIMIT 2;
+
+
+
+SELECT DISTINCT L.idLot, L.idBateau, L.datePeche, ES.nomEspece, T.specification, P.libellePr, Q.nomQualite, (L.poidsBrutLot - BAC.tare) , B.nomBateau FROM LOT L 
+INNER JOIN ESPECE ES ON L.idEspece = ES.idEspece 
+INNER JOIN TAILLE T ON L.idTaille = T.idTaille 
+INNER JOIN PRESENTATION P ON L.idPresentation = P.idPresentation 
+INNER JOIN QUALITE Q ON L.idQualite = Q.idQualite 
+INNER JOIN BAC ON L.idBac = BAC.idBac 
+INNER JOIN BATEAU B ON L.idBateau = B.idBateau 
+WHERE L.codeEtat = "A" 
+AND DATE(L.dateEnchere) = CURDATE() 
+AND TIME(L.heureDebutEnchere) 
+ORDER BY L.heureDebutEnchere ASC LIMIT 2;

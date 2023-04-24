@@ -4,6 +4,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 if(empty($_SESSION['login'])){
     header('Location: connexion');
   }
+
+// Stocke l'id de l'acheteur dans une variable de session
+foreach ($numAcheteur as $key) {
+    $_SESSION['id'] = $key['idAcheteur'];
+}
+
+
+
 ?>
 
 

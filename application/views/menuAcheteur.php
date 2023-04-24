@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="collapse navbar-collapse" id="navbarColor03">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link active" href="<?php echo site_url('enchere');?>">Enchere
+          <a class="nav-link active" href="<?php echo site_url('enc');?>">Enchere
             <span class="visually-hidden">(current)</span>
           </a>
         </li>

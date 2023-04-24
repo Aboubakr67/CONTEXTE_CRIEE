@@ -2,12 +2,17 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 
+foreach ($idAdmin as $key) {
+  $_SESSION['id'] = $key['idAdmin'];
+}
+
+
 if (empty($_SESSION['login'])) {
-	header('Location: connexion.php');
-  
-  } elseif ($_SESSION['login'] != 'laurent') {
-	header('Location: erreur.php');
-  }
+  header('Location: connexion.php');
+
+} elseif ($_SESSION['role'] != "Admin" && $_SESSION['login'] != 'laurent') {
+  header('Location: erreur.php');
+}
 ?>
 <?php
 if ($this->session->flashdata('succes')) { ?>

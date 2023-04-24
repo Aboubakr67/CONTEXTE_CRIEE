@@ -23,6 +23,19 @@ if (empty($_SESSION['login'])) {
     </head>
 
     <body>
+
+    <?php
+  if ($this->session->flashdata('error')) { ?>
+    <p class="text-danger text-center" style="margin-top: 10px;color: red;">
+      <?= $this->session->flashdata('error') ?></p>
+  <?php } ?>
+
+  <?php
+  if ($this->session->flashdata('succes')) { ?>
+    <p class="text-danger text-center" style="margin-top: 10px;color: green;">
+      <?= $this->session->flashdata('succes') ?></p>
+  <?php } ?>
+
         <div class="enchere">
             <div class="titre-enchere">
                 <?php
@@ -30,7 +43,7 @@ if (empty($_SESSION['login'])) {
                     $idLotVente = $r['idLot'];
                 }
 
-                
+
                 ?>
                 <div id="titre">
                     <h3>Enchère N°<?php echo $idLotVente; ?> - Enchère du <?php echo date('d/m/Y'); ?> </h3>
@@ -66,7 +79,7 @@ if (empty($_SESSION['login'])) {
                     </table>
                 </div>
             </div>
-            <form action="" method="post">
+            <?php echo form_open('welcome/insertEnchere', array('method' => 'post')); ?>
             <div class="tables-enchere" id="lot-en-vente">
                 <h5>Lot en vente</h5>
 
@@ -97,7 +110,7 @@ if (empty($_SESSION['login'])) {
                             $idBateau = $r['idBateau'];
                             $datePeche = $r['datePeche'];
                         }
-                        
+
                         ?>
                         <label>Prix départ : </label><label id="labelprixDepart"> <?php echo $prixDepart; ?></label>
                         <br>
@@ -108,7 +121,8 @@ if (empty($_SESSION['login'])) {
 
                     </div>
 
-                    <h4 id="prixLot"></h4><h4 id="prixEnchere"></h4>
+                    <h4 id="prixLot"></h4>
+                    <h4 id="prixEnchere"></h4>
                     <input type="hidden" id="idLot" name="idLot" value="<?php echo $idLotVente; ?>" />
                     <input type="hidden" id="idBateau" name="idBateau" value="<?php echo $idBateau; ?>" />
                     <input type="hidden" id="datePeche" name="datePeche" value="<?php echo $datePeche; ?>" />
@@ -116,7 +130,7 @@ if (empty($_SESSION['login'])) {
                     <input type="hidden" id="prixDepart" name="prixDepart" value="<?php echo $prixDepart; ?>" />
                     <input type="hidden" id="prixEnchereMax" name="prixEnchereMax" value="<?php echo $prixEnchereMax; ?>" />
                     </center>
-                    
+
 
                     <div id="proposer-prix">
 
@@ -135,7 +149,9 @@ if (empty($_SESSION['login'])) {
                 </div>
 
             </div>
-            </form>
+            <?php
+            echo form_close();
+            ?>
 
             <div class="tables-enchere" id="lots-suivants">
                 <h5>Lots suivants</h5>
@@ -162,17 +178,16 @@ if (empty($_SESSION['login'])) {
 
 
     </body>
-    
-    </html>
-    
-    
+
+</html>
+
+
 <!-- Script javascript -->
 <script src="<?php echo base_url() . 'script/timer.js'; ?>"></script>
 <!-- Bibliothèque Jquery -->
 <script src="<?php echo base_url() . 'script/jquery-3.5.1.js'; ?>"></script>
 
 <script type="text/javascript">
-    
     var acheteurLot = '';
     var prixEnchere = '';
     var montantEnchere = '';
@@ -184,11 +199,11 @@ if (empty($_SESSION['login'])) {
     var prixDepart = $('#prixDepart').val();
     var prixEnchereMax = $('#prixEnchereMax').val();
 
-        
+
     function getPrixEnchere() {
- 
+
         $.ajax({
-            url: '<?= base_url() ?>index.php/Welcome/recupePrixDernierLot',
+            url: '<?= base_url() ?>index.php/Welcome/recupePrixLotActuel',
             method: "POST",
             data: {
                 idLot: idLot,
@@ -198,9 +213,9 @@ if (empty($_SESSION['login'])) {
             dataType: "json",
             success: function(response) {
                 console.log(response.length);
-                console.log('<?= base_url() ?>Welcome/recupePrixDernierLot');
+                console.log('<?= base_url() ?>Welcome/recupePrixLotActuel');
                 var len = response.length;
-                if(len >0){
+                if (len > 0) {
                     prixEnchere = response[0].prixEnchere;
                     acheteurLot = response[0].login;
                     console.log("Prix enchere : " + prixEnchere);
@@ -225,74 +240,29 @@ if (empty($_SESSION['login'])) {
     }
 
 
-// ! Inserer l'enchère
-
-function insererEnchere() {
-
-    console.log("montantEnchere : " + montantEnchere);
-    console.log("montantEnchere : " + typeof montantEnchere);
-    console.log("prixEnchere : " + prixEnchere);
-    console.log("prixEnchere : " + typeof prixEnchere);
-    console.log("prixDepart : " + prixDepart);
-    console.log("prixDepart : " + typeof prixDepart);
-    
-    // if (parseInt(montantEnchere) <= parseInt(prixEnchere)) {
-    // alert('Montant inférieur ou égal au prix de l\'enchère!');
-    // return;
-// }
-// if (parseInt(montantEnchere) <= parseInt(prixDepart)) {
-//     alert('Montant inférieur à prix de départ');
-//     return;
-// }
-
-
-    $.ajax({
-        url: '<?= base_url() ?>index.php/Welcome/insertHistoriqueEnchere',
-        method: 'POST',
-        data: {
-            idLot: idLot,
-            idBateau: idBateau,
-            datePeche: datePeche,
-            idAcheteur: idAcheteur,
-            prixEnchere: montantEnchere
-        },
-        dataType: "json",
-        success: function(response) {
-            console.log("enchere inserer:");
-            location.reload();
-                
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.error("Une erreur s'est produite lors de l'insertion de l'enchère : " + textStatus, errorThrown);
-        }
-    });
-}
-
-
-
     $(document).ready(function() {
         getPrixEnchere();
         console.log("------------------------------");
-    console.log("idLot" + idLot);
-    console.log("idBateau" + idBateau);
-    console.log("datePeche" + datePeche);
-    console.log("idAcheteur" + idAcheteur);
-    console.log("montant" + montant);
-    console.log("prixDepart" + prixDepart);
-    console.log("prixDepart" + typeof prixDepart);
-    console.log("prixEnchereMax" + prixEnchereMax);
-    console.log("acheteurLot : " + acheteurLot);
-    console.log("prixEnchere : " + prixEnchere);
-    console.log("------------------------------");
+        console.log("idLot" + idLot);
+        console.log("idBateau" + idBateau);
+        console.log("datePeche" + datePeche);
+        console.log("idAcheteur" + idAcheteur);
+        console.log("montant" + montant);
+        console.log("prixDepart" + prixDepart);
+        console.log("prixDepart" + typeof prixDepart);
+        console.log("prixEnchereMax" + prixEnchereMax);
+        console.log("acheteurLot : " + acheteurLot);
+        console.log("prixEnchere : " + prixEnchere);
+        console.log("------------------------------");
 
-    //     $('#encherir').click(function(e) {
-    //         montantEnchere = $('#montant').val();
-    //     // e.preventDefault(); // Empêche le formulaire de se soumettre normalement
-    //     insererEnchere(); // Exécute la fonction insererEnchere()
-    // });
-    //         setInterval(function(){
-    //     location.reload();
-    // }, 10000);
+        //     $('#encherir').click(function(e) {
+        //         montantEnchere = $('#montant').val();
+        //     // e.preventDefault(); // Empêche le formulaire de se soumettre normalement
+        //     insererEnchere(); // Exécute la fonction insererEnchere()
+        // });
+        //         setInterval(function(){
+        //     location.reload();
+        // }, 10000);
 
     });
 </script>

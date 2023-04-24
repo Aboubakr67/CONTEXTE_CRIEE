@@ -1,5 +1,5 @@
 // Récupération de l'heure de début de l'enchère et conversion en objet Date
-let startTime = new Date('2023-04-13T17:09:00');
+let startTime = new Date('2023-04-14T14:02:00');
 // Durée de chaque lot en millisecondes
 let lotDuration = 10 * 60 * 1000;
 // Calcul de l'heure de fin de l'enchère
