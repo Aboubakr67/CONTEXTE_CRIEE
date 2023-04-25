@@ -366,3 +366,23 @@ WHERE L.codeEtat = "A"
 AND DATE(L.dateEnchere) = CURDATE() 
 AND TIME(L.heureDebutEnchere) 
 ORDER BY L.heureDebutEnchere ASC LIMIT 2;
+
+
+
+
+-- Procédure affToutLesLotsAjd
+DROP procedure IF EXISTS affToutLesLotsAjd;
+DELIMITER $$
+CREATE procedure affToutLesLotsAjd()
+BEGIN
+    SELECT DISTINCT L.idLot, ES.nomCommunEspece, L.poidsBrutLot, T.specification, MAX(E.prixEnchere) as prixEnchere, A.login, L.heureDebutEnchere, L.codeEtat
+    FROM LOT L 
+    INNER JOIN espece es ON L.idEspece = ES.idEspece 
+    INNER JOIN TAILLE T ON L.idTaille = T.idTaille 
+    LEFT OUTER JOIN ENCHERIR E ON L.idLot = E.idLot 
+    LEFT OUTER JOIN ACHETEUR A ON E.idAcheteur = A.idAcheteur 
+    WHERE L.dateEnchere = CURDATE() 
+    GROUP BY L.idLot, ES.nomCommunEspece, L.poidsBrutLot, T.specification, A.login 
+    ORDER BY L.idLot ASC;
+END $$
+DELIMITER ;

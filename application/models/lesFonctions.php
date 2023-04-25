@@ -244,8 +244,8 @@ class lesFonctions extends CI_Model
 		$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
 		return $query_result;
 	}
-
-
+	
+	
 
 	public function afficheInfoEspece($esp = array())
 	{
@@ -278,7 +278,7 @@ class lesFonctions extends CI_Model
 	{
 		$response = array();
 
-
+		
 		if (isset($taille['idTaille']) == 1) {
 			$idTaille = $taille['idTaille'];
 			$search = "call affTare(:idTaille)";
@@ -306,7 +306,7 @@ class lesFonctions extends CI_Model
 		return $query_result;
 	}
 
-
+	
 	public function affichePresentation()
 	{
 		$search = "call affPresentation";
@@ -315,7 +315,7 @@ class lesFonctions extends CI_Model
 		$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
 		return $query_result;
 	}
-
+	
 
 	public function afficheBateau()
 	{
@@ -338,7 +338,7 @@ class lesFonctions extends CI_Model
 
 
 
-
+	
 	public function modifieCodeEtatLot($codeEtatForm, $idLotForm, $idBateauForm, $datePecheForm)
 	{
 		$search = "call modifieCodeEtatLot(:codeEtatForm, :idLotForm, :idBateauForm, :datePecheForm)";
@@ -364,7 +364,7 @@ class lesFonctions extends CI_Model
 
 	public function recupePrixLotActuel($idLot, $idBateau, $datePeche)
 	{
-			$search = "call recupPrixLotActuel(:idLot, :idBateau, :datePeche)";
+		$search = "call recupPrixLotActuel(:idLot, :idBateau, :datePeche)";
 			$result = $this->db->conn_id->prepare($search);
 			$result->bindParam(':idLot', $idLot, PDO::PARAM_INT);
 			$result->bindParam(':idBateau', $idBateau, PDO::PARAM_STR);
@@ -377,8 +377,8 @@ class lesFonctions extends CI_Model
 
 	public function insertHistoriqueEnchere($idLot, $idBateau, $datePeche, $idAcheteur, $prixEnchere)
 	{
-			$search = "call insertHistoriqueEnchere(:idLot, :idBateau, :datePeche, :idAcheteur, :prixEnchere)";
-			$result = $this->db->conn_id->prepare($search);
+		$search = "call insertHistoriqueEnchere(:idLot, :idBateau, :datePeche, :idAcheteur, :prixEnchere)";
+		$result = $this->db->conn_id->prepare($search);
 			$result->bindParam(':idLot', $idLot, PDO::PARAM_INT);
 			$result->bindParam(':idBateau', $idBateau, PDO::PARAM_STR);
 			$result->bindParam(':datePeche', $datePeche, PDO::PARAM_STR);
@@ -387,7 +387,7 @@ class lesFonctions extends CI_Model
 			$result->execute();
 			$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
 			return $query_result;
-	}
+		}
 	
 	public function recupLoginAdmin($id)
 	{
@@ -429,7 +429,7 @@ class lesFonctions extends CI_Model
 	
 	public function finEnchereLot($idLot, $idBateau, $datePeche, $idAcheteur, $idFacture, $codeEtat)
 	{
-			$search = "call finEnchereLot(:idLot, :idBateau, :datePeche, :idAcheteur, :idFacture, :codeEtat)";
+		$search = "call finEnchereLot(:idLot, :idBateau, :datePeche, :idAcheteur, :idFacture, :codeEtat)";
 			$result = $this->db->conn_id->prepare($search);
 			$result->bindParam(':idLot', $idLot, PDO::PARAM_INT);
 			$result->bindParam(':idBateau', $idBateau, PDO::PARAM_STR);
@@ -437,12 +437,19 @@ class lesFonctions extends CI_Model
 			$result->bindParam(':idAcheteur', $idAcheteur, PDO::PARAM_INT);
 			$result->bindParam(':idFacture', $idFacture, PDO::PARAM_INT);
 			$result->bindParam(':codeEtat', $codeEtat, PDO::PARAM_STR);
-
 			$result->execute();
 			$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
 			return $query_result;
 	}
 	
+	public function affToutLesLotsAjd()
+	{
+		$search = "call affToutLesLotsAjd";
+		$result = $this->db->conn_id->prepare($search);
+		$result->execute();
+		$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+		return $query_result;
+	}
 }
 
 

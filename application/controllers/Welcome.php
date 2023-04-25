@@ -136,6 +136,11 @@ class Welcome extends CI_Controller
 			$this->session->sess_destroy();
 			$this->session->set_flashdata('logout_message', 'Vous êtes maintenant déconnecté.');
 			redirect('');
+		} elseif ($id == "liste_lots_enchere") {
+			$data['affToutLesLotsAjd'] = $this->requetes->affToutLesLotsAjd();
+			$this->load->view('menuAcheteur');
+			$this->load->view('liste_lots_enchere', $data);
+			$this->load->view('piedPage');
 		}
 	}
 
@@ -266,7 +271,18 @@ class Welcome extends CI_Controller
 		$idLot = strip_tags($this->input->post('idLot'));
 		$idBateau = strip_tags($this->input->post('idBateau'));
 		$datePeche = strip_tags($this->input->post('datePeche'));
-		$idAcheteur = strip_tags($this->input->post('idAcheteur'));
+		$acheteurLotEnTete = strip_tags($this->input->post('acheteurLotEnTete'));
+
+		
+		if($acheteurLotEnTete == ""){
+			$idAcheteur = null;
+		} else {
+			$recupnumAcheteur = $this->requetes->recupNumAcheteur($acheteurLotEnTete);
+			foreach ($recupnumAcheteur as $r) {
+				$idAcheteur = isset($r['idAcheteur']) ? $r['idAcheteur'] : null;
+				}
+		}
+
 
 		// ! Création d'un id facture afin d'identifier chaque lot et de l'associer à un acheteur.
 		$createFacture = $this->requetes->createFacture();
@@ -276,9 +292,9 @@ class Welcome extends CI_Controller
 		foreach ($recuperFactureCreate as $r) {
 			$idFacture = $r['idFacture'];
 		}
-
-		$data = $this->requetes->finEnchereLot($idLot, $idBateau, $datePeche, $idAcheteur, $idFacture, 'C');
 		
+		$data = $this->requetes->finEnchereLot($idLot, $idBateau, $datePeche, $idAcheteur, $idFacture, 'C');
+
 		// ! On récupère les lots suivants.
 		$lesLotsSuivants = $this->requetes->affLotsSuivants();
 		// Extraction du premier élément du tableau renvoyé
@@ -585,6 +601,10 @@ class Welcome extends CI_Controller
 			if ($montant <= $dernierMontantEncheri) {
 				$this->session->set_flashdata('error', 'Enchère non enregistrée, montant inférieur au prix de l\'enchère actuelle.');
 				redirect(base_url('enc'));
+			}
+			elseif ($montant < $prixDepart) {
+				$this->session->set_flashdata('error', 'Enchère non enregistrée, montant inférieur au prix de départ.');
+				redirect(base_url('enc'));
 			} elseif ($montant == $prixEnchereMax) {
 				// ! Insertion de l'enchere dans la table encherir et historique afin d'avoir l'historique des enchères. Ici c'est le prix max de l'enchere.
 				$insertionEnchere = $this->requetes->insertHistoriqueEnchere($idLot, $idBateau, $datePeche, $idAcheteur, $montant);
@@ -611,17 +631,10 @@ class Welcome extends CI_Controller
 				
 				// ! Changement du codeEtat du lot suivant de A vers B.
 				$this->requetes->finEnchereLot($premierLot['idLot'], $premierLot['idBateau'], $premierLot['datePeche'], null, null, 'B');
-			
 
 
-
-		// ! inserer le lot dans encherir
-		// ! Changer le codeEtat de B à C
-		// ! Créer un idFacture et l'attribuer au lot + mettre id acheteur dans le lot ALTER TABLE
-		// ! Recuperer les lots suivants et pour le premier changer le codeEtat de A vers B
-
-				// $this->session->set_flashdata('succes', 'Enchère enregistrée, vous avez gagner l\'enchère.');
-				// redirect(base_url('enc'));
+				$this->session->set_flashdata('succes', 'Enchère enregistrée, vous avez gagner l\'enchère.');
+				redirect(base_url('enc'));
 			} else if ($montant > $prixEnchereMax) {
 				$this->session->set_flashdata('error', 'Enchère non enregistrée, montant supérieur au prix de l\'enchère maximal.');
 				redirect(base_url('enc'));

@@ -27,6 +27,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="<?php echo site_url('liste_lots_enchere');?>">Liste lots</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="<?php echo site_url('helpAcheteur');?>">Aide</a>
         </li>
         <li class="nav-item">

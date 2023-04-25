@@ -72,6 +72,7 @@ $route['enc'] = "welcome/url/enc";
 $route['liste_lots_admin'] = "welcome/url/liste_lots_admin";
 
 $route['listeLots'] = "welcome/url/listeLots";
+$route['liste_lots_enchere'] = "welcome/url/liste_lots_enchere";
 
 $route['envoieLot'] = "welcome/url/envoieLot";
 $route['modifieLot'] = "welcome/url/modifieLot";
