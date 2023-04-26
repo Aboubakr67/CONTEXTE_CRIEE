@@ -9,7 +9,7 @@ class utilitaire extends CI_Model
 // ! Le code de base que j'ai pas toucher de (Wassim)
 //  public function connexionUsers(string $path1, string $path2, string $path3, string $path4, string $path5){
 
-public function connexionUsers(string $path1, string $path2, string $path3, string $path4, string $path5){
+public function connexionUsers(string $path1, string $path2, string $path3, string $path4, string $path5, string $path6){
 
 
 	$this->form_validation->set_rules('mail', '"Le mail"','trim|required|valid_email');
@@ -34,6 +34,7 @@ public function connexionUsers(string $path1, string $path2, string $path3, stri
 				$mdpHashAch = $key['pwd'];
 				$login = $key[$path3];
 				$mail = $key[$path4];
+				$leNum = $key[$path5];
 			}
 
 		
@@ -41,7 +42,8 @@ public function connexionUsers(string $path1, string $path2, string $path3, stri
 			{
 				$_SESSION['login'] = $login;
 				$_SESSION['mail'] = $mail;
-				redirect(base_url($path5));
+				$_SESSION['numeroUsers'] = $leNum;
+				redirect(base_url($path6));
 			} 
 			else 
 			{
