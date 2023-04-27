@@ -11,5 +11,6 @@
     <p>laurent@gmail.com</p>
 </body>
 </html>
+laurent@gmail.com
 paul.marc@gmail.com
 jeanaimare@gmail.com

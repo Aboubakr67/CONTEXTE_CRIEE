@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+$dateJour = date('Y-m-d');
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -9,47 +10,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <title>CRIEE: Envoie Lot(s)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
-    <style>
-        body {
-            padding: 20px;
-        }
+    <link rel="<?php echo base_url() . 'css/envoieLot.css'; ?>" />
 
-        .navbar-brand {
-            font-weight: bold;
-            font-size: 24px;
-        }
-
-        .navbar-right {
-            margin-right: 20px;
-        }
-
-        table {
-            width: 100%;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        th,
-        td {
-            text-align: center;
-        }
-
-        th {
-            font-weight: bold;
-            background-color: #f2f2f2;
-        }
-
-        td input[type="checkbox"] {
-            margin-left: auto;
-            margin-right: auto;
-            display: block;
-        }
-
-        .btn-valider {
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-    </style>
 </head>
 
 <body>
@@ -76,7 +38,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
             </ul>
         </div>
     </nav>
+    <?php if ($this->session->flashdata('error')) { ?>
+        <div class="alert alert-danger"><?php echo $this->session->flashdata('error'); ?></div>
+    <?php } ?>
 
+    <?php if ($this->session->flashdata('reussi')) { ?>
+        <div class="alert alert-success"><?php echo $this->session->flashdata('reussi'); ?></div>
+    <?php } ?>
     <div class="container">
         <table class="table table-striped">
             <thead>
@@ -91,7 +59,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
             </thead>
             <tbody>
                 <?php
-
                 foreach ($affLot as $r) {
                     $nomEspece = $r['nomEspece'];
                     $nomBateau = $r['nomBateau'];
@@ -123,6 +90,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <input name="idLot" type="hidden" value="<?php echo $idLot; ?> ">
                         <input name="idBateau" type="hidden" value="<?php echo $idBateau; ?> ">
                         <input name="datePeche" type="hidden" value="<?php echo $datePeche; ?> ">
+                        <input name="dateJour" type="hidden" value="<?php echo $dateJour; ?> ">
+
                         <center>
                             <button class="btn btn-primary btn-valider" type="submit">Valider</button>
                         </center>
@@ -139,40 +108,48 @@ defined('BASEPATH') or exit('No direct script access allowed');
             </tbody>
         </table>
 
-        <?php foreach ($affLot as $key) {
-            $heureDebutEnchere = $r['heureDebutEnchere'];
-        }
-        ?>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>
 
         <script>
-            // Définition du tableau JavaScript
+            // Définition du tableau JavaScript pour stocker les heures déjà utilisées
             var heuresDejaUtilisees = [];
 
             // Données PHP
-            <?php foreach ($affLot as $heure) : ?>
-                // Ajouter chaque élément au tableau JavaScript
-                heuresDejaUtilisees.push('<?php echo $heure['heureDebutEnchere']; ?>');
+            <?php foreach ($heuresUtilisees as $heure) : ?>
+                // Ajouter chaque élément au tableau JavaScript en utilisant 
+                //substr pour récupérer uniquement l'heure substr est utilisée pour extraire uniquement les 5 
+                //premiers caractères de la chaîne représentant l'heure, correspondant à l'heure et aux minutes (par exemple, "10:30" au lieu de "10:30:00").
+                heuresDejaUtilisees.push('<?php echo substr($heure['heureUtilisee'], 0, 5); ?>');
             <?php endforeach; ?>
-            // Afficher le tableau dans la console
+
+            // Afficher le tableau dans la console pour le débogage
             console.log(heuresDejaUtilisees);
 
+            // Récupération de l'élément HTML input avec l'id "timePicker"
             const timePicker = document.getElementById("timePicker");
-            var time = timePicker + ':00';
-            console.log(timePicker);
+
+            // Initialisation de la variable "time" avec la valeur de l'input et l'ajout de ":00" à la fin pour simplifier la validation
+            var time = timePicker.value + ':00';
+
+            // Afficher la valeur de l'input dans la console pour le débogage
+            //console.log(timePicker.value);
+
+            // Ajout d'un événement pour écouter les changements de valeur de l'input
             timePicker.addEventListener("input", function() {
+                // Récupération de la nouvelle valeur de l'input
                 const heureSelectionnee = this.value;
 
-                console.log(time);
-                // Bloquer l'heure si elle est dans le tableau des heures bloquées
+                // Vérification si l'heure sélectionnée est dans le tableau des heures déjà utilisées
                 if (heuresDejaUtilisees.includes(heureSelectionnee)) {
+                    // Si l'heure est déjà utilisée, effacer la valeur de l'input, désactiver l'input et afficher un message d'erreur
                     this.value = "";
-                    this.disabled = true;
+                    //this.disabled = true; //sert à desactiver l'input 
                     alert("Cette heure est bloquée.");
                 } else {
-
+                    // Si l'heure est disponible, récupérer les minutes pour la validation
                     const minutes = heureSelectionnee.split(":")[1];
-                    // Bloquer les minutes si elles ne sont pas pleines
+
+                    // Bloquer les minutes si elles ne sont pas pleines (i.e. divisibles par 10)
                     if (minutes % 10 !== 0) {
                         this.value = "";
                         alert("Veuillez sélectionner une heure pleine. Exemple : 10:20 ");
@@ -180,6 +157,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 }
             });
         </script>
+
 </body>
 
 </html>

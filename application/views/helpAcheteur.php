@@ -7,7 +7,7 @@ if(empty($_SESSION['login'])){
 
 // Stocke l'id de l'acheteur dans une variable de session
 foreach ($numAcheteur as $key) {
-    $_SESSION['id'] = $key['idAcheteur'];
+    //$key['idAcheteur'] = $_SESSION['id'];
 }
 
 

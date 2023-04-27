@@ -43,15 +43,15 @@ class Welcome extends CI_Controller
 			$this->load->view('piedPage');
 		} elseif ($id == "helpAcheteur") {
 			$this->load->view('menuAcheteur');
-			$data['numAcheteur'] = $this->requetes->recupNumAcheteur($_SESSION['login']);
+			$leLogin = $_SESSION['login'];
+			$data['numAcheteur'] = $this->requetes->recupNumAcheteur($leLogin);
+			
 			$this->load->view('helpAcheteur', $data);
 			$this->load->view('piedPage');
 		} elseif ($id == "enchere") {
-
 			$data['affDeuxLotsPrecedents'] = $this->requetes->affDeuxLotsPrecedents();
 			$data['affLotEnVente'] = $this->requetes->affLotEnVente();
 			$data['affLotsSuivants'] = $this->requetes->affLotsSuivants();
-			$data['numAcheteur'] = $this->requetes->recupNumAcheteur($_SESSION['login']);
 
 			$this->load->view('menuAcheteur');
 			$this->load->view('enchere', $data);
@@ -128,6 +128,13 @@ class Welcome extends CI_Controller
 			$this->load->view('piedPage');
 		} elseif ($id == "envoieLot") {
 			$data['affLot'] = $this->requetes->affToutLesLots();
+
+			$this->load->view('affLots', $data);
+			$this->load->view('piedPage');
+		} elseif ($id == "envoieLot") {
+			$date = date('Y-m-d');
+			$data['affLot'] = $this->requetes->affLotCodeADirecteurVente($date);
+			$data['heuresUtilisees'] = $this->requetes->affHeureJourBloquee($date);
 			$this->load->view('envoieLot', $data);
 			$this->load->view('piedPage');
 		} elseif ($id == "erreur") {
@@ -168,6 +175,9 @@ class Welcome extends CI_Controller
 		// Retourner le résultat sous forme de réponse JSON
 		echo json_encode($resultat);
 	}
+
+	// Retourner le contenu HTML de la table
+
 
 	public function verifDeleteLot()
 	{
@@ -273,14 +283,14 @@ class Welcome extends CI_Controller
 		$datePeche = strip_tags($this->input->post('datePeche'));
 		$acheteurLotEnTete = strip_tags($this->input->post('acheteurLotEnTete'));
 
-		
-		if($acheteurLotEnTete == ""){
+
+		if ($acheteurLotEnTete == "") {
 			$idAcheteur = null;
 		} else {
 			$recupnumAcheteur = $this->requetes->recupNumAcheteur($acheteurLotEnTete);
 			foreach ($recupnumAcheteur as $r) {
 				$idAcheteur = isset($r['idAcheteur']) ? $r['idAcheteur'] : null;
-				}
+			}
 		}
 
 
@@ -292,7 +302,7 @@ class Welcome extends CI_Controller
 		foreach ($recuperFactureCreate as $r) {
 			$idFacture = $r['idFacture'];
 		}
-		
+
 		$data = $this->requetes->finEnchereLot($idLot, $idBateau, $datePeche, $idAcheteur, $idFacture, 'C');
 
 		// ! On récupère les lots suivants.
@@ -302,17 +312,12 @@ class Welcome extends CI_Controller
 
 		// Affichage des valeurs du premier lot
 		// echo $premierLot['idLot'] . ' ' . $premierLot['idBateau']. ' ' . $premierLot['datePeche']. ' ' . $premierLot['nomEspece'] . ' ' . $premierLot['specification'] . ' ' . $premierLot['libellePr'] . ' ' . $premierLot['nomQualite'] . ' ' . $premierLot['(L.poidsBrutLot - BAC.tare)'] . ' ' . $premierLot['nomBateau'];
-		
+
 		// ! Changement du codeEtat du lot suivant de A vers B.
 		$this->requetes->finEnchereLot($premierLot['idLot'], $premierLot['idBateau'], $premierLot['datePeche'], null, null, 'B');
 
 		echo json_encode($data);
 	}
-
-
-
-
-
 
 	public function ajouterLot()
 	{
@@ -552,28 +557,59 @@ class Welcome extends CI_Controller
 		$role = strip_tags($this->input->post('role'));
 
 		if ($role == 'Acheteur') {
-			$this->utilitaire->connexionUsers('afficheInformationConnexionAcheteur', 'Acheteur', 'login', 'mailAcheteur', 'helpAcheteur');
+			$this->utilitaire->connexionUsers('afficheInformationConnexionAcheteur', 'Acheteur', 'login', 'mailAcheteur', 'idAcheteur' ,'helpAcheteur');
 		} elseif ($role == 'Admin') {
-			$this->utilitaire->connexionUsers('afficheInformationConnexionAdmin', 'Admin', 'login', 'mailAdmin', 'profilAdmin');
+			$this->utilitaire->connexionUsers('afficheInformationConnexionAdmin', 'Admin', 'login', 'mailAdmin', 'idAdmin' ,'profilAdmin');
 		} elseif ($role == 'Directeur') {
-			$this->utilitaire->connexionUsers('afficheInformationConnexionDirecteurVente', 'Directeur', 'login', 'mailDirecteur', 'profilDirecteurVente');
+			$this->utilitaire->connexionUsers('afficheInformationConnexionDirecteurVente', 'Directeur', 'login', 'mailDirecteur', 'idDirecteur' ,'profilDirecteurVente');
 		}
 	}
 
 	public function traitementEnvoieLots()
 	{
+		$this->form_validation->set_rules('idLot', '"Lid du Lot"', 'trim|required');
+		$this->form_validation->set_rules('idBateau', '"Lid du bateau"', 'trim|required');
+		$this->form_validation->set_rules('datePeche', '"Le Mot de passe"', 'trim|required');
 
-		print_r($_POST);
-		$time = strip_tags($this->input->post('time'));
-		$idLotForm = strip_tags($this->input->post('idLot'));
-		$idBateauForm = strip_tags($this->input->post('idBateau'));
-		$datePecheForm = strip_tags($this->input->post('datePeche'));
-		$codeEtatForm = "B";
-		$modificationDuCodeEtat = $this->requetes->modifieCodeEtatLot($codeEtatForm, $idLotForm, $idBateauForm, $datePecheForm);
+		if ($this->form_validation->run() == FALSE) // on demarre la verification de tout ce qu'on a fait en haut si c'est faux elle va pas faire les insertions car il y a rien dans les champs 
+		{
+			$this->session->set_flashdata('error', 'Données non enregistré rien a été saisie...'); //set_flashdata appartient a codeigniter et sert à afficher des messges lors d'une action 
+			redirect(base_url('envoieLot')); // pour se diriger vers la page inscription tout en gardant l'url de base grace a base_url
+			// var_dump(password_hash("paul.marc@gmail.com", PASSWORD_DEFAULT));
+		} else {
+			$time = strip_tags($this->input->post('time'));
+			$hTime = $time . ":00";
+			$idLotForm = strip_tags($this->input->post('idLot'));
+			$dateJour = strip_tags($this->input->post('dateJour'));
+			$idBateauForm = strip_tags($this->input->post('idBateau'));
+			$datePecheForm = strip_tags($this->input->post('datePeche'));
+			$codeEtatForm = "B";
+			$verificationHeure = $this->requetes->affHeureUtiliseDuJour($hTime, $dateJour);
+			print_r($verificationHeure);
+			foreach ($verificationHeure as $key) {
+				$heureExiste = $key['verificationHeure'];
+			}
+
+			// Vérifie si l'heure existe déjà
+			if ($heureExiste != 0) {
+				// Si l'heure existe déjà, définit un message d'erreur et redirige vers la page 'envoieLot'
+				$this->session->set_flashdata('error', 'L\'heure est déjà existante');
+				redirect(base_url('envoieLot'));
+			} else {
+				// Si l'heure n'existe pas encore, tente de modifier le code d'état du lot dans la base de données
+				$modificationDuCodeEtat = $this->requetes->modifieCodeEtatLot($hTime, $codeEtatForm, $idLotForm, $idBateauForm, $datePecheForm);
+				if ($modificationDuCodeEtat === false) {
+					// Si la modification du code d'état ne fonctionne pas, définit un message d'erreur et redirige vers la page 'envoieLot'
+					$this->session->set_flashdata('error', 'L\'insertion ne fonctionne pas');
+					redirect(base_url('envoieLot'));
+				} else {
+					// Si la modification du code d'état fonctionne, définit un message de réussite et redirige vers la page 'envoieLot'
+					$this->session->set_flashdata('reussi', 'Données enregistrées, merci !');
+					redirect(base_url('envoieLot'));
+				}
+			}
+		}
 	}
-
-
-
 	public function insertEnchere()
 	{
 		$this->form_validation->set_rules('montant', '"Le montant"', 'trim|required');
@@ -581,30 +617,35 @@ class Welcome extends CI_Controller
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->session->set_flashdata('error', 'Enchère non enregistrée, veuillez réessayer');
-			redirect(base_url('enc'));
+			redirect(base_url('enchere'));
 		} else {
 
-			$montant = strip_tags($this->input->post('montant')); // ici on recupere le montant saisie avec la methode post et le stip_tags sert a supprimer les balises HTML et PHP d'une chaîne pour eviter l'injection sql ou l'ajout d'une page en html du genre <p> .. ou autre
-			$idLot = strip_tags($this->input->post('idLot'));
-			$idBateau = strip_tags($this->input->post('idBateau'));
-			$datePeche = strip_tags($this->input->post('datePeche'));
-			$idAcheteur = strip_tags($this->input->post('idAcheteur'));
-			$prixDepart = strip_tags($this->input->post('prixDepart'));
-			$prixEnchereMax = strip_tags($this->input->post('prixEnchereMax'));
+			echo $montant = strip_tags($this->input->post('montant')); // ici on recupere le montant saisie avec la methode post et le stip_tags sert a supprimer les balises HTML et PHP d'une chaîne pour eviter l'injection sql ou l'ajout d'une page en html du genre <p> .. ou autre
+
+			echo $idLot = strip_tags($this->input->post('idLot'));
+
+			echo $idBateau = strip_tags($this->input->post('idBateau'));
+
+			echo $datePeche = strip_tags($this->input->post('datePeche'));
+
+			echo $idAcheteur = strip_tags($this->input->post('idAcheteur'));
+
+			echo $prixDepart = strip_tags($this->input->post('prixDepart'));
+
+			echo $prixEnchereMax = strip_tags($this->input->post('prixEnchereMax'));
 
 			$data = $this->requetes->recupePrixLotActuel($idLot, $idBateau, $datePeche);
 
 			foreach ($data as $r) {
-				$dernierMontantEncheri = $r['prixEnchere'];
+				echo $dernierMontantEncheri = $r['prixEnchere'];
 			}
 
 			if ($montant <= $dernierMontantEncheri) {
 				$this->session->set_flashdata('error', 'Enchère non enregistrée, montant inférieur au prix de l\'enchère actuelle.');
-				redirect(base_url('enc'));
-			}
-			elseif ($montant < $prixDepart) {
+				redirect(base_url('enchere'));
+			} elseif ($montant < $prixDepart) {
 				$this->session->set_flashdata('error', 'Enchère non enregistrée, montant inférieur au prix de départ.');
-				redirect(base_url('enc'));
+				redirect(base_url('enchere'));
 			} elseif ($montant == $prixEnchereMax) {
 				// ! Insertion de l'enchere dans la table encherir et historique afin d'avoir l'historique des enchères. Ici c'est le prix max de l'enchere.
 				$insertionEnchere = $this->requetes->insertHistoriqueEnchere($idLot, $idBateau, $datePeche, $idAcheteur, $montant);
@@ -617,8 +658,8 @@ class Welcome extends CI_Controller
 				foreach ($recuperFactureCreate as $r) {
 					$idFacture = $r['idFacture'];
 				}
-				
-				
+
+
 				$finEnchere = $this->requetes->finEnchereLot($idLot, $idBateau, $datePeche, $idAcheteur, $idFacture, 'C');
 
 				// ! On récupère les lots suivants.
@@ -628,21 +669,21 @@ class Welcome extends CI_Controller
 
 				// Affichage des valeurs du premier lot
 				// echo $premierLot['idLot'] . ' ' . $premierLot['idBateau']. ' ' . $premierLot['datePeche']. ' ' . $premierLot['nomEspece'] . ' ' . $premierLot['specification'] . ' ' . $premierLot['libellePr'] . ' ' . $premierLot['nomQualite'] . ' ' . $premierLot['(L.poidsBrutLot - BAC.tare)'] . ' ' . $premierLot['nomBateau'];
-				
+
 				// ! Changement du codeEtat du lot suivant de A vers B.
-				$this->requetes->finEnchereLot($premierLot['idLot'], $premierLot['idBateau'], $premierLot['datePeche'], null, null, 'B');
+				$this->requetes->finEnchereLot($premierLot['idLot'], $premierLot['idBateau'], $premierLot['datePeche'], null, null, 'C');
 
 
 				$this->session->set_flashdata('succes', 'Enchère enregistrée, vous avez gagner l\'enchère.');
-				redirect(base_url('enc'));
+				redirect(base_url('enchere'));
 			} else if ($montant > $prixEnchereMax) {
 				$this->session->set_flashdata('error', 'Enchère non enregistrée, montant supérieur au prix de l\'enchère maximal.');
-				redirect(base_url('enc'));
+				redirect(base_url('enchere'));
 			} else {
 				$insertionEnchere = $this->requetes->insertHistoriqueEnchere($idLot, $idBateau, $datePeche, $idAcheteur, $montant);
 				$this->session->set_flashdata('succes', 'Enchère enregistrée, vous avez enchéri sur un lot.');
-				redirect(base_url('enc'));
-			
+				redirect(base_url('enchere'));
+
 			}
 		}
 	}
