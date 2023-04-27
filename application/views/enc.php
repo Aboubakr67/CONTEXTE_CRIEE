@@ -282,7 +282,7 @@ if (empty($_SESSION['login'])) {
     // // Démarrer le compte à rebours
     // updateCountdown();
 
-
+// ! Tout sa c'est le chrono de la ligne 285 à 332
 
 // // Récupération de l'heure de début de l'enchère et conversion en objet Date
 // let startTime = new Date();

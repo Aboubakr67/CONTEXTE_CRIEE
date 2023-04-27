@@ -26,7 +26,7 @@ $dateJour = date('Y-m-d');
                     <a class="nav-link" href="<?php echo base_url() . 'listeLots'; ?>">Liste Lot(s)</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Envoie Lot(s)</a>
+                    <a class="nav-link" href="<?php echo base_url() . 'envoieLot'; ?>">Envoie Lot(s)</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">

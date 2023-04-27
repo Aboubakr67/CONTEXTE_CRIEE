@@ -43,6 +43,7 @@ public function connexionUsers(string $path1, string $path2, string $path3, stri
 				$_SESSION['login'] = $login;
 				$_SESSION['mail'] = $mail;
 				$_SESSION['numeroUsers'] = $leNum;
+				$_SESSION['role'] = $role;
 				redirect(base_url($path6));
 			} 
 			else 

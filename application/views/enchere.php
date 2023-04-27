@@ -189,6 +189,10 @@ if (empty($_SESSION['login'])) {
                         foreach ($affLotsSuivants as $r) {
                             echo "<tr><td>" . $r['idLot'] . "</td><td>" . $r["nomEspece"] . "</td><td>" . $r["specification"] . "</td><td>" . $r["libellePr"] . "</td><td>" . $r["nomQualite"] . "</td><td>" . $r["(L.poidsBrutLot - BAC.tare)"] . "</td><td>" . $r["nomBateau"] . "</td></tr>";
                         }
+                        if (!empty($affLotsSuivants)) {
+                            $premiereHeureSuivante = $affLotsSuivants[0]['heureDebutEnchere'];
+                        }
+                        
                         ?>
                     </tbody>
                 </table>
@@ -286,12 +290,13 @@ if (empty($_SESSION['login'])) {
     $(document).ready(function() {
         document.getElementById("myForm").reset();
            getPrixEnchere();
-          //finEnchereLot();
+          
     });
 </script>
 
 
 <script>
+    // ! ----------------------------------------------------------------------------------------------------
     // Définition de la fonction pour mettre à jour l'affichage du temps restant
     function updateCountdown(countdownElement, startTime, lotDuration) {
         let now = new Date();
@@ -312,10 +317,10 @@ if (empty($_SESSION['login'])) {
             clearInterval(timer); // On arrête le chronomètre
         }
     }
-
+    
     // Récupération de l'élément HTML pour afficher le temps restant
     let countdownElement = document.getElementById('countdown');
-
+    
     // Récupération de l'heure de début de l'enchère et conversion en objet Date
     let startTime = new Date();
     let heureDebutEnchere = '<?php echo $heureDebutEnchereLotEnVente; ?>';
@@ -323,10 +328,10 @@ if (empty($_SESSION['login'])) {
     startTime.setHours(hours);
     startTime.setMinutes(minutes);
     startTime.setSeconds(seconds);
-
+    
     // Durée de chaque lot en millisecondes
     let lotDuration = 10 * 60 * 1000; // 10 minutes
-
+    
     // Vérification régulière de l'heure de début de l'enchère
     let checkStartTime = setInterval(function() {
         let now = new Date();
@@ -339,7 +344,7 @@ if (empty($_SESSION['login'])) {
 
     // Variable pour stocker le timer
     let timer;
-
+    
     // Fonction pour lancer le chronomètre
     function startTimer(startTime, lotDuration) {
         // Mise à jour de l'affichage toutes les secondes
@@ -349,20 +354,31 @@ if (empty($_SESSION['login'])) {
         }, 1000);
         
     }
-
-
-
-
-
-
-
-
-
-
+    
+    // ! -----------------------------------------------------------------------------------------------------
+    
+    
+    // Récupérer la première heure de début d'enchère dans le tableau
+    var premiereHeure = <?php $premiereHeureSuivante; ?>
+    
+    // Obtenir l'heure actuelle au format "HH:MM:SS"
+    var maintenant = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
+    
+    // Si la première heure de début d'enchère est égale à l'heure actuelle, rafraîchir la page
+    if (premiereHeure === maintenant) {
+        location.reload();
+    }
+    console.log("hqshdq");
+    console.log(premiereHeure);
+    
+    
+    
+    // ! -----------------------------------------------------------------------------------------------------
+    
     //     // Démarrer le compte à rebours
     //     updateCountdown();
-
-
+    
+    
     // // Récupération de l'heure de début de l'enchère et conversion en objet Date
     // let startTime = new Date();
     // let heureDebutEnchere = '<?php echo $heureDebutEnchereLotEnVente; ?>';

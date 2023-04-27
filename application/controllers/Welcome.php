@@ -127,11 +127,6 @@ class Welcome extends CI_Controller
 			$this->load->view('affLots', $data);
 			$this->load->view('piedPage');
 		} elseif ($id == "envoieLot") {
-			$data['affLot'] = $this->requetes->affToutLesLots();
-
-			$this->load->view('affLots', $data);
-			$this->load->view('piedPage');
-		} elseif ($id == "envoieLot") {
 			$date = date('Y-m-d');
 			$data['affLot'] = $this->requetes->affLotCodeADirecteurVente($date);
 			$data['heuresUtilisees'] = $this->requetes->affHeureJourBloquee($date);
