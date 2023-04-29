@@ -127,7 +127,7 @@ if (empty($_SESSION['login'])) {
                                 $prixEnchere = $r['prixEnchere'];
                             }
                         }
-
+                        
                         ?>
                         <label>Prix départ : </label><label id="labelprixDepart"> <?php echo $prixDepart; ?></label>
                         <br>
