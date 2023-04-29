@@ -632,7 +632,8 @@ class Welcome extends CI_Controller
 			$data = $this->requetes->recupePrixLotActuel($idLot, $idBateau, $datePeche);
 
 			foreach ($data as $r) {
-				echo $dernierMontantEncheri = $r['prixEnchere'];
+				// echo $dernierMontantEncheri = $r['prixEnchere'];
+				echo $dernierMontantEncheri = isset($r['prixEnchere']) ? $r['prixEnchere'] : 0;
 			}
 
 			if ($montant <= $dernierMontantEncheri) {
@@ -658,15 +659,15 @@ class Welcome extends CI_Controller
 				$finEnchere = $this->requetes->finEnchereLot($idLot, $idBateau, $datePeche, $idAcheteur, $idFacture, 'C');
 
 				// ! On récupère les lots suivants.
-				$lesLotsSuivants = $this->requetes->affLotsSuivants();
+				// $lesLotsSuivants = $this->requetes->affLotsSuivants();
 				// Extraction du premier élément du tableau renvoyé
-				$premierLot = array_shift($lesLotsSuivants);
+				// $premierLot = array_shift($lesLotsSuivants);
 
 				// Affichage des valeurs du premier lot
 				// echo $premierLot['idLot'] . ' ' . $premierLot['idBateau']. ' ' . $premierLot['datePeche']. ' ' . $premierLot['nomEspece'] . ' ' . $premierLot['specification'] . ' ' . $premierLot['libellePr'] . ' ' . $premierLot['nomQualite'] . ' ' . $premierLot['(L.poidsBrutLot - BAC.tare)'] . ' ' . $premierLot['nomBateau'];
 
 				// ! Changement du codeEtat du lot suivant de A vers B.
-				$this->requetes->finEnchereLot($premierLot['idLot'], $premierLot['idBateau'], $premierLot['datePeche'], null, null, 'C');
+				// $this->requetes->finEnchereLot($premierLot['idLot'], $premierLot['idBateau'], $premierLot['datePeche'], null, null, 'C');
 
 
 				$this->session->set_flashdata('succes', 'Enchère enregistrée, vous avez gagner l\'enchère.');
@@ -675,6 +676,7 @@ class Welcome extends CI_Controller
 				$this->session->set_flashdata('error', 'Enchère non enregistrée, montant supérieur au prix de l\'enchère maximal.');
 				redirect(base_url('enchere'));
 			} else {
+				
 				$insertionEnchere = $this->requetes->insertHistoriqueEnchere($idLot, $idBateau, $datePeche, $idAcheteur, $montant);
 				$this->session->set_flashdata('succes', 'Enchère enregistrée, vous avez enchéri sur un lot.');
 				redirect(base_url('enchere'));

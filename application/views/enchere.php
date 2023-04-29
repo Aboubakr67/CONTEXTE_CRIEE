@@ -135,12 +135,13 @@ if (empty($_SESSION['login'])) {
                         <label>Prix enchère max : </label><label id="labelPrixEnchereMax"><?php echo $prixEnchereMax; ?> </label>
                         <br>
                         <!-- <label>Acheteur en tête : </label><label id="labelAcheteurEnTete"></label> -->
-                        <label>Acheteur en tête : <?php echo $acheteurLot == NULL ? " Aucun acheteur" : $acheteurLot; ?></label>
+                        <label>Acheteur en tête : <span id="acheteurEnTete"><?php echo $acheteurLot == NULL ? " Aucun acheteur" : $acheteurLot; ?></span></label>
 
                     </div>
 
                     <!-- <h4 id="prixLot"></h4> -->
-                    <h4 id="prixLot">Montant enchérit : <?php echo $prixEnchere == NULL ? "Aucun" : $prixEnchere; ?></h4>
+                    <?php echo $prixEnchere; ?>
+                    <h4 id="labelprixLot">Montant enchérit : <span id="prixLot"><?php echo $prixEnchere == NULL ? "Aucun" : $prixEnchere; ?></span></h4>
                     <h4 id="prixEnchere"></h4>
                     <input type="hidden" id="idLot" name="idLot" value="<?php echo $idLotVente; ?>" />
                     <input type="hidden" id="idBateau" name="idBateau" value="<?php echo $idBateau; ?>" />
@@ -225,6 +226,7 @@ if (empty($_SESSION['login'])) {
     console.log(idAcheteur);
 
     function getPrixEnchere() {
+        var acheteurLot = "Aucun acheteur";
 
         $.ajax({
             url: '<?= base_url() ?>index.php/Welcome/recupePrixLotActuel',
@@ -246,15 +248,16 @@ if (empty($_SESSION['login'])) {
                     console.log("Acheteur lot : " + acheteurLot);
 
                     if (prixEnchere !== '') {
-                        $('#prixLot').text('Prix du lot : ');
-                        $('#prixEnchere').text(prixEnchere);
+                        $('#prixLot').text(prixEnchere);
                     }
                 }
 
                 if (acheteurLot === '' || typeof acheteurLot === 'undefined') {
-                    $('#labelAcheteurEnTete').text('Aucun acheteur');
+                    $('#acheteurEnTete').text('Aucun acheteur');
                 } else {
-                    $('#labelAcheteurEnTete').text(acheteurLot);
+                    $('#acheteurEnTete').text(acheteurLot);
+                    // ! input
+                    $('#acheteurLotEnTete').text(acheteurLot);
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -289,7 +292,8 @@ if (empty($_SESSION['login'])) {
 
     $(document).ready(function() {
         document.getElementById("myForm").reset();
-           getPrixEnchere();
+        setInterval(getPrixEnchere, 10000);
+        //    getPrixEnchere();
           
     });
 </script>
@@ -355,22 +359,27 @@ if (empty($_SESSION['login'])) {
         
     }
     
-    // ! -----------------------------------------------------------------------------------------------------
+    // ! -----------------------------------------------------------------------------------------------------  
     
-    
+    function reloadPage() {
+
     // Récupérer la première heure de début d'enchère dans le tableau
-    var premiereHeure = <?php $premiereHeureSuivante; ?>
-    
+    var premiereHeure = "<?php echo $premiereHeureSuivante; ?>";
+
     // Obtenir l'heure actuelle au format "HH:MM:SS"
     var maintenant = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
-    
+
     // Si la première heure de début d'enchère est égale à l'heure actuelle, rafraîchir la page
     if (premiereHeure === maintenant) {
         location.reload();
     }
-    console.log("hqshdq");
-    console.log(premiereHeure);
-    
+
+    console.log("premiereHeure : " + premiereHeure);
+    console.log("maintenant : " + maintenant);
+}
+
+// Appeler la fonction reloadPage() toutes les secondes
+setInterval(reloadPage, 5000);
     
     
     // ! -----------------------------------------------------------------------------------------------------
