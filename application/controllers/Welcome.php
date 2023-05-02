@@ -111,11 +111,11 @@ class Welcome extends CI_Controller
 			$lesDonnees['qualite'] = $this->requetes->afficheQualite();
 			$lesDonnees['presentation'] = $this->requetes->affichePresentation();
 			$lesDonnees['bateau'] = $this->requetes->afficheBateau();
-			$lesDonnees['ToutLesAcheteurs'] = $this->requetes->afficheToutLesAcheteurs();
+			$lesDonnees['ToutLesAcheteurs'] = $this->requetes->affToutLesAcheteurs();
 			$lesDonnees['affToutLesBac'] = $this->requetes->affToutLesBac();
 			$lesDonnees['idAdmin'] = $this->requetes->recupNumAdmin($_SESSION['login']);
 
-			$this->load->view('profilAdmin');
+			$this->load->view('modifieLot');
 			$this->load->view('piedPage');
 		} elseif ($id == "profilDirecteurVente") {
 
@@ -628,7 +628,7 @@ class Welcome extends CI_Controller
 			echo $prixDepart = strip_tags($this->input->post('prixDepart'));
 
 			echo $prixEnchereMax = strip_tags($this->input->post('prixEnchereMax'));
-
+			
 			$data = $this->requetes->recupePrixLotActuel($idLot, $idBateau, $datePeche);
 
 			foreach ($data as $r) {

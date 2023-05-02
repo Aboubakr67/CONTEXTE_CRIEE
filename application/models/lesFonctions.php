@@ -476,6 +476,16 @@ public function finEnchereLot($idLot, $idBateau, $datePeche, $idAcheteur, $idFac
 		$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
 		return $query_result;
 	}
+
+	public function affToutLesBac()
+	{
+		$search = "call affToutLesBac";
+		$result = $this->db->conn_id->prepare($search);
+		$result->execute();
+		$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+		return $query_result;
+	}
+
 }
 
 

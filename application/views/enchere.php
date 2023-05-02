@@ -139,8 +139,6 @@ if (empty($_SESSION['login'])) {
 
                     </div>
 
-                    <!-- <h4 id="prixLot"></h4> -->
-                    <?php echo $prixEnchere; ?>
                     <h4 id="labelprixLot">Montant enchérit : <span id="prixLot"><?php echo $prixEnchere == NULL ? "Aucun" : $prixEnchere; ?></span></h4>
                     <h4 id="prixEnchere"></h4>
                     <input type="hidden" id="idLot" name="idLot" value="<?php echo $idLotVente; ?>" />
@@ -292,7 +290,7 @@ if (empty($_SESSION['login'])) {
 
     $(document).ready(function() {
         document.getElementById("myForm").reset();
-        setInterval(getPrixEnchere, 10000);
+        setInterval(getPrixEnchere, 5000);
         //    getPrixEnchere();
           
     });
@@ -379,7 +377,7 @@ if (empty($_SESSION['login'])) {
 }
 
 // Appeler la fonction reloadPage() toutes les secondes
-setInterval(reloadPage, 5000);
+setInterval(reloadPage, 1000);
     
     
     // ! -----------------------------------------------------------------------------------------------------
