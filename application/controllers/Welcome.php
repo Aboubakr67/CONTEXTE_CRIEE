@@ -25,7 +25,7 @@ class Welcome extends CI_Controller
 	public function index() //la premiere page du projet qui va être chargé "context_criee"
 	{
 		session_destroy(); // nécessaire si la personne se déconnecte pas 
-		$this->load->view('menu');
+		// $this->load->view('menu');
 		$this->load->view('ecranAccueil');
 		$this->load->view('piedPage');
 	}
@@ -37,10 +37,12 @@ class Welcome extends CI_Controller
 			$this->load->view('menu');
 			$this->load->view('inscription');
 			$this->load->view('piedPage');
+
 		} elseif ($id == "connexion") {
 			$this->load->view('menu');
 			$this->load->view('connexion');
 			$this->load->view('piedPage');
+
 		} elseif ($id == "helpAcheteur") {
 			$this->load->view('menuAcheteur');
 			$leLogin = $_SESSION['login'];
@@ -48,6 +50,7 @@ class Welcome extends CI_Controller
 			
 			$this->load->view('helpAcheteur', $data);
 			$this->load->view('piedPage');
+
 		} elseif ($id == "enchere") {
 			$data['affDeuxLotsPrecedents'] = $this->requetes->affDeuxLotsPrecedents();
 			$data['affLotEnVente'] = $this->requetes->affLotEnVente();
@@ -57,7 +60,7 @@ class Welcome extends CI_Controller
 			$this->load->view('enchere', $data);
 			$this->load->view('piedPage');
 		} elseif ($id == "enc") {
-
+			// sert a rien, remplacer par enchere.php
 			$data['affDeuxLotsPrecedents'] = $this->requetes->affDeuxLotsPrecedents();
 			$data['affLotEnVente'] = $this->requetes->affLotEnVente();
 			$data['affLotsSuivants'] = $this->requetes->affLotsSuivants();
@@ -74,7 +77,6 @@ class Welcome extends CI_Controller
 			$this->load->view('piedPage');
 		} elseif ($id == "liste_lots_admin") {
 			$this->load->view('menuAdmin');
-			$data['idAdmin'] = $this->requetes->recupNumAdmin($_SESSION['login']);
 			$data['affToutLots'] = $this->requetes->affToutLesLots();
 			$this->load->view('liste_lots_admin', $data);
 		} elseif ($id == "ajoutLot") {
@@ -115,7 +117,7 @@ class Welcome extends CI_Controller
 			$lesDonnees['affToutLesBac'] = $this->requetes->affToutLesBac();
 			$lesDonnees['idAdmin'] = $this->requetes->recupNumAdmin($_SESSION['login']);
 
-			$this->load->view('modifieLot');
+			$this->load->view('modifieLot', $lesDonnees);
 			$this->load->view('piedPage');
 		} elseif ($id == "profilDirecteurVente") {
 

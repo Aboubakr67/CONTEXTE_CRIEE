@@ -12,7 +12,7 @@ foreach ($idAdmin as $key) {
 if (empty($_SESSION['login'])) {
   header('Location: connexion.php');
 
-} elseif ($_SESSION['role'] != "Admin" && $_SESSION['login'] != 'laurent') {
+} elseif ($_SESSION['login'] != 'laurent') {
   header('Location: erreur.php');
 }
 ?>

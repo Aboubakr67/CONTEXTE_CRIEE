@@ -7,9 +7,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php
     echo "<br>";
     echo form_open('welcome/connexion',array('method'=>'post'));
-    $a = "wassimty@gmail.com";
-    $b = password_hash($a, PASSWORD_DEFAULT);
-    echo $b;
 ?>
 
 <div class="container">
