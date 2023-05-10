@@ -78,10 +78,10 @@ $dateJour = date('Y-m-d');
                         <form action="<?php echo site_url('welcome/traitementEnvoieLots'); ?>" method="POST" class="connex">
                             <?php
                             // Définir l'heure minimale comme 9h00
-                            $heure_min = date('H:i', strtotime('09:00'));
+                            $heure_min = date('H:i', strtotime('07:00'));
 
                             // Définir l'heure maximale comme 14h00
-                            $heure_max = date('H:i', strtotime('14:00'));
+                            $heure_max = date('H:i', strtotime('20:00'));
                             ?>
                             <input type="time" id="timePicker" name="time" min="<?php echo $heure_min; ?>" max="<?php echo $heure_max; ?>">
                     </td>

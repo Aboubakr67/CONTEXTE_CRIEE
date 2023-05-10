@@ -476,7 +476,7 @@ public function finEnchereLot($idLot, $idBateau, $datePeche, $idAcheteur, $idFac
 		$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
 		return $query_result;
 	}
-
+	
 	public function affToutLesBac()
 	{
 		$search = "call affToutLesBac";
@@ -485,7 +485,38 @@ public function finEnchereLot($idLot, $idBateau, $datePeche, $idAcheteur, $idFac
 		$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
 		return $query_result;
 	}
+	
+	public function modifieLotAdmin($idLot, $idEspece, $idTaille, $idPresentation, $idBac, $idAcheteur, $idQualite, $poidsBrut, $prixPlancher, $prixDepart, $prixEnchereMax, $dateEnchere, $codeEtat)
+	{
+		$search = "call modifieLot(:idLot, :idEspece, :idTaille, :idPresentation, :idBac, :idAcheteur, :idQualite, :poidsBrut, :prixPlancher, :prixDepart, :prixEnchereMax, :dateEnchere, :codeEtat)";
+		$result = $this->db->conn_id->prepare($search);
+		$result->bindParam(':idLot', $idLot, PDO::PARAM_INT);
+		$result->bindParam(':idEspece', $idEspece, PDO::PARAM_INT);
+    $result->bindParam(':idTaille', $idTaille, PDO::PARAM_INT);
+    $result->bindParam(':idPresentation', $idPresentation, PDO::PARAM_STR);
+    $result->bindParam(':idBac', $idBac, PDO::PARAM_INT);
+    $result->bindParam(':idAcheteur', $idAcheteur, PDO::PARAM_INT);
+    $result->bindParam(':idQualite', $idQualite, PDO::PARAM_INT);
+    $result->bindParam(':poidsBrut', $poidsBrut, PDO::PARAM_STR);
+    $result->bindParam(':prixPlancher', $prixPlancher, PDO::PARAM_STR);
+    $result->bindParam(':prixDepart', $prixDepart, PDO::PARAM_STR);
+    $result->bindParam(':prixEnchereMax', $prixEnchereMax, PDO::PARAM_STR);
+    $result->bindParam(':dateEnchere', $dateEnchere, PDO::PARAM_STR);
+    $result->bindParam(':codeEtat', $codeEtat, PDO::PARAM_STR);
+    $result->execute();
+    $query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+    return $query_result;
+}
 
+public function affFactureAcheteur($idFacture)
+{
+	$search = "call affFactureAcheteur(:idFacture)";
+	$result = $this->db->conn_id->prepare($search);
+	$result->bindParam(':idFacture', $idFacture, PDO::PARAM_INT);
+	$result->execute();
+	$query_result = $result->fetchAll(PDO::FETCH_ASSOC);
+	return $query_result;
+}
 }
 
 

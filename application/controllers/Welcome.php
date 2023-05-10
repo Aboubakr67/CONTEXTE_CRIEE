@@ -59,15 +59,6 @@ class Welcome extends CI_Controller
 			$this->load->view('menuAcheteur');
 			$this->load->view('enchere', $data);
 			$this->load->view('piedPage');
-		} elseif ($id == "enc") {
-			// sert a rien, remplacer par enchere.php
-			$data['affDeuxLotsPrecedents'] = $this->requetes->affDeuxLotsPrecedents();
-			$data['affLotEnVente'] = $this->requetes->affLotEnVente();
-			$data['affLotsSuivants'] = $this->requetes->affLotsSuivants();
-
-			$this->load->view('menuAcheteur');
-			$this->load->view('enc', $data);
-			$this->load->view('piedPage');
 		} elseif ($id == "panier") {
 
 			$data['affPanier'] = $this->requetes->affPanier($_SESSION['login']);
@@ -525,17 +516,11 @@ class Welcome extends CI_Controller
 
 
 
-			$modifieLot = $this->requetes->modifieLotAdmin(
-				$idLot,
-				$nomEspece,
-				$taille,
-				$presentation,
-				$idBac,
-				$acheteur,
-				$qualite,
-				$poidsBrut,
-				$prixPlancher,
-				$prixDepart,
+			$modifieLot = $this->requetes->modifieLotAdmin($idLot,$nomEspece,$taille,$presentation,$idBac,$acheteur,
+$qualite,
+$poidsBrut,
+$prixPlancher,
+$prixDepart,
 				$prixEnchereMax,
 				$dateEnchere,
 				$codeEtat

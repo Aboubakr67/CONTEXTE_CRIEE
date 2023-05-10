@@ -1,12 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-
-foreach ($idAdmin as $key) {
-  $_SESSION['id'] = $key['idAdmin'];
-}
-
-
 if (empty($_SESSION['login'])) {
   header('Location: connexion.php');
 
