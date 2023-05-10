@@ -52,7 +52,7 @@ if(empty($_SESSION['login'])){
           <td>".$r["nomQualite"]."</td>
           <td>".$r["nomBateau"]."</td>
           <td>".$r["prixEnchere"]."</td>
-          <td>"?> <form action="<?php echo site_url('convertirPdf/print'); ?>" method="POST">
+          <td>"?> <form action="<?php echo site_url('facturePdfController/print'); ?>" method="POST">
            <input type="hidden" id="idFacture" name="idFacture" value="<?php echo $r['idFacture']; ?>" />
             <button type="submit" class="btn btn-outline-primary"> <i class='fa-solid fa-print'></i>
           </button>

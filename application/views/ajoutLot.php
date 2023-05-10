@@ -37,7 +37,7 @@ $minDate = date('Y-m-d', $maDateMin);
 
 <?php
 echo "<br>";
-echo form_open('welcome/ajouterLot', array('method' => 'post'));
+echo form_open('adminController/ajouterLot', array('method' => 'post'));
 ?>
 
 <label for='text'>Nom de l'espèce : </label>
@@ -198,7 +198,7 @@ echo form_close();
       var idEspece = $(this).val();
       console.log("ID de l'epece " + idEspece);
       $.ajax({
-        url: '<?= base_url() ?>index.php/Welcome/especeDetails',
+        url: '<?= base_url() ?>index.php/adminController/especeDetails',
         type: 'post',
         data: {
           idEspece: idEspece
@@ -209,7 +209,7 @@ echo form_close();
           var len = response.length;
           console.log(len);
           console.log("marche");
-          console.log('<?= base_url() ?>index.php/Welcome/especeDetails');
+          console.log('<?= base_url() ?>index.php/adminController/especeDetails');
           $('#nomCE').text('');
           $('#nomSE').text('');
 
@@ -248,7 +248,7 @@ echo form_close();
       var idTaille = $(this).val();
       console.log("ID de taille " + idTaille);
       $.ajax({
-        url: '<?= base_url() ?>index.php/Welcome/affTare',
+        url: '<?= base_url() ?>index.php/adminController/affTare',
         type: 'post',
         data: {
           idTaille: idTaille
@@ -257,7 +257,7 @@ echo form_close();
         success: function(response) {
           var len = response.length;
           // console.log(len);
-          console.log("<?= base_url() ?>index.php/Welcome/affTare");
+          console.log("<?= base_url() ?>index.php/adminController/affTare");
           console.log("marche");
           $('#tare').text('');
           $('#idBac').text('');

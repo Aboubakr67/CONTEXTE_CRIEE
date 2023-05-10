@@ -75,7 +75,7 @@ $dateJour = date('Y-m-d');
                     echo "<td>" . $poidsBrutLot . "</td>";
                 ?>
                     <td>
-                        <form action="<?php echo site_url('welcome/traitementEnvoieLots'); ?>" method="POST" class="connex">
+                        <form action="<?php echo site_url('directeurController/traitementEnvoieLots'); ?>" method="POST" class="connex">
                             <?php
                             // Définir l'heure minimale comme 9h00
                             $heure_min = date('H:i', strtotime('07:00'));

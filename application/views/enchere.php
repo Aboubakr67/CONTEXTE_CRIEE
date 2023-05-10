@@ -83,7 +83,7 @@ if (empty($_SESSION['login'])) {
                     </table>
                 </div>
             </div>
-            <?php echo form_open('welcome/insertEnchere', array('method' => 'post', 'id' => 'myForm')); ?>
+            <?php echo form_open('enchereController/insertEnchere', array('method' => 'post', 'id' => 'myForm')); ?>
             <div class="tables-enchere" id="lot-en-vente">
                 <h5>Lot en vente</h5>
 
@@ -231,7 +231,7 @@ if (empty($_SESSION['login'])) {
         var acheteurLot = "Aucun acheteur";
 
         $.ajax({
-            url: '<?= base_url() ?>index.php/Welcome/recupePrixLotActuel',
+            url: '<?= base_url() ?>index.php/enchereController/recupePrixLotActuel',
             method: "POST",
             data: {
                 idLot: idLot,
@@ -241,7 +241,7 @@ if (empty($_SESSION['login'])) {
             dataType: "json",
             success: function(response) {
                 console.log(response.length);
-                console.log('<?= base_url() ?>Welcome/recupePrixLotActuel');
+                console.log('<?= base_url() ?>enchereController/recupePrixLotActuel');
                 var len = response.length;
                 if (len > 0) {
                     prixEnchere = response[0].prixEnchere;
@@ -272,7 +272,7 @@ if (empty($_SESSION['login'])) {
     function finEnchereLot() {
 
         $.ajax({
-            url: '<?= base_url() ?>index.php/Welcome/finEnchereLot',
+            url: '<?= base_url() ?>index.php/enchereController/finEnchereLot',
             method: 'POST',
             data: {
                 idLot: idLot,

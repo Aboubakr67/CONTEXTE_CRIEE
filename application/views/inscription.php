@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <?php
     echo "<br>";
-    echo form_open('welcome/inscriptionAcheteur',array('method'=>'post')); // ici on dit à la page d'inscription que à la fin du formulaire elle va tout envoyer 
+    echo form_open('authentificationController/inscriptionAcheteur',array('method'=>'post')); // ici on dit à la page d'inscription que à la fin du formulaire elle va tout envoyer 
                                                                       // via la méthode post à l'url welcome/inscriptionAcheteur.
 ?>
     <center>

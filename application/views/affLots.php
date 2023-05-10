@@ -131,13 +131,6 @@ $date_actuelle = time(); // Récupère la date actuelle au format Unix timestamp
   }
 
   setInterval(updateTimer, 1000);
-
-
-
-
-
-
-
 </script>
 
 

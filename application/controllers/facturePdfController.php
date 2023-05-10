@@ -1,6 +1,6 @@
 <?php 
 require FCPATH.'vendor\autoload.php';
-class convertirPdf extends CI_Controller
+class facturePdfController extends CI_Controller
 {
     public function __construct()
 	{

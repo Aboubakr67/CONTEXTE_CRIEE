@@ -54,34 +54,41 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['inscription'] = "welcome/url/inscription"; // se diriger vers la page d'inscription
-$route['connexion'] = "welcome/url/connexion"; // vers la page de connexion
 
 
-$route['helpAcheteur'] = "welcome/url/helpAcheteur";
-
-$route['ajoutLot'] = "welcome/url/ajoutLot";
-
-$route['profilAdmin'] = "welcome/url/profilAdmin";
-
-$route['profilDirecteurVente'] = "welcome/url/profilDirecteurVente";
-
-$route['enchere'] = "welcome/url/enchere";
+// ! Authentification -> authentificationController
+$route['inscription'] = "authentificationController/url/inscription"; // se diriger vers la page d'inscription
+$route['connexion'] = "authentificationController/url/connexion"; // vers la page de connexion
+$route['deconnexion'] = "authentificationController/url/deconnexion";
 
 
-$route['liste_lots_admin'] = "welcome/url/liste_lots_admin";
+// ! Acheteur -> acheteurController
+$route['helpAcheteur'] = "acheteurController/url/helpAcheteur";
+$route['liste_lots_enchere'] = "acheteurController/url/liste_lots_enchere";
+$route['panier'] = "acheteurController/url/panier";
 
-$route['listeLots'] = "welcome/url/listeLots";
-$route['liste_lots_enchere'] = "welcome/url/liste_lots_enchere";
 
-$route['envoieLot'] = "welcome/url/envoieLot";
-$route['modifieLot'] = "welcome/url/modifieLot";
-$route['gestionAcheteur'] = "welcome/url/gestionAcheteur";
+// ! Administrateur de vente -> adminController
+$route['ajoutLot'] = "adminController/url/ajoutLot";
+$route['profilAdmin'] = "adminController/url/profilAdmin";
+$route['liste_lots_admin'] = "adminController/url/liste_lots_admin";
+$route['modifieLot'] = "adminController/url/modifieLot";
+$route['gestionAcheteur'] = "adminController/url/gestionAcheteur";
+
+
+
+// ! Directeur de vente -> directeurController
+$route['profilDirecteurVente'] = "directeurController/url/profilDirecteurVente";
+$route['envoieLot'] = "directeurController/url/envoieLot";
+$route['listeLots'] = "directeurController/url/listeLots";
+
+// ! Enchere -> enchereController
+$route['enchere'] = "enchereController/url/enchere";
+
+
+
 $route['erreur'] = "welcome/url/erreur";
-$route['deconnexion'] = "welcome/url/deconnexion";
-$route['panier'] = "welcome/url/panier";
 
 
-
-
-$route['pdf'] = "convertirPdf/print";
+// ! Facture
+$route['pdf'] = "facturePdfController/print";
