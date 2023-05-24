@@ -4,8 +4,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // if(empty($_SESSION['login'])){
 //   header('Location: connexion');
 // }
-
 ?>
+
+<?php
+foreach ($affFactureAcheteur as $r) {
+    $idLot = $r['idLot'];
+    $nomEspece = $r['nomEspece'];
+    $specification = $r['specification'];
+    $poidsBrutLot = $r['poidsBrutLot'];
+    $libellePr = $r['libellePr'];
+    $nomQualite = $r['nomQualite'];
+    $nomBateau = $r['nomBateau'];
+    $prixEnchere = $r['prixEnchere'];
+    $login = $r['login'];
+    $dateEnchere = $r['dateEnchere'];
+    $heureDebutEnchere = $r['heureDebutEnchere'];
+    $datePeche = $r['datePeche'];
+    $idFacture = $r['idFacture'];
+    $numRueAcheteur = $r['numRueAcheteur'];
+    $nomRueAcheteur = $r['nomRueAcheteur'];
+    $codePostal = $r['codePostal'];
+    $ville = $r['ville'];
+    $idAcheteur = $r['idAcheteur'];
+}
+?>
+
 
 <div class="container">
   <div class="invoice">
@@ -15,58 +38,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       </div>
       <div class="col-5">
         <h1 class="document-type display-4">FACTURE</h1>
-        <p class="text-right"><strong>N°90T-17-01-0123</strong></p>
+        <p class="text-right"><strong>N°<?php echo $idFacture; ?></strong></p>
       </div>
     </div>
-    <div class="row">
+    <div class="row"> 
       <div class="col-7">
         <p>
-          <strong>90TECH SAS</strong><br>
-          6B Rue Aux-Saussaies-Des-Dames<br>
-          57950 MONTIGNY-LES-METZ
+          <strong>CRIEE POULGOAZEC</strong><br>
+          29 TRONIN<br>
+          29790 BEUZEC-CAP-SIZUN, FRANCE
         </p>
       </div>
       <div class="col-5">
         <br><br><br>
         <p>
-          <strong>Energies54</strong><br>
-          Réf. Client <em>C00022</em><br>
-          12 Rue de Verdun<br>
-          54250 JARNY
+          <strong><?php echo $login; ?></strong><br>
+          Réf. Client <em><?php echo $idAcheteur; ?></em><br>
+          <?php echo $numRueAcheteur . " " . $nomRueAcheteur?> <br>
+          <?php echo $codePostal . " " . $ville?> <br>
         </p>
       </div>
     </div>
     <br>
-    <br>
-    <h6>Audits et rapports mensuels (1er Novembre 2016 - 30 Novembre 2016)</h6>
-    <br>
+    <!-- <br><br> -->
     <table class="table table-striped">
       <thead>
         <tr>
           <th>Description</th>
-          <th>Quantité</th>
-          <th>Unité</th>
-          <th>PU HT</th>
+          <th>Poids Brut</th>
+          <th>Qualité</th>
+          <!-- <th>PU HT</th> -->
           <th>TVA</th>
           <th>Total HT</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>Audits et rapports mensuels</td>
-          <td>1</td>
-          <td>Jour</td>
-          <td class="text-right">500,00€</td>
+          <td>Lot numéro <?php echo $idLot . " - " . $nomEspece; ?></td>
+          <td><?php echo $poidsBrutLot; ?></td>
+          <td><?php echo $nomQualite . " - " . $specification; ?></td>
+          <!-- <td class="text-right"><?php echo $prixEnchere; ?>€</td> -->
           <td>20%</td>
-          <td class="text-right">500,00€</td>
-        </tr>
-        <tr>
-          <td>Génération des rapports d'activité</td>
-          <td>4</td>
-          <td>Rapport</td>
-          <td class="text-right">800,00€</td>
-          <td>20%</td>
-          <td class="text-right">3 200,00€</td>
+          <td class="text-right"><?php echo $prixEnchere; ?>€</td>
         </tr>
       </tbody>
     </table>
@@ -77,15 +90,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <table class="table table-sm text-right">
           <tr>
             <td><strong>Total HT</strong></td>
-            <td class="text-right">3 700,00€</td>
+            <td class="text-right"><?php echo $prixEnchere; ?>€</td>
           </tr>
           <tr>
             <td>TVA 20%</td>
-            <td class="text-right">740,00€</td>
+            <?php $prixtva = $prixEnchere * 20 / 100; ?>
+            <td class="text-right"><?php echo $prixtva; ?>€</td>
           </tr>
           <tr>
             <td><strong>Total TTC</strong></td>
-            <td class="text-right">4 440,00€</td>
+            <td class="text-right"><?php echo $prixtva + $prixEnchere; ?>€</td>
           </tr>
         </table>
       </div>
@@ -96,13 +110,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <br>
       Et avec nos remerciements.
       <br><br>
-      Conditions de paiement : paiement à réception de facture, à 15 jours.
+      Conditions de paiement :  le paiement doit être effectué uniquement sur place, directement au secrétariat.
       <br>
-      Aucun escompte consenti pour règlement anticipé.
-      <br>
-      Règlement par virement bancaire.
+      Possibilité de virement : Règlement par virement bancaire, carte de crédit ou espèces
       <br><br>
-      En cas de retard de paiement, indemnité forfaitaire pour frais de recouvrement : 40 euros (art. L.4413 et L.4416 code du commerce).
+      En cas de non-paiement dans les 2 jours suivant l'enchère, le lot ne vous sera plus attribué et sera remis en vente à la grande distribution.
     </p>
     
     <br>
@@ -110,60 +122,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <br>
     <br>
     
-    <p class="bottom-page text-right">
+    <!-- <p class="bottom-page text-right">
       90TECH SAS - N° SIRET 80897753200015 RCS METZ<br>
       6B, Rue aux Saussaies des Dames - 57950 MONTIGNY-LES-METZ 03 55 80 42 62 - www.90tech.fr<br>
       Code APE 6201Z - N° TVA Intracom. FR 77 808977532<br>
       IBAN FR76 1470 7034 0031 4211 7882 825 - SWIFT CCBPFRPPMTZ
-    </p>
+    </p> -->
   </div>
 </div>
-
-
-
-
-
-<!-- <table id="table-panier">
-  <thead>
-    <tr>
-      <th>N° Lot</th>
-      <th>Espèce</th>
-      <th>Taille</th>
-      <th>Poids</th>
-      <th>Présentation</th>
-      <th>Qualité</th>
-      <th>Bateau</th>
-      <th>Prix enrichi</th>
-      <th>Nom d'utilisateur</th>
-      <th>dateEnchere</th>
-      <th>heureDebutEnchere</th>
-      <th>datePeche</th>
-      <th>idFacture</th>
-    </tr>
-  </thead>
-  <tbody>
-
-    <?php
-      foreach($affFactureAcheteur as $r) {
-        echo "<tr>
-          <td>".$r['idLot']."</td>
-          <td>".$r["nomEspece"]."</td>
-          <td>".$r["specification"]."</td>
-          <td>".$r["poidsBrutLot"]."</td>
-          <td>".$r["libellePr"]."</td>
-          <td>".$r["nomQualite"]."</td>
-          <td>".$r["nomBateau"]."</td>
-          <td>".$r["prixEnchere"]."</td>
-          <td>".$r["login"]."</td>
-          <td>".$r["dateEnchere"]."</td>
-          <td>".$r["heureDebutEnchere"]."</td>
-          <td>".$r["datePeche"]."</td>
-          <td>".$r["idFacture"]."</td>
-      </tr>";
-       } ?>
-    
-  </tbody>
-</table> -->
 
 <style>
     body {
