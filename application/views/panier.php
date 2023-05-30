@@ -29,6 +29,7 @@ if(empty($_SESSION['login'])){
   <thead>
     <tr>
       <th>N° Lot</th>
+      <th>Date</th>
       <th>Espèce</th>
       <th>Taille</th>
       <th>Poids</th>
@@ -45,6 +46,7 @@ if(empty($_SESSION['login'])){
       foreach($affPanier as $r) {
         echo "<tr>
           <td>".$r['idLot']."</td>
+          <td>".$r['dateEnchere'].$r['heureDebutEnchere']."</td>
           <td>".$r["nomEspece"]."</td>
           <td>".$r["specification"]."</td>
           <td>".$r["poidsBrutLot"]."</td>

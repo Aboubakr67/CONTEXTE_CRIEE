@@ -29,13 +29,18 @@ class Welcome extends CI_Controller
 		$this->load->view('ecranAccueil');
 		$this->load->view('piedPage');
 	}
-
+	
 	public function url($id)
 	{ // on va gerer l'url avec cette fonction
-
+		
 		if ($id == "erreur") {
 			$this->load->view('erreur');
-		} 
+		}
+		elseif ($id == "mentions-legale") {
+			$this->load->view('menu');
+			$this->load->view('mentions-legale');
+			$this->load->view('piedPage');
+		}
 	}
 
 

@@ -88,6 +88,7 @@ $route['enchere'] = "enchereController/url/enchere";
 
 
 $route['erreur'] = "welcome/url/erreur";
+$route['mentions-legale'] = "welcome/url/mentions-legale";
 
 
 // ! Facture
