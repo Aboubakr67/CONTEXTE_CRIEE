@@ -40,7 +40,7 @@ if (empty($_SESSION['login'])) {
                         <td><?= $lot['specification'] ?></td>
                         <td><?= $lot['prixEnchere'] === null ? "Non enchérit" : $lot['prixEnchere'] ?></td>
                         <td><?= $lot['login'] === null ? "Aucun acheteur" : $lot['login'] ?></td>
-                        <td><?= $lot['heureDebutEnchere'] === null ? "A programmer" : $lot['heureDebutEnchere'] ?></td>
+                        <td><?= $lot['heureDebutEnchere'] === null ? "A déterminer" : $lot['heureDebutEnchere'] ?></td>
                         <td><?= $lot['codeEtat'] === 'A' ? 'Lot disponible à la vente' : ($lot['codeEtat'] === 'B' ? 'Lot en cours de vente' : ($lot['codeEtat'] === 'C' ? 'Lot vendu' : '')) ?></td>
                     </tr>
                 <?php endforeach; ?>

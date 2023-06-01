@@ -43,7 +43,7 @@ if (empty($_SESSION['login'])) {
 
 <?php
 echo "<br>";
-echo form_open('welcome/modifiesLotAdmin', array('method' => 'post'));
+echo form_open('adminController/modifiesLotAdmin', array('method' => 'post'));
 ?>
 <input type="hidden" id="idLot" name="idLot" value="<?php echo $idLot ?>">
         <h1>Lot numéro : <?php echo $idLot; ?></h1>

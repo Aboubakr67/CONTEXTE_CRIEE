@@ -83,7 +83,7 @@ if (empty($_SESSION['login'])) {
                     </table>
                 </div>
             </div>
-            <?php echo form_open('welcome/insertEnchere', array('method' => 'post', 'id' => 'myForm')); ?>
+            <?php echo form_open('enchereController/insertEnchere', array('method' => 'post', 'id' => 'myForm')); ?>
             <div class="tables-enchere" id="lot-en-vente">
                 <h5>Lot en vente</h5>
 
@@ -116,6 +116,7 @@ if (empty($_SESSION['login'])) {
                             $heureDebutEnchereLotEnVente = "vide";
                             $acheteurLot = "vide";
                             $prixEnchere = "vide";
+                            $idAcheteurEnTete = "vide";
                         } else {
                             foreach ($affLotEnVente as $r) {
                                 $prixDepart = $r['prixDepart'];
@@ -125,6 +126,7 @@ if (empty($_SESSION['login'])) {
                                 $heureDebutEnchereLotEnVente = $r['heureDebutEnchere'];
                                 $acheteurLot = $r['login'];
                                 $prixEnchere = $r['prixEnchere'];
+                                echo $idAcheteurEnTete = $r['idAcheteur'];
                             }
                         }
 
@@ -135,12 +137,11 @@ if (empty($_SESSION['login'])) {
                         <label>Prix enchère max : </label><label id="labelPrixEnchereMax"><?php echo $prixEnchereMax; ?> </label>
                         <br>
                         <!-- <label>Acheteur en tête : </label><label id="labelAcheteurEnTete"></label> -->
-                        <label>Acheteur en tête : <?php echo $acheteurLot == NULL ? " Aucun acheteur" : $acheteurLot; ?></label>
+                        <label>Acheteur en tête : <span id="acheteurEnTete"><?php echo $acheteurLot == NULL ? " Aucun acheteur" : $acheteurLot; ?></span></label>
 
                     </div>
 
-                    <!-- <h4 id="prixLot"></h4> -->
-                    <h4 id="prixLot">Montant enchérit : <?php echo $prixEnchere == NULL ? "Aucun" : $prixEnchere; ?></h4>
+                    <h4 id="labelprixLot">Montant enchérit : <span id="prixLot"><?php echo $prixEnchere == NULL ? "Aucun" : $prixEnchere; ?></span></h4>
                     <h4 id="prixEnchere"></h4>
                     <input type="hidden" id="idLot" name="idLot" value="<?php echo $idLotVente; ?>" />
                     <input type="hidden" id="idBateau" name="idBateau" value="<?php echo $idBateau; ?>" />
@@ -149,6 +150,7 @@ if (empty($_SESSION['login'])) {
                     <input type="hidden" id="prixDepart" name="prixDepart" value="<?php echo $prixDepart; ?>" />
                     <input type="hidden" id="prixEnchereMax" name="prixEnchereMax" value="<?php echo $prixEnchereMax; ?>" />
                     <input type="hidden" id="acheteurLotEnTete" name="acheteurLotEnTete" value="<?php echo $acheteurLot; ?>" />
+                    <input type="hidden" id="idAcheteurEnTete" name="idAcheteurEnTete" value="<?php echo $idAcheteurEnTete; ?>" />
                     </center>
 
 
@@ -189,6 +191,14 @@ if (empty($_SESSION['login'])) {
                         foreach ($affLotsSuivants as $r) {
                             echo "<tr><td>" . $r['idLot'] . "</td><td>" . $r["nomEspece"] . "</td><td>" . $r["specification"] . "</td><td>" . $r["libellePr"] . "</td><td>" . $r["nomQualite"] . "</td><td>" . $r["(L.poidsBrutLot - BAC.tare)"] . "</td><td>" . $r["nomBateau"] . "</td></tr>";
                         }
+                        if (!empty($affLotsSuivants)) {
+                            $premiereHeureSuivante = $affLotsSuivants[0]['heureDebutEnchere'];
+                        } else {
+                            $premiereHeureSuivante = null;
+                        }
+
+
+
                         ?>
                     </tbody>
                 </table>
@@ -216,14 +226,16 @@ if (empty($_SESSION['login'])) {
     var idBateau = $('#idBateau').val();
     var datePeche = $('#datePeche').val();
     var idAcheteur = $('#idAcheteur').val();
+    var idAcheteurEnTete = $('#idAcheteurEnTete').val();
     var prixDepart = $('#prixDepart').val();
     var prixEnchereMax = $('#prixEnchereMax').val();
     console.log(idAcheteur);
-
+    console.log(idAcheteurEnTete);
     function getPrixEnchere() {
+        var acheteurLot = "Aucun acheteur";
 
         $.ajax({
-            url: '<?= base_url() ?>index.php/Welcome/recupePrixLotActuel',
+            url: '<?= base_url() ?>index.php/enchereController/recupePrixLotActuel',
             method: "POST",
             data: {
                 idLot: idLot,
@@ -233,7 +245,7 @@ if (empty($_SESSION['login'])) {
             dataType: "json",
             success: function(response) {
                 console.log(response.length);
-                console.log('<?= base_url() ?>Welcome/recupePrixLotActuel');
+                console.log('<?= base_url() ?>enchereController/recupePrixLotActuel');
                 var len = response.length;
                 if (len > 0) {
                     prixEnchere = response[0].prixEnchere;
@@ -242,15 +254,16 @@ if (empty($_SESSION['login'])) {
                     console.log("Acheteur lot : " + acheteurLot);
 
                     if (prixEnchere !== '') {
-                        $('#prixLot').text('Prix du lot : ');
-                        $('#prixEnchere').text(prixEnchere);
+                        $('#prixLot').text(prixEnchere);
                     }
                 }
 
                 if (acheteurLot === '' || typeof acheteurLot === 'undefined') {
-                    $('#labelAcheteurEnTete').text('Aucun acheteur');
+                    $('#acheteurEnTete').text('Aucun acheteur');
                 } else {
-                    $('#labelAcheteurEnTete').text(acheteurLot);
+                    $('#acheteurEnTete').text(acheteurLot);
+                    // ! input
+                    $('#acheteurLotEnTete').text(acheteurLot);
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -263,12 +276,13 @@ if (empty($_SESSION['login'])) {
     function finEnchereLot() {
 
         $.ajax({
-            url: '<?= base_url() ?>index.php/Welcome/finEnchereLot',
+            url: '<?= base_url() ?>index.php/enchereController/finEnchereLot',
             method: 'POST',
             data: {
                 idLot: idLot,
                 idBateau: idBateau,
-                datePeche: datePeche
+                datePeche: datePeche,
+                idAcheteurEnTete: idAcheteurEnTete
             },
             dataType: "json",
             success: function(response) {
@@ -285,13 +299,16 @@ if (empty($_SESSION['login'])) {
 
     $(document).ready(function() {
         document.getElementById("myForm").reset();
-           getPrixEnchere();
-          //finEnchereLot();
+        setInterval(getPrixEnchere, 5000);
+        //    getPrixEnchere();
+        setInterval(reloadPage, 1000);
+
     });
 </script>
 
 
 <script>
+    // ! ----------------------------------------------------------------------------------------------------
     // Définition de la fonction pour mettre à jour l'affichage du temps restant
     function updateCountdown(countdownElement, startTime, lotDuration) {
         let now = new Date();
@@ -308,8 +325,8 @@ if (empty($_SESSION['login'])) {
             countdownElement.innerHTML = 'Terminé !';
             // Appel de la fonction en ajax pour changer le codeEtat du lot, idfacture et acheteur
             console.log("Fin d'enchère !");
-            finEnchereLot();
             clearInterval(timer); // On arrête le chronomètre
+            finEnchereLot();
         }
     }
 
@@ -319,13 +336,15 @@ if (empty($_SESSION['login'])) {
     // Récupération de l'heure de début de l'enchère et conversion en objet Date
     let startTime = new Date();
     let heureDebutEnchere = '<?php echo $heureDebutEnchereLotEnVente; ?>';
+    console.log(heureDebutEnchere);
     let [hours, minutes, seconds] = heureDebutEnchere.split(':');
     startTime.setHours(hours);
     startTime.setMinutes(minutes);
     startTime.setSeconds(seconds);
 
     // Durée de chaque lot en millisecondes
-    let lotDuration = 10 * 60 * 1000; // 10 minutes
+    //let lotDuration = 10 * 60 * 1000; // 10 minutes
+    let lotDuration = 1 * 60 * 1000; // 2 minutes
 
     // Vérification régulière de l'heure de début de l'enchère
     let checkStartTime = setInterval(function() {
@@ -347,17 +366,34 @@ if (empty($_SESSION['login'])) {
         timer = setInterval(function() {
             updateCountdown(countdownElement, startTime, lotDuration);
         }, 1000);
-        
+
     }
 
+    // ! -----------------------------------------------------------------------------------------------------  
 
 
+    function reloadPage() {
+    // Récupérer la première heure de début d'enchère dans le tableau
+    let premiereHeure = '<?php echo $premiereHeureSuivante; ?>';
+
+    // Obtenir l'heure actuelle au format "HH:MM:SS"
+    let maintenant = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit', hour12: false});
+
+    // Si la première heure de début d'enchère est égale à l'heure actuelle, rafraîchir la page
+    if (premiereHeure === maintenant) {
+        location.reload();
+    }
+
+    console.log("premiereHeure : " + premiereHeure);
+    console.log("maintenant : " + maintenant);
+}
 
 
+    // Appeler la fonction reloadPage() toutes les secondes
+    //setInterval(reloadPage, 1000);
 
 
-
-
+    // ! -----------------------------------------------------------------------------------------------------
 
     //     // Démarrer le compte à rebours
     //     updateCountdown();
@@ -365,7 +401,6 @@ if (empty($_SESSION['login'])) {
 
     // // Récupération de l'heure de début de l'enchère et conversion en objet Date
     // let startTime = new Date();
-    // let heureDebutEnchere = '<?php echo $heureDebutEnchereLotEnVente; ?>';
     // let [hours, minutes, seconds] = heureDebutEnchere.split(':');
     // startTime.setHours(hours);
     // startTime.setMinutes(minutes);

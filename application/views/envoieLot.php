@@ -26,7 +26,7 @@ $dateJour = date('Y-m-d');
                     <a class="nav-link" href="<?php echo base_url() . 'listeLots'; ?>">Liste Lot(s)</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Envoie Lot(s)</a>
+                    <a class="nav-link" href="<?php echo base_url() . 'envoieLot'; ?>">Envoie Lot(s)</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -75,13 +75,13 @@ $dateJour = date('Y-m-d');
                     echo "<td>" . $poidsBrutLot . "</td>";
                 ?>
                     <td>
-                        <form action="<?php echo site_url('welcome/traitementEnvoieLots'); ?>" method="POST" class="connex">
+                        <form action="<?php echo site_url('directeurController/traitementEnvoieLots'); ?>" method="POST" class="connex">
                             <?php
                             // Définir l'heure minimale comme 9h00
-                            $heure_min = date('H:i', strtotime('09:00'));
+                            $heure_min = date('H:i', strtotime('07:00'));
 
                             // Définir l'heure maximale comme 14h00
-                            $heure_max = date('H:i', strtotime('14:00'));
+                            $heure_max = date('H:i', strtotime('20:00'));
                             ?>
                             <input type="time" id="timePicker" name="time" min="<?php echo $heure_min; ?>" max="<?php echo $heure_max; ?>">
                     </td>
