@@ -43,6 +43,7 @@ if(empty($_SESSION['login'])){
   <tbody>
  
     <?php
+
       foreach($affPanier as $r) {
         echo "<tr>
           <td>".$r['idLot']."</td>

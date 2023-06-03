@@ -116,6 +116,7 @@ if (empty($_SESSION['login'])) {
                             $heureDebutEnchereLotEnVente = "vide";
                             $acheteurLot = "vide";
                             $prixEnchere = "vide";
+                            $idAcheteurEnTete = "vide";
                         } else {
                             foreach ($affLotEnVente as $r) {
                                 $prixDepart = $r['prixDepart'];
@@ -125,6 +126,7 @@ if (empty($_SESSION['login'])) {
                                 $heureDebutEnchereLotEnVente = $r['heureDebutEnchere'];
                                 $acheteurLot = $r['login'];
                                 $prixEnchere = $r['prixEnchere'];
+                                echo $idAcheteurEnTete = $r['idAcheteur'];
                             }
                         }
 
@@ -148,6 +150,7 @@ if (empty($_SESSION['login'])) {
                     <input type="hidden" id="prixDepart" name="prixDepart" value="<?php echo $prixDepart; ?>" />
                     <input type="hidden" id="prixEnchereMax" name="prixEnchereMax" value="<?php echo $prixEnchereMax; ?>" />
                     <input type="hidden" id="acheteurLotEnTete" name="acheteurLotEnTete" value="<?php echo $acheteurLot; ?>" />
+                    <input type="hidden" id="idAcheteurEnTete" name="idAcheteurEnTete" value="<?php echo $idAcheteurEnTete; ?>" />
                     </center>
 
 
@@ -223,10 +226,11 @@ if (empty($_SESSION['login'])) {
     var idBateau = $('#idBateau').val();
     var datePeche = $('#datePeche').val();
     var idAcheteur = $('#idAcheteur').val();
+    var idAcheteurEnTete = $('#idAcheteurEnTete').val();
     var prixDepart = $('#prixDepart').val();
     var prixEnchereMax = $('#prixEnchereMax').val();
     console.log(idAcheteur);
-
+    console.log(idAcheteurEnTete);
     function getPrixEnchere() {
         var acheteurLot = "Aucun acheteur";
 
@@ -277,7 +281,8 @@ if (empty($_SESSION['login'])) {
             data: {
                 idLot: idLot,
                 idBateau: idBateau,
-                datePeche: datePeche
+                datePeche: datePeche,
+                idAcheteurEnTete: idAcheteurEnTete
             },
             dataType: "json",
             success: function(response) {
@@ -338,7 +343,8 @@ if (empty($_SESSION['login'])) {
     startTime.setSeconds(seconds);
 
     // Durée de chaque lot en millisecondes
-    let lotDuration = 10 * 60 * 1000; // 10 minutes
+    //let lotDuration = 10 * 60 * 1000; // 10 minutes
+    let lotDuration = 1 * 60 * 1000; // 2 minutes
 
     // Vérification régulière de l'heure de début de l'enchère
     let checkStartTime = setInterval(function() {
@@ -366,22 +372,22 @@ if (empty($_SESSION['login'])) {
     // ! -----------------------------------------------------------------------------------------------------  
 
 
-        function reloadPage() {
+    function reloadPage() {
+    // Récupérer la première heure de début d'enchère dans le tableau
+    let premiereHeure = '<?php echo $premiereHeureSuivante; ?>';
 
-        // Récupérer la première heure de début d'enchère dans le tableau
-        let premiereHeure = '<?php echo $premiereHeureSuivante; ?>';
+    // Obtenir l'heure actuelle au format "HH:MM:SS"
+    let maintenant = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit', hour12: false});
 
-        // Obtenir l'heure actuelle au format "HH:MM:SS"
-        let maintenant = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
-
-        // Si la première heure de début d'enchère est égale à l'heure actuelle, rafraîchir la page
-         if (premiereHeure === maintenant) {
-             location.reload();
-         }
-
-        console.log("premiereHeure : " + premiereHeure);
-        console.log("maintenant : " + maintenant);
+    // Si la première heure de début d'enchère est égale à l'heure actuelle, rafraîchir la page
+    if (premiereHeure === maintenant) {
+        location.reload();
     }
+
+    console.log("premiereHeure : " + premiereHeure);
+    console.log("maintenant : " + maintenant);
+}
+
 
     // Appeler la fonction reloadPage() toutes les secondes
     //setInterval(reloadPage, 1000);
